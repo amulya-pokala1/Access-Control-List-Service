@@ -48,10 +48,10 @@ DROP TABLE IF EXISTS `group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `group` (
-  `groupid` int(11) NOT NULL,
-  `groupname` varchar(45) DEFAULT NULL,
-  `groupdescription` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`groupid`)
+  `group_id` int(11) NOT NULL,
+  `group_name` varchar(45) DEFAULT NULL,
+  `group_description` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -72,9 +72,9 @@ DROP TABLE IF EXISTS `group_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `group_permission` (
-  `groupid` int(11) NOT NULL,
-  `permissionid` int(11) NOT NULL,
-  PRIMARY KEY (`groupid`,`permissionid`)
+  `group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`group_id`,`permission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -119,10 +119,10 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `userid` int(11) NOT NULL,
-  `username` varchar(45) DEFAULT NULL,
-  `permissionType` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`userid`)
+  `user_id` int(11) NOT NULL,
+  `user_name` varchar(45) DEFAULT NULL,
+  `password` varchar(45) NOT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -137,30 +137,6 @@ INSERT INTO `user` VALUES (1,'xyz','READ_ONLY'),(2,'x','READ_ONLY'),(3,'xyz','RE
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_attributes`
---
-
-DROP TABLE IF EXISTS `user_attributes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_attributes` (
-  `userid` int(11) NOT NULL,
-  `attributeName` varchar(45) DEFAULT NULL,
-  `attributeValue` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_attributes`
---
-
-LOCK TABLES `user_attributes` WRITE;
-/*!40000 ALTER TABLE `user_attributes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_attributes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user_group`
 --
 
@@ -168,9 +144,9 @@ DROP TABLE IF EXISTS `user_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_group` (
-  `userid` int(11) NOT NULL,
-  `groupid` int(11) NOT NULL,
-  PRIMARY KEY (`userid`,`groupid`)
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -192,9 +168,9 @@ DROP TABLE IF EXISTS `user_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_permission` (
-  `userid` int(11) NOT NULL,
-  `permissionid` varchar(45) NOT NULL,
-  PRIMARY KEY (`userid`,`permissionid`)
+  `user_id` int(11) NOT NULL,
+  `permission_id` varchar(45) NOT NULL,
+  PRIMARY KEY (`user_id`,`permission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -220,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-16 16:46:36
+-- Dump completed on 2018-01-16 17:27:09
