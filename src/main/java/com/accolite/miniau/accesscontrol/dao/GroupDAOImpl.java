@@ -10,8 +10,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import com.accolite.miniau.accesscontrol.PermissionType;
 import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.User;
 
@@ -122,6 +120,16 @@ public class GroupDAOImpl implements GroupDAO {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		logger.info("setting the data source has been successful");
 
+	}
+
+	public boolean addPermission(int permissionId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deletePermission(int permissionId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

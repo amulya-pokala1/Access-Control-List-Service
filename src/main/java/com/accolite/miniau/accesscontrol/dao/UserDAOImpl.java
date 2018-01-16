@@ -8,8 +8,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import com.accolite.miniau.accesscontrol.PermissionType;
 import com.accolite.miniau.accesscontrol.model.User;
 
 public class UserDAOImpl implements UserDAO {
@@ -85,6 +83,16 @@ public class UserDAOImpl implements UserDAO {
 		logger.info("performing get all usernames operation");
 		return (List<String>) jdbcTemplate.queryForList(query, String.class);
 
+	}
+
+	public boolean addPermission(int userId, Permission permission) {
+
+		return false;
+	}
+
+	public boolean removePermission(int userId, Permission permission) {
+		
+		return false;
 	}
 
 }

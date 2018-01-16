@@ -10,7 +10,7 @@ public class User {
 	String userName;
 	String password;
 	PermissionType permissionType;
-	Map<String, String> attributs;
+	Map<String, String> attributes;
 	public User(int userId, String userName, String permissionType) {
 		super();
 		this.userId = userId;
