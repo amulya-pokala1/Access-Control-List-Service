@@ -56,5 +56,4 @@ public class AdminDAOImpl implements AdminDAO {
 		logger.info("setting the data source has been successful");
 
 	}
-
 }
