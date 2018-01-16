@@ -20,7 +20,7 @@ public class AdminDAOImpl implements AdminDAO {
 
 	public boolean createAdmin(Admin admin) {
 
-		int rowsAffected = jdbcTemplate.update(Query.createAdmin, admin.getAdminId(), admin.getAdminName(), admin.getPassword(),
+		int rowsAffected = jdbcTemplate.update(Query.CREATEADMIN, admin.getAdminId(), admin.getAdminName(), admin.getPassword(),
 				admin.getDescription());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + admin.getAdminId() + " into the admin table");
@@ -31,7 +31,7 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	public boolean deleteAdmin(int adminId) {
-		int rowsAffected = jdbcTemplate.update(Query.deleteAdmin, adminId);
+		int rowsAffected = jdbcTemplate.update(Query.DELETEADMIN, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't delete" + adminId + " from delete table");
 		}
@@ -41,7 +41,7 @@ public class AdminDAOImpl implements AdminDAO {
 
 	public boolean changePassword(int adminId, String password) {
 
-		int rowsAffected = jdbcTemplate.update(Query.changePassword, password, adminId);
+		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSWORD, password, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't update password");
 		}

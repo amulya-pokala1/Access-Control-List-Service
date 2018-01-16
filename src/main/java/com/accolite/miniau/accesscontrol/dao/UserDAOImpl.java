@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO {
 	public boolean addNewUser(User user) {
 
 
-		int rowsAffected = jdbcTemplate.update(Query.addNewUser, user.getUserId(), user.getUserName(), user.getPassword());
+		int rowsAffected = jdbcTemplate.update(Query.ADDNEWUSER, user.getUserId(), user.getUserName(), user.getPassword());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + user.getUserId() + " into the user table");
 		}
@@ -36,7 +36,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public User getUser(int userId) {
 
-		return jdbcTemplate.queryForObject(Query.getUser, new Object[] { userId }, new UserMapper());
+		return jdbcTemplate.queryForObject(Query.GETUSER, new Object[] { userId }, new UserMapper());
 
 	}
 
@@ -57,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<User> getAllUsers() {
 
 		logger.info("performing get all users operation");
-		return jdbcTemplate.query(Query.getAllUsers, new BeanPropertyRowMapper<User>(User.class));
+		return jdbcTemplate.query(Query.GETALLUSERS, new BeanPropertyRowMapper<User>(User.class));
 
 	}
 
@@ -70,12 +70,12 @@ public class UserDAOImpl implements UserDAO {
 
 	public List<String> getAllUserNames() {
 		logger.info("performing get all usernames operation");
-		return jdbcTemplate.queryForList(Query.getAllUserNames, String.class);
+		return jdbcTemplate.queryForList(Query.GETALLUSERNAMES, String.class);
 
 	}
 
 	public boolean addPermissionToUser(int userId, Permission permission) {
-		int rowsAffected = jdbcTemplate.update(Query.addPermissionToUser, userId, permission.getPermissionId());
+		int rowsAffected = jdbcTemplate.update(Query.ADDPERMISSIONTOUSER, userId, permission.getPermissionId());
 		if (rowsAffected == 0) {
 			logger.info("failed to add permission " + permission.getPermissionId() + " to user");
 			return false;
@@ -85,7 +85,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public boolean removePermissionFromUser(int userId, Permission permission) {
-		int rowsAffected = jdbcTemplate.update(Query.removePermissionFromUser, userId, permission.getPermissionId());
+		int rowsAffected = jdbcTemplate.update(Query.REMOVEPERMISSIONFROMUSER, userId, permission.getPermissionId());
 		if (rowsAffected == 0) {
 			logger.info("failed to delete permission" + permission.getPermissionId() + " from user" + userId);
 			return false;
