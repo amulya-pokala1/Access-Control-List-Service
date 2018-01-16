@@ -15,7 +15,7 @@ public interface GroupDAO {
 	public boolean addNewGroup(Group group);
 
 	public boolean addPermission(int groupId, Permission permission);
-	
+
 	public boolean removePermission(int groupId, Permission permission);
 
 	public List<String> getAllGroupNames();

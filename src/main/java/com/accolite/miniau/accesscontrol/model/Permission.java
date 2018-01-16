@@ -3,7 +3,7 @@ package com.accolite.miniau.accesscontrol.model;
 public class Permission {
 
 	int permissionId;
-	String permission;
+	String permissionName;
 	String permissionDescription;
 	boolean isMandatory;
 
@@ -13,7 +13,7 @@ public class Permission {
 
 	public Permission(String permission, String permissionDescription, boolean isMandatory) {
 		super();
-		this.permission = permission;
+		this.permissionName = permission;
 		this.permissionDescription = permissionDescription;
 		this.isMandatory = isMandatory;
 	}
@@ -26,12 +26,12 @@ public class Permission {
 		this.permissionId = permissionId;
 	}
 
-	public String getPermission() {
-		return permission;
+	public String getPermissionName() {
+		return permissionName;
 	}
 
-	public void setPermission(String permission) {
-		this.permission = permission;
+	public void setPermissionName(String permissionName) {
+		this.permissionName = permissionName;
 	}
 
 	public String getPermissionDescription() {

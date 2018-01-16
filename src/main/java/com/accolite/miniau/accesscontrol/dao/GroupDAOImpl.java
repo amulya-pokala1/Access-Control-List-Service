@@ -27,7 +27,7 @@ public class GroupDAOImpl implements GroupDAO {
 	public boolean addNewGroup(Group group) {
 
 		String query = "INSERT INTO ACL.GROUP(GROUPID, GROUPNAME, PERMISSIONTYPE) VALUES(?,?,?)";
-//		TODO CHANGE THE QUERY
+		// TODO CHANGE THE QUERY
 		int rowsAffected = jdbcTemplate.update(query, group.getGroupId(), group.getGroupName(),
 				group.getPermissionType().name());
 		if (rowsAffected == 0) {
@@ -55,7 +55,7 @@ public class GroupDAOImpl implements GroupDAO {
 	public List<String> getAllGroupNames() {
 		String query = "SELECT GROUPNAME FROM ACL.GROUP";
 		logger.info("performing get all group names operation");
-		return (List<String>) jdbcTemplate.queryForList(query, String.class);
+		return jdbcTemplate.queryForList(query, String.class);
 
 	}
 
@@ -70,7 +70,7 @@ public class GroupDAOImpl implements GroupDAO {
 		String query = "SELECT USERID FROM ACL.USER_GROUP WHERE GROUPID=?";
 		logger.info("performing get all users in group operation");
 		List<Integer> ids = jdbcTemplate.queryForList(query, new Object[] { groupId }, Integer.class);
-		List<User> users = new ArrayList<User>();
+		List<User> users = new ArrayList<>();
 		for (int id : ids) {
 			String query1 = "SELECT * FROM USER WHERE USERID=?";
 

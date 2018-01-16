@@ -84,7 +84,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<String> getAllUserNames() {
 		String query = "SELECT USERNAME FROM USER";
 		logger.info("performing get all usernames operation");
-		return (List<String>) jdbcTemplate.queryForList(query, String.class);
+		return jdbcTemplate.queryForList(query, String.class);
 
 	}
 
