@@ -10,9 +10,13 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.accolite.miniau.accesscontrol.mapper.GroupMapper;
+import com.accolite.miniau.accesscontrol.mapper.UserMapper;
 import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
+import com.accolite.miniau.accesscontrol.utility.Query;
 
 public class GroupDAOImpl implements GroupDAO {
 	private JdbcTemplate jdbcTemplate;
@@ -24,8 +28,7 @@ public class GroupDAOImpl implements GroupDAO {
 
 	public boolean addNewGroup(Group group) {
 
-		String query = "INSERT INTO ACL.GROUP(GROUPID, GROUPNAME) VALUES(?,?)";
-		int rowsAffected = jdbcTemplate.update(query, group.getGroupId(), group.getGroupName());
+		int rowsAffected = jdbcTemplate.update(Query.addNewGroup, group.getGroupId(), group.getGroupName());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert " + group.getGroupId() + " into the table group");
 			return false;
@@ -36,40 +39,26 @@ public class GroupDAOImpl implements GroupDAO {
 	}
 
 	public List<String> getAllGroupNames() {
-		String query = "SELECT GROUPNAME FROM ACL.GROUP";
 		logger.info("performing get all group names operation");
-		return jdbcTemplate.queryForList(query, String.class);
+		return jdbcTemplate.queryForList(Query.getAllGroupNames, String.class);
 
 	}
 
 	public List<Group> getAllGroups() {
-		String query = "SELECT * FROM ACL.GROUP";
+		// TODO review
 		logger.info("performing get all groups operation");
-		return jdbcTemplate.query(query, new BeanPropertyRowMapper<Group>(Group.class));
+		return jdbcTemplate.query(Query.getAllGroups, new GroupMapper());
 
 	}
 
 	public List<User> getUsersInGroup(int groupId) {
-		String query = "SELECT USERID FROM ACL.USER_GROUP WHERE GROUPID=?";
-		logger.info("performing get all users in group operation");
-		List<Integer> ids = jdbcTemplate.queryForList(query, new Object[] { groupId }, Integer.class);
-		List<User> users = new ArrayList<>();
-		for (int id : ids) {
-			String query1 = "SELECT * FROM USER WHERE USERID=?";
-
-			User u = jdbcTemplate.queryForObject(query1, new Object[] { id },
-					new BeanPropertyRowMapper<User>(User.class));
-			users.add(u);
-
-		}
 		logger.info("operation get users in group successfull");
-		return users;
+		return jdbcTemplate.query(Query.getUsersInGroup, new Object[] {groupId}, new UserMapper());
 
 	}
 
 	public boolean addUserToGroup(int groupId, User user) {
-		String query = "INSERT INTO ACL.USER_GROUP(GROUPID, USERID) VALUES(?,?)";
-		int rowsAffected = jdbcTemplate.update(query, groupId, user.getUserId());
+		int rowsAffected = jdbcTemplate.update(Query.addUserToGroup, groupId, user.getUserId());
 		if (rowsAffected == 0) {
 			logger.info("failed to add " + user.getUserId() + "user in group");
 			return false;
@@ -79,8 +68,7 @@ public class GroupDAOImpl implements GroupDAO {
 	}
 
 	public boolean removeUserFromGroup(int groupId, int userId) {
-		String query = "DELETE FROM USER_GROUP WHERE USERID=? AND GROUPID=?";
-		int rowsAffected = jdbcTemplate.update(query, userId, groupId);
+		int rowsAffected = jdbcTemplate.update(Query.removeUserFromGroup, userId, groupId);
 		if (rowsAffected == 0) {
 			logger.info("failed to remove " + userId + "user from group" + groupId);
 			return false;
@@ -90,6 +78,7 @@ public class GroupDAOImpl implements GroupDAO {
 	}
 
 	public boolean deleteGroup(int groupId) {
+		//todo on delete cascade
 		String query = "DELETE FROM ACL.GROUP WHERE GROUPID=?";
 		String query1 = "DELETE FROM ACL.USER_GROUP WHERE GROUPID=?";
 		logger.info("deleting the group from the tables group, user_group");
@@ -110,8 +99,7 @@ public class GroupDAOImpl implements GroupDAO {
 	}
 
 	public boolean addPermission(int groupId, Permission permission) {
-		String query = "INSERT INTO ACL.GROUP_PERMISSION(GROUPID, PERMISSIONID) VALUES(?,?)";
-		int rowsAffected = jdbcTemplate.update(query, groupId, permission.getPermissionId());
+		int rowsAffected = jdbcTemplate.update(Query.addPermission, groupId, permission.getPermissionId());
 		if (rowsAffected == 0) {
 			logger.info("failed to add permission " + permission.getPermissionId() + " to group" + groupId);
 			return false;
@@ -121,8 +109,7 @@ public class GroupDAOImpl implements GroupDAO {
 	}
 
 	public boolean removePermission(int groupId, Permission permission) {
-		String query = "DELETE FROM ACL.GROUP_PERMISSION WHERE GROUPID=? AND PERMISSIONID=?";
-		int rowsAffected = jdbcTemplate.update(query, groupId, permission.getPermissionId());
+		int rowsAffected = jdbcTemplate.update(Query.removePermission, groupId, permission.getPermissionId());
 		if (rowsAffected == 0) {
 			logger.info("failed to delete permission" + permission.getPermissionId() + " from group" + groupId);
 			return false;

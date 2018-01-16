@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.accolite.miniau.accesscontrol.mapper.PermissionMapper;
 import com.accolite.miniau.accesscontrol.model.Permission;
+import com.accolite.miniau.accesscontrol.utility.Query;
 
 public class PermissionDAOImpl implements PermissionDAO {
 
@@ -20,22 +21,19 @@ public class PermissionDAOImpl implements PermissionDAO {
 
 	@Override
 	public boolean createPermission(Permission permission) {
-		String sql = "INSERT INTO PERMISSION(PERMISSION_NAME,PERMISSION_DESCRIPTION) VALUES (?,?)";
-		int count = jdbcTemplate.update(sql, permission.getPermissionName(), permission.getPermissionDescription());
+		int count = jdbcTemplate.update(Query.createPermission, permission.getPermissionName(), permission.getPermissionDescription());
 		return (count > 0);
 	}
 
 	@Override
 	public boolean deletePermission(int permissionId) {
-		String sql = "DELETE FROM PERMISSION WHERE PERMISSION_ID = ?";
-		int count = jdbcTemplate.update(sql, permissionId);
+		int count = jdbcTemplate.update(Query.deletePermission, permissionId);
 		return (count > 0);
 	}
 
 	@Override
 	public List<Permission> getAllPermissionList() {
-		String sql = "SELECT * FROM PERMISSION";
-		List<Permission> permissions = jdbcTemplate.query(sql, new PermissionMapper());
+		List<Permission> permissions = jdbcTemplate.query(Query.getAllPermissionList, new PermissionMapper());
 		return permissions;
 	}
 

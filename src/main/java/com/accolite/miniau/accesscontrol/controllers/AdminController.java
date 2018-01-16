@@ -32,6 +32,6 @@ public class AdminController {
 
 	@PutMapping(value = "/api/admin/changePassword")
 	public void changePasswordForAdmin(@RequestBody Map<String, String> reqBody) {
-		// TODO complete this method
+		// TODO complete this method after abishek complets the UI part
 	}
 }

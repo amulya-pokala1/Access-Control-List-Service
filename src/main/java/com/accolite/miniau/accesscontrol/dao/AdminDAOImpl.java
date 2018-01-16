@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.accolite.miniau.accesscontrol.model.Admin;
+import com.accolite.miniau.accesscontrol.utility.Query;
 
 public class AdminDAOImpl implements AdminDAO {
 
@@ -19,8 +20,7 @@ public class AdminDAOImpl implements AdminDAO {
 
 	public boolean createAdmin(Admin admin) {
 
-		String query = "INSERT INTO ACL.ADMIN(ADMIN_ID,ADMIN_NAME,PASSWORD, DESCRIPTION) VALUES (?,?,?,?)";
-		int rowsAffected = jdbcTemplate.update(query, admin.getAdminId(), admin.getAdminName(), admin.getPassword(),
+		int rowsAffected = jdbcTemplate.update(Query.createAdmin, admin.getAdminId(), admin.getAdminName(), admin.getPassword(),
 				admin.getDescription());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + admin.getAdminId() + " into the admin table");
@@ -31,8 +31,7 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	public boolean deleteAdmin(int adminId) {
-		String query = "DELETE FROM ACL.ADMIN WHERE ADMINID=?";
-		int rowsAffected = jdbcTemplate.update(query, adminId);
+		int rowsAffected = jdbcTemplate.update(Query.deleteAdmin, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't delete" + adminId + " from delete table");
 		}
@@ -42,8 +41,7 @@ public class AdminDAOImpl implements AdminDAO {
 
 	public boolean changePassword(int adminId, String password) {
 
-		String query = "UPDATE ACL.ADMIN SET PASSWORD=? WHERE ADMINID=?";
-		int rowsAffected = jdbcTemplate.update(query, password, adminId);
+		int rowsAffected = jdbcTemplate.update(Query.changePassword, password, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't update password");
 		}

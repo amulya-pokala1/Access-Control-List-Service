@@ -9,8 +9,10 @@ import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.accolite.miniau.accesscontrol.mapper.UserMapper;
 import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
+import com.accolite.miniau.accesscontrol.utility.Query;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -23,9 +25,8 @@ public class UserDAOImpl implements UserDAO {
 
 	public boolean addNewUser(User user) {
 
-		String query = "INSERT INTO USER(USERID, USERNAME, PASSWORD) VALUES (?,?,?)";
 
-		int rowsAffected = jdbcTemplate.update(query, user.getUserId(), user.getUserName(), user.getPassword());
+		int rowsAffected = jdbcTemplate.update(Query.addNewUser, user.getUserId(), user.getUserName(), user.getPassword());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + user.getUserId() + " into the user table");
 		}
@@ -33,15 +34,14 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public User getUser(int userId) {
-		String query = "SELECT * FROM USER WHERE USERID=?";
 
-		return jdbcTemplate.queryForObject(query, new Object[] { userId }, new BeanPropertyRowMapper<User>(User.class));
+		return jdbcTemplate.queryForObject(Query.getUser, new Object[] { userId }, new UserMapper());
 
 	}
 
 	public boolean deleteUser(int userId) {
+		// TODO review
 		String query = "DELETE FROM USER WHERE USERID=?";
 		String query1 = "DELETE FROM USER_GROUP WHERE USERID=?";
 		int rowsAffected = jdbcTemplate.update(query, userId);
@@ -56,9 +56,8 @@ public class UserDAOImpl implements UserDAO {
 
 	public List<User> getAllUsers() {
 
-		String query = "SELECT * FROM USER";
 		logger.info("performing get all users operation");
-		return jdbcTemplate.query(query, new BeanPropertyRowMapper<User>(User.class));
+		return jdbcTemplate.query(Query.getAllUsers, new BeanPropertyRowMapper<User>(User.class));
 
 	}
 
@@ -70,15 +69,13 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public List<String> getAllUserNames() {
-		String query = "SELECT USERNAME FROM USER";
 		logger.info("performing get all usernames operation");
-		return jdbcTemplate.queryForList(query, String.class);
+		return jdbcTemplate.queryForList(Query.getAllUserNames, String.class);
 
 	}
 
-	public boolean addPermission(int userId, Permission permission) {
-		String query = "INSERT INTO ACL.GROUP_PERMISSION(USERID, PERMISSIONID) VALUES(?,?)";
-		int rowsAffected = jdbcTemplate.update(query, userId, permission.getPermissionId());
+	public boolean addPermissionToUser(int userId, Permission permission) {
+		int rowsAffected = jdbcTemplate.update(Query.addPermissionToUser, userId, permission.getPermissionId());
 		if (rowsAffected == 0) {
 			logger.info("failed to add permission " + permission.getPermissionId() + " to user");
 			return false;
@@ -87,9 +84,8 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
-	public boolean removePermission(int userId, Permission permission) {
-		String query = "DELETE FROM ACL.USER_PERMISSION WHERE USERID=? AND PERMISSIONID=?";
-		int rowsAffected = jdbcTemplate.update(query, userId, permission.getPermissionId());
+	public boolean removePermissionFromUser(int userId, Permission permission) {
+		int rowsAffected = jdbcTemplate.update(Query.removePermissionFromUser, userId, permission.getPermissionId());
 		if (rowsAffected == 0) {
 			logger.info("failed to delete permission" + permission.getPermissionId() + " from user" + userId);
 			return false;
