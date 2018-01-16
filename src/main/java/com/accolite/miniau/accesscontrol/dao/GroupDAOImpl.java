@@ -11,11 +11,12 @@ import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.accolite.miniau.accesscontrol.model.Group;
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
 public class GroupDAOImpl implements GroupDAO {
 	private JdbcTemplate jdbcTemplate;
-	static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.dao.UserDAOImpl.class);
+	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.dao.UserDAOImpl.class);
 
 	public GroupDAOImpl() {
 		BasicConfigurator.configure();
@@ -23,29 +24,15 @@ public class GroupDAOImpl implements GroupDAO {
 
 	public boolean addNewGroup(Group group) {
 
-		String query = "INSERT INTO ACL.GROUP(GROUPID, GROUPNAME, PERMISSIONTYPE) VALUES(?,?,?)";
-		int rowsAffected = jdbcTemplate.update(query, group.getGroupId(), group.getGroupName(),
-				group.getPermissionType().name());
+		String query = "INSERT INTO ACL.GROUP(GROUPID, GROUPNAME) VALUES(?,?)";
+		int rowsAffected = jdbcTemplate.update(query, group.getGroupId(), group.getGroupName());
 		if (rowsAffected == 0) {
-			logger.error("couldn't insert a new group into the table group");
+			logger.error("couldn't insert " + group.getGroupId() + " into the table group");
 			return false;
 		}
-		logger.info("inserted a new group into the table group successfully");
+		logger.info("inserted " + group.getGroupId() + "into the table group successfully");
 		return true;
 
-	}
-
-	public boolean updatePermission(int groupId, PermissionType permissionType) {
-
-		String query = "UPDATE ACL.GROUP SET PERMISSIONTYPE=? WHERE GROUPID=?";
-
-		int rowsAffected = jdbcTemplate.update(query, permissionType.name(), groupId);
-		if (rowsAffected == 0) {
-			logger.error("failed to update permission of group");
-			return false;
-		}
-		logger.info("updated permission of group successfully");
-		return true;
 	}
 
 	public List<String> getAllGroupNames() {
@@ -84,10 +71,10 @@ public class GroupDAOImpl implements GroupDAO {
 		String query = "INSERT INTO ACL.USER_GROUP(GROUPID, USERID) VALUES(?,?)";
 		int rowsAffected = jdbcTemplate.update(query, groupId, user.getUserId());
 		if (rowsAffected == 0) {
-			logger.info("failed to add user in group");
+			logger.info("failed to add " + user.getUserId() + "user in group");
 			return false;
 		}
-		logger.info("successfully added user to group");
+		logger.info("successfully added" + user.getUserId() + " user to group");
 		return true;
 	}
 
@@ -95,10 +82,10 @@ public class GroupDAOImpl implements GroupDAO {
 		String query = "DELETE FROM USER_GROUP WHERE USERID=? AND GROUPID=?";
 		int rowsAffected = jdbcTemplate.update(query, userId, groupId);
 		if (rowsAffected == 0) {
-			logger.info("failed to remove user from group");
+			logger.info("failed to remove " + userId + "user from group" + groupId);
 			return false;
 		}
-		logger.info("successfully deleted user from group");
+		logger.info("successfully deleted" + userId + " user from group" + groupId);
 		return true;
 	}
 
@@ -109,10 +96,10 @@ public class GroupDAOImpl implements GroupDAO {
 		int rowsAffected = jdbcTemplate.update(query, groupId);
 		jdbcTemplate.update(query1, groupId);
 		if (rowsAffected == 0) {
-			logger.info("failed to delete group");
+			logger.info("failed to delete group" + groupId);
 			return false;
 		}
-		logger.info("deleted group successfully");
+		logger.info("deleted group" + groupId + " successfully");
 		return true;
 	}
 
@@ -122,14 +109,26 @@ public class GroupDAOImpl implements GroupDAO {
 
 	}
 
-	public boolean addPermission(int permissionId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addPermission(int groupId, Permission permission) {
+		String query = "INSERT INTO ACL.GROUP_PERMISSION(GROUPID, PERMISSIONID) VALUES(?,?)";
+		int rowsAffected = jdbcTemplate.update(query, groupId, permission.getPermissionId());
+		if (rowsAffected == 0) {
+			logger.info("failed to add permission " + permission.getPermissionId() + " to group" + groupId);
+			return false;
+		}
+		logger.info("successfully added permission" + permission.getPermissionId() + " to group" + groupId);
+		return true;
 	}
 
-	public boolean deletePermission(int permissionId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean removePermission(int groupId, Permission permission) {
+		String query = "DELETE FROM ACL.GROUP_PERMISSION WHERE GROUPID=? AND PERMISSIONID=?";
+		int rowsAffected = jdbcTemplate.update(query, groupId, permission.getPermissionId());
+		if (rowsAffected == 0) {
+			logger.info("failed to delete permission" + permission.getPermissionId() + " from group" + groupId);
+			return false;
+		}
+		logger.info("successfully deleted permission " + permission.getPermissionId() + "from group" + groupId);
+		return true;
 	}
 
 }

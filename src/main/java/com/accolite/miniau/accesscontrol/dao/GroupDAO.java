@@ -3,7 +3,9 @@ package com.accolite.miniau.accesscontrol.dao;
 import java.util.List;
 
 import javax.sql.DataSource;
+
 import com.accolite.miniau.accesscontrol.model.Group;
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
 public interface GroupDAO {
@@ -12,9 +14,9 @@ public interface GroupDAO {
 
 	public boolean addNewGroup(Group group);
 
-	public boolean addPermission(int permissionId);
-	
-	public boolean deletePermission(int permissionId);
+	public boolean addPermission(int groupId, Permission permission);
+
+	public boolean removePermission(int groupId, Permission permission);
 
 	public List<String> getAllGroupNames();
 
