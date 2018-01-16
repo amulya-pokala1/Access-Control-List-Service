@@ -11,6 +11,7 @@ import com.accolite.miniau.accesscontrol.model.User;
 public class UserMapper implements RowMapper<User> {
 
 	private static Logger logger = Logger.getLogger(UserMapper.class);
+
 	@Override
 	public User mapRow(ResultSet rs, int rowNum) {
 		User user = new User();
@@ -18,7 +19,7 @@ public class UserMapper implements RowMapper<User> {
 			user.setUserId(rs.getInt("USER_ID"));
 			user.setUserName(rs.getString("USER_NAME"));
 		} catch (SQLException e) {
-			logger.error("Error parsing User",e);
+			logger.error("Error parsing User", e);
 		}
 		return user;
 	}

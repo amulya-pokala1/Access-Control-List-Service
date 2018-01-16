@@ -20,8 +20,8 @@ public class AdminDAOImpl implements AdminDAO {
 
 	public boolean createAdmin(Admin admin) {
 
-		int rowsAffected = jdbcTemplate.update(Query.CREATEADMIN, admin.getAdminId(), admin.getAdminName(), admin.getPassword(),
-				admin.getDescription());
+		int rowsAffected = jdbcTemplate.update(Query.CREATEADMIN, admin.getAdminId(), admin.getAdminName(),
+				admin.getPassword(), admin.getDescription());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + admin.getAdminId() + " into the admin table");
 		}

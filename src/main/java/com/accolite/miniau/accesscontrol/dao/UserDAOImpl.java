@@ -25,8 +25,8 @@ public class UserDAOImpl implements UserDAO {
 
 	public boolean addNewUser(User user) {
 
-
-		int rowsAffected = jdbcTemplate.update(Query.ADDNEWUSER, user.getUserId(), user.getUserName(), user.getPassword());
+		int rowsAffected = jdbcTemplate.update(Query.ADDNEWUSER, user.getUserId(), user.getUserName(),
+				user.getPassword());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + user.getUserId() + " into the user table");
 		}

@@ -1,6 +1,9 @@
 package com.accolite.miniau.accesscontrol.utility;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import org.apache.log4j.Logger;
 
 public class SecurePasswordUtility {
@@ -17,18 +20,21 @@ public class SecurePasswordUtility {
 
 	public static String securePassword(String passwordToHash) {
 		String generatedPassword = null;
-		// TODO change the Exception type
 		try {
+
 			MessageDigest md = MessageDigest.getInstance("SHA-512");
 			md.update(SALT.getBytes("UTF-8"));
-			byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+
+			byte[] bytes;
+			bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < bytes.length; i++) {
 				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
 			}
 			generatedPassword = sb.toString();
-		} catch (Exception e) {
-			logger.error("Problem with Password Hashing function.");
+		} catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+			logger.error("Problem with Password Hashing function.", e);
 		}
 
 		return generatedPassword;
