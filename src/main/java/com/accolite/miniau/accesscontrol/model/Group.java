@@ -14,8 +14,9 @@ public class Group {
 		super();
 	}
 
-	public Group(String groupName, String groupDescription) {
+	public Group(int groupId, String groupName, String groupDescription) {
 		super();
+		this.groupId = groupId;
 		this.groupName = groupName;
 		this.groupDescription = groupDescription;
 	}
