@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.accolite.miniau.accesscontrol.PermissionType;
 import com.accolite.miniau.accesscontrol.model.Group;
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
 public class GroupDAOImpl implements GroupDAO {
@@ -26,6 +27,7 @@ public class GroupDAOImpl implements GroupDAO {
 	public boolean addNewGroup(Group group) {
 
 		String query = "INSERT INTO ACL.GROUP(GROUPID, GROUPNAME, PERMISSIONTYPE) VALUES(?,?,?)";
+//		TODO CHANGE THE QUERY
 		int rowsAffected = jdbcTemplate.update(query, group.getGroupId(), group.getGroupName(),
 				group.getPermissionType().name());
 		if (rowsAffected == 0) {
@@ -122,6 +124,18 @@ public class GroupDAOImpl implements GroupDAO {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		logger.info("setting the data source has been successful");
 
+	}
+
+	@Override
+	public boolean addPermission(int groupId, Permission permission) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removePermission(int groupId, Permission permission) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

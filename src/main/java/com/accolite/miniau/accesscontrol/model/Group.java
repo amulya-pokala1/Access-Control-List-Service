@@ -2,33 +2,22 @@ package com.accolite.miniau.accesscontrol.model;
 
 import java.util.List;
 
-import com.accolite.miniau.accesscontrol.PermissionType;
-
 public class Group {
 
 	private int groupId;
 	private String groupName;
-	private PermissionType permissionType;
+	private List<Permission> permissions;
 	private List<User> users;
-
-	public Group(int groupId, String groupName, PermissionType permissionType) {
-		super();
-		this.groupId = groupId;
-		this.groupName = groupName;
-		this.permissionType = permissionType;
-
-	}
-
-	public Group(int groupId, String groupName, String permissionType) {
-		super();
-		this.groupId = groupId;
-		this.groupName = groupName;
-		this.permissionType = PermissionType.valueOf(permissionType);
-
-	}
+	private String groupDescription;
 
 	public Group() {
+		super();
+	}
 
+	public Group(String groupName, String groupDescription) {
+		super();
+		this.groupName = groupName;
+		this.groupDescription = groupDescription;
 	}
 
 	public int getGroupId() {
@@ -47,6 +36,14 @@ public class Group {
 		this.groupName = groupName;
 	}
 
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
+	}
+
 	public List<User> getUsers() {
 		return users;
 	}
@@ -55,12 +52,12 @@ public class Group {
 		this.users = users;
 	}
 
-	public PermissionType getPermissionType() {
-		return permissionType;
+	public String getGroupDescription() {
+		return groupDescription;
 	}
 
-	public void setPermissionType(PermissionType permissionType) {
-		this.permissionType = permissionType;
+	public void setGroupDescription(String groupDescription) {
+		this.groupDescription = groupDescription;
 	}
 
 }

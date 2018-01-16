@@ -1,32 +1,22 @@
 package com.accolite.miniau.accesscontrol.model;
 
-import java.util.Map;
-
-import com.accolite.miniau.accesscontrol.PermissionType;
+import java.util.List;
 
 public class User {
 
-	int userId;
-	String userName;
-	String password;
-	PermissionType permissionType;
-	Map<String, String> attributs;
-	public User(int userId, String userName, String permissionType) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.permissionType = PermissionType.valueOf(permissionType);
-	}
-
-	public User(int userId, String userName, PermissionType permissionType) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.permissionType = permissionType;
-	}
+	private int userId;
+	private String userName;
+	private String password;
+	private List<Permission> permissions;
 
 	public User() {
 
+	}
+
+	public User(String userName, String password) {
+		super();
+		this.userName = userName;
+		this.password = password;
 	}
 
 	public int getUserId() {
@@ -45,11 +35,20 @@ public class User {
 		this.userName = userName;
 	}
 
-	public PermissionType getPermissionType() {
-		return permissionType;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPermissionType(PermissionType permissionType) {
-		this.permissionType = permissionType;
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
+	}
+
 }

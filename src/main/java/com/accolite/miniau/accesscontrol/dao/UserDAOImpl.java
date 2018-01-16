@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.accolite.miniau.accesscontrol.PermissionType;
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
 public class UserDAOImpl implements UserDAO {
@@ -24,6 +24,7 @@ public class UserDAOImpl implements UserDAO {
 	public boolean addNewUser(User user) {
 
 		String query = "INSERT INTO USER(USERID, USERNAME, PERMISSIONTYPE) VALUES (?,?,?)";
+		// TODO CHANGE THE QUERY
 		int rowsAffected = jdbcTemplate.update(query, user.getUserId(), user.getUserName(),
 				user.getPermissionType().name());
 		if (rowsAffected == 0) {
@@ -85,6 +86,18 @@ public class UserDAOImpl implements UserDAO {
 		logger.info("performing get all usernames operation");
 		return (List<String>) jdbcTemplate.queryForList(query, String.class);
 
+	}
+
+	@Override
+	public boolean addPermission(int userId, Permission permission) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removePermission(int userId, Permission permission) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
