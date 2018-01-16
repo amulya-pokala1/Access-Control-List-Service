@@ -11,7 +11,7 @@ import com.accolite.miniau.accesscontrol.model.Admin;
 public class AdminDAOImpl implements AdminDAO {
 
 	private JdbcTemplate jdbcTemplate;
-	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.dao.UserDAOImpl.class);
+	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.dao.AdminDAOImpl.class);
 
 	public AdminDAOImpl() {
 		BasicConfigurator.configure();

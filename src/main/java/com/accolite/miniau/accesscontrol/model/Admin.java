@@ -6,7 +6,6 @@ public class Admin {
 	private String password;
 	private String description;
 
-	
 	public Admin(int adminId, String adminName, String password, String description) {
 		super();
 		this.adminId = adminId;
@@ -14,9 +13,9 @@ public class Admin {
 		this.password = password;
 		this.description = description;
 	}
-	public Admin()
-	{
-		
+
+	public Admin() {
+
 	}
 
 	public int getAdminId() {
