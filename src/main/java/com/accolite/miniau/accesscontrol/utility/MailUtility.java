@@ -1,7 +1,5 @@
 package com.accolite.miniau.accesscontrol.utility;
 
-import javax.security.auth.Subject;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
