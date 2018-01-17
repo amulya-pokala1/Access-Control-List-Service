@@ -10,13 +10,17 @@ public class HashUtility {
 
 	private static Logger logger = Logger.getLogger(HashUtility.class);
 
+	/* IMPORTANT* DONT CHANGE THE SALT */
+	private static final String SALT = "dvnewofq0Q!i2i0320_2u4t34jgow@dsmv";
+	/* IMPORTANT* DONT CHANGE THE SALT */
+	
 	private HashUtility() {
 
 	}
 
 	public static String hashPassword(String passwordToHash) {
 
-		return generateHash(passwordToHash, StringLiteral.SALT);
+		return generateHash(passwordToHash, SALT);
 	}
 
 	public static String createUniqueUriPath(Integer userId, String userName) {

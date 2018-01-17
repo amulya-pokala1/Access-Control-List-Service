@@ -9,7 +9,7 @@ public interface AdminDAO {
 
 	public boolean deleteAdmin(int adminId);
 
-	public boolean changePassword(int adminId, String password);
+	public boolean updatePassword(int adminId, String password);
 
 	public void setDataSource(DataSource dataSource);
 

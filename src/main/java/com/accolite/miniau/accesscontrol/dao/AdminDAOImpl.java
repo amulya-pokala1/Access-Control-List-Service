@@ -41,7 +41,7 @@ public class AdminDAOImpl implements AdminDAO {
 		return true;
 	}
 
-	public boolean changePassword(int adminId, String password) {
+	public boolean updatePassword(int adminId, String password) {
 
 		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSWORD, password, adminId);
 		if (rowsAffected == 0) {
