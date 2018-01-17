@@ -109,7 +109,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<Permission> getPermissionOfUser(int userId) {
 		// TODO Auto-generated method stub
-		return new ArrayList();
+		return new ArrayList<Permission>();
 	}
 
 	@Override
