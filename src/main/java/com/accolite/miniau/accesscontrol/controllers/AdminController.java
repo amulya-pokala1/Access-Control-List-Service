@@ -36,7 +36,7 @@ public class AdminController {
 	}
 
 	@GetMapping(value = "/api/admin/{adminId}")
-	public void deleteAdmin(@PathVariable(value = "adminId") int adminId) {
+	public void deleteAdmin(@PathVariable int adminId) {
 		boolean isDone = adminDAO.deleteAdmin(adminId);
 		if (!isDone) {
 			throw new CustomNotFoundException("Admin " + adminId + " not found!");

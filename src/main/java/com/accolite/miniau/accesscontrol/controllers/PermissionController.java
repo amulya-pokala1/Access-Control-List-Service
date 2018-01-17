@@ -29,7 +29,7 @@ public class PermissionController {
 	}
 
 	@DeleteMapping(value = "/api/permission/{permissionId}")
-	public void deletePermission(@PathVariable(value = "permissionId") int permissionId) {
+	public void deletePermission(@PathVariable int permissionId) {
 		boolean isDone = permissionDAO.deletePermission(permissionId);
 		if (!isDone) {
 			throw new CustomBadRequestException("Cannot Delete! Permission does not exsist.");

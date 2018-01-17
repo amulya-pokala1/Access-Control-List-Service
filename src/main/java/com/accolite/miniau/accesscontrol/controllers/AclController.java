@@ -24,7 +24,7 @@ public class AclController {
 	private static Logger logger = Logger.getLogger(AclController.class);
 
 	@GetMapping(value = "/ACL/{userId}")
-	public List<Permission> isAuthenticated(@PathVariable(value = "userId") int userId) {
+	public List<Permission> isAuthenticated(@PathVariable int userId) {
 
 		logger.info("Request for " + userId);
 		// if user is available

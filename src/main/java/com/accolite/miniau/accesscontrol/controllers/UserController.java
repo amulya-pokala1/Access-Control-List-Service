@@ -29,12 +29,12 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/api/user/{id}")
-	public User getUserDetails(@PathVariable(value = "id") int userId) {
+	public User getUserDetails(@PathVariable int userId) {
 		return userDAO.getUser(userId);
 	}
 
 	@DeleteMapping(value = "/api/user/{id}")
-	public void deleteUser(@PathVariable(value = "id") int userId) {
+	public void deleteUser(@PathVariable int userId) {
 		boolean isDone = userDAO.deleteUser(userId);
 		if (!isDone) {
 			throw new CustomNotFoundException("Cannot Delete User! User Does not exsist!");
