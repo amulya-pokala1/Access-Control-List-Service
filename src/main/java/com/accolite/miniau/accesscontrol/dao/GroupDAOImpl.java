@@ -25,9 +25,14 @@ public class GroupDAOImpl implements GroupDAO {
 
 	public boolean addNewGroup(Group group) {
 
-		int rowsAffected = jdbcTemplate.update(Query.ADDNEWGROUP, group.getGroupId(), group.getGroupName());
+		int rowsAffected;
+		try {
+			rowsAffected = jdbcTemplate.update(Query.ADDNEWGROUP, group.getGroupName(), group.getGroupDescription());
+		} catch (Exception e) {
+			rowsAffected = 0;
+		}
 		if (rowsAffected == 0) {
-			logger.error("couldn't insert " + group.getGroupId() + " into the table group");
+			logger.error("couldn't insert " + group.getGroupName() + " into the table group");
 			return false;
 		}
 		logger.info("inserted " + group.getGroupId() + "into the table group successfully");

@@ -20,13 +20,13 @@ public class AdminDAOImpl implements AdminDAO {
 
 	public boolean createAdmin(Admin admin) {
 
-		int rowsAffected = jdbcTemplate.update(Query.CREATEADMIN, admin.getAdminId(), admin.getAdminName(),
-				admin.getPassword(), admin.getDescription(), admin.getMailId());
+		int rowsAffected = jdbcTemplate.update(Query.CREATEADMIN, admin.getAdminName(), admin.getDescription(),
+				admin.getMailId());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + admin.getAdminId() + " into the admin table");
 			return false;
 		}
-		logger.info("inserted " + admin.getAdminId() + "into  admin successfully");
+		logger.info("inserted " + admin.getAdminName() + "into  admin successfully");
 		return true;
 
 	}

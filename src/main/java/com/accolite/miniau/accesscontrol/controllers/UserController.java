@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestException;
@@ -21,19 +22,19 @@ public class UserController {
 	UserDAO userDAO;
 
 	@PostMapping(value = "/api/user")
-	public void addUser(User user) {
+	public void addUser(@RequestBody User user) {
 		boolean isDone = userDAO.addNewUser(user);
 		if (!isDone) {
 			throw new CustomBadRequestException("User Already exsist!");
 		}
 	}
 
-	@GetMapping(value = "/api/user/{id}")
+	@GetMapping(value = "/api/user/{userId}")
 	public User getUserDetails(@PathVariable int userId) {
 		return userDAO.getUser(userId);
 	}
 
-	@DeleteMapping(value = "/api/user/{id}")
+	@DeleteMapping(value = "/api/user/{userId}")
 	public void deleteUser(@PathVariable int userId) {
 		boolean isDone = userDAO.deleteUser(userId);
 		if (!isDone) {

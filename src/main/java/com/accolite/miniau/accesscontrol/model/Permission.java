@@ -5,7 +5,7 @@ public class Permission {
 	int permissionId;
 	String permissionName;
 	String permissionDescription;
-	boolean isMandatory;
+	boolean mandatory;
 
 	public Permission() {
 		super();
@@ -15,7 +15,7 @@ public class Permission {
 		super();
 		this.permissionName = permission;
 		this.permissionDescription = permissionDescription;
-		this.isMandatory = isMandatory;
+		this.mandatory = isMandatory;
 	}
 
 	public int getPermissionId() {
@@ -43,11 +43,17 @@ public class Permission {
 	}
 
 	public boolean isMandatory() {
-		return isMandatory;
+		return mandatory;
 	}
 
 	public void setMandatory(boolean isMandatory) {
-		this.isMandatory = isMandatory;
+		this.mandatory = isMandatory;
+	}
+
+	@Override
+	public String toString() {
+		return "Permission [permissionName=" + permissionName + ", permissionDescription=" + permissionDescription
+				+ ", isMandatory=" + mandatory + "]";
 	}
 
 }

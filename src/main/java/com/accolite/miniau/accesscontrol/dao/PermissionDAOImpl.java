@@ -20,8 +20,9 @@ public class PermissionDAOImpl implements PermissionDAO {
 
 	
 	public boolean createPermission(Permission permission) {
+		System.out.println(permission);
 		int count = jdbcTemplate.update(Query.CREATEPERMISSION, permission.getPermissionName(),
-				permission.getPermissionDescription());
+				permission.getPermissionDescription(),permission.isMandatory());
 		if (count > 0) {
 			return true;
 		}

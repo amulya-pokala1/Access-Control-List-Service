@@ -28,8 +28,14 @@ public class UserDAOImpl implements UserDAO {
 
 	public boolean addNewUser(User user) {
 
-		int rowsAffected = jdbcTemplate.update(Query.ADDNEWUSER, user.getUserName(),
-				user.getPassword(), user.getMailId());
+		int rowsAffected;
+		try {
+			rowsAffected = jdbcTemplate.update(Query.ADDNEWUSER, user.getUserName(), user.getMailId());
+
+		} catch (Exception e) {
+			logger.error("Error creating User", e);
+			rowsAffected = 0;
+		}
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + user.getUserName() + " into the user table");
 
@@ -50,8 +56,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public boolean deleteUser(int userId) {
-		String query = "DELETE FROM USER WHERE USERID=?";
-		int rowsAffected = jdbcTemplate.update(query, userId);
+		int rowsAffected = jdbcTemplate.update(Query.DELETEUSER, userId);
 		if (rowsAffected == 0) {
 			logger.error("failed to delete user " + userId);
 			return false;
