@@ -15,9 +15,9 @@ public interface UserDAO {
 
 	public User getUser(int userId);
 
-	public boolean addPermissionToUser(int userId, Permission permission);
+	public boolean addPermissionToUser(int userId, int permissionId);
 
-	public boolean removePermissionFromUser(int userId, Permission permission);
+	public boolean removePermissionFromUser(int userId, int permissionId);
 
 	public boolean deleteUser(int userId);
 	

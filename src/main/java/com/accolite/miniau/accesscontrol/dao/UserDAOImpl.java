@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,10 +29,11 @@ public class UserDAOImpl implements UserDAO {
 
 	public boolean addNewUser(User user) {
 
-		int rowsAffected = jdbcTemplate.update(Query.ADDNEWUSER, user.getUserId(), user.getUserName(),
-				user.getPassword());
+		int rowsAffected = jdbcTemplate.update(Query.ADDNEWUSER, user.getUserName(),
+				user.getPassword(), user.getMailId());
 		if (rowsAffected == 0) {
-			logger.error("couldn't insert" + user.getUserId() + " into the user table");
+			logger.error("couldn't insert" + user.getUserName() + " into the user table");
+
 			return false;
 		}
 		logger.info("inserted " + user.getUserId() + "into user table successfully");
@@ -44,14 +47,12 @@ public class UserDAOImpl implements UserDAO {
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
+
 	}
 
 	public boolean deleteUser(int userId) {
-		// TODO review
 		String query = "DELETE FROM USER WHERE USERID=?";
-		String query1 = "DELETE FROM USER_GROUP WHERE USERID=?";
 		int rowsAffected = jdbcTemplate.update(query, userId);
-		jdbcTemplate.update(query1, userId);
 		if (rowsAffected == 0) {
 			logger.error("failed to delete user " + userId);
 			return false;
@@ -80,23 +81,24 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	public boolean addPermissionToUser(int userId, Permission permission) {
-		int rowsAffected = jdbcTemplate.update(Query.ADDPERMISSIONTOUSER, userId, permission.getPermissionId());
+	public boolean addPermissionToUser(int userId, int permissionId) {
+		// TODO--review on update--exception
+		int rowsAffected = jdbcTemplate.update(Query.ADDPERMISSIONTOUSER, userId, permissionId);
 		if (rowsAffected == 0) {
-			logger.info("failed to add permission " + permission.getPermissionId() + " to user");
+			logger.info("failed to add permission " + permissionId + " to user");
 			return false;
 		}
-		logger.info("successfully added permission" + permission.getPermissionId() + " to user");
+		logger.info("successfully added permission" + permissionId + " to user");
 		return true;
 	}
 
-	public boolean removePermissionFromUser(int userId, Permission permission) {
-		int rowsAffected = jdbcTemplate.update(Query.REMOVEPERMISSIONFROMUSER, userId, permission.getPermissionId());
+	public boolean removePermissionFromUser(int userId, int permissionId) {
+		int rowsAffected = jdbcTemplate.update(Query.REMOVEPERMISSIONFROMUSER, userId, permissionId);
 		if (rowsAffected == 0) {
-			logger.info("failed to delete permission" + permission.getPermissionId() + " from user" + userId);
+			logger.info("failed to delete permission" + permissionId + " from user" + userId);
 			return false;
 		}
-		logger.info("successfully deleted permission " + permission.getPermissionId() + "from user" + userId);
+		logger.info("successfully deleted permission " + permissionId + "from user" + userId);
 		return true;
 	}
 

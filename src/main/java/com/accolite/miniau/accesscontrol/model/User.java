@@ -8,16 +8,17 @@ public class User {
 	private String userName;
 	private String password;
 	private List<Permission> permissions;
+	private String mailId;
 
 	public User() {
 
 	}
 
-	public User(int userId, String userName, String password) {
+	public User(String userName, String password, String mailId) {
 		super();
-		this.userId = userId;
 		this.userName = userName;
 		this.password = password;
+		this.mailId = mailId;
 	}
 
 	public int getUserId() {
@@ -52,4 +53,11 @@ public class User {
 		this.permissions = permissions;
 	}
 
+	public String getMailId() {
+		return mailId;
+	}
+
+	public void setMailId(String mailId) {
+		this.mailId = mailId;
+	}
 }
