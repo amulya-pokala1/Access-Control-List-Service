@@ -15,12 +15,16 @@ import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestExcepti
 import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException;
 import com.accolite.miniau.accesscontrol.dao.AdminDAO;
 import com.accolite.miniau.accesscontrol.model.Admin;
+import com.accolite.miniau.accesscontrol.utility.MailUtility;
 
 @RestController
 public class AdminController {
 
 	@Autowired
 	AdminDAO adminDAO;
+
+	@Autowired
+	MailUtility mailUtility;
 
 	@PostMapping(value = "/api/admin")
 	public void addNewAdmin(@RequestBody Admin admin) {
@@ -29,15 +33,16 @@ public class AdminController {
 		if (!isDone) {
 			throw new CustomBadRequestException("Admin already exist with same Admin Name");
 		}
+
 	}
 
 	@GetMapping(value = "/api/admin/{adminId}")
 	public void deleteAdmin(@PathParam(value = "adminId") int adminId) {
 		boolean isDone = adminDAO.deleteAdmin(adminId);
-		if(!isDone) {
-			throw new CustomNotFoundException("Admin "+adminId+" not found!");
+		if (!isDone) {
+			throw new CustomNotFoundException("Admin " + adminId + " not found!");
 		}
-			
+
 	}
 
 	@PutMapping(value = "/api/admin/changePassword")

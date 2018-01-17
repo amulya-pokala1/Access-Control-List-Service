@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestException;
 import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException;
 import com.accolite.miniau.accesscontrol.dao.GroupDAO;
-import com.accolite.miniau.accesscontrol.dao.GroupDAOImpl;
 import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.User;
 

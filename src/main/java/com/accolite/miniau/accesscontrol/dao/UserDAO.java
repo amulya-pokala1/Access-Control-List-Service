@@ -20,6 +20,8 @@ public interface UserDAO {
 	public boolean removePermissionFromUser(int userId, int permissionId);
 
 	public boolean deleteUser(int userId);
+	
+	public boolean updatePassword(int adminId, String password);
 
 	public List<User> getAllUsers();
 

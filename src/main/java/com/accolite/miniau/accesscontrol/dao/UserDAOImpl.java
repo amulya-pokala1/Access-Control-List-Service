@@ -108,4 +108,10 @@ public class UserDAOImpl implements UserDAO {
 		return new ArrayList();
 	}
 
+	@Override
+	public boolean updatePassword(int userId, String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
