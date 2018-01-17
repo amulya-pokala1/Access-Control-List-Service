@@ -3,12 +3,11 @@ package com.accolite.miniau.accesscontrol.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

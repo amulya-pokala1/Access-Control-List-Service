@@ -2,11 +2,10 @@ package com.accolite.miniau.accesscontrol.controllers;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,24 +42,23 @@ public class GroupController {
 	}
 
 	@PutMapping(value = "/api/group/{groupId}")
-	public void addUserToGroup(@PathParam(value = "groupId") int groupId, @RequestBody User user) {
+	public void addUserToGroup(@PathVariable int groupId, @RequestBody User user) {
 		boolean isDone = groupDAO.addUserToGroup(groupId, user);
-		if(!isDone) {
+		if (!isDone) {
 			throw new CustomBadRequestException("User Already exsist in Group");
 		}
 	}
 
 	@DeleteMapping(value = "/api/group/{groupId}/{userId}")
-	public void deleteUserFromGroup(@PathParam(value = "groupId") int groupId,
-			@PathParam(value = "userId") int userId) {
+	public void deleteUserFromGroup(@PathVariable int groupId, @PathVariable int userId) {
 		boolean isDone = groupDAO.removeUserFromGroup(groupId, userId);
-		if(!isDone) {
+		if (!isDone) {
 			throw new CustomNotFoundException("User already not in group!");
 		}
 	}
 
 	@DeleteMapping(value = "/api/group/{groupId}")
-	public void deleteGroup(@PathParam(value = "groupId") int groupId) {
+	public void deleteGroup(@PathVariable int groupId) {
 		boolean isDone = groupDAO.deleteGroup(groupId);
 		if (!isDone) {
 			throw new CustomNotFoundException("Cannot Delete! Group doesn't Exsist.");

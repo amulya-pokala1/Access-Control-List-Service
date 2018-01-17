@@ -2,19 +2,16 @@ package com.accolite.miniau.accesscontrol.controllers;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestException;
 import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException;
 import com.accolite.miniau.accesscontrol.dao.UserDAO;
-import com.accolite.miniau.accesscontrol.dao.UserDAOImpl;
 import com.accolite.miniau.accesscontrol.model.User;
 
 @RestController
@@ -32,12 +29,12 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/api/user/{id}")
-	public User getUserDetails(@PathParam(value = "id") int userId) {
+	public User getUserDetails(@PathVariable int userId) {
 		return userDAO.getUser(userId);
 	}
 
 	@DeleteMapping(value = "/api/user/{id}")
-	public void deleteUser(@PathParam(value = "id") int userId) {
+	public void deleteUser(@PathVariable int userId) {
 		boolean isDone = userDAO.deleteUser(userId);
 		if (!isDone) {
 			throw new CustomNotFoundException("Cannot Delete User! User Does not exsist!");

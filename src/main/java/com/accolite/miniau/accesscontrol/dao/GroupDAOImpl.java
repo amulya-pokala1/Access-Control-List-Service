@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.accolite.miniau.accesscontrol.mapper.GroupMapper;
 import com.accolite.miniau.accesscontrol.mapper.UserMapper;
 import com.accolite.miniau.accesscontrol.model.Group;
-import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.Query;
 
