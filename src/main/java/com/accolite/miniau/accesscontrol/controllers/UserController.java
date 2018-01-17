@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestException;
+import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException;
+import com.accolite.miniau.accesscontrol.dao.UserDAO;
 import com.accolite.miniau.accesscontrol.dao.UserDAOImpl;
 import com.accolite.miniau.accesscontrol.model.User;
 
@@ -18,30 +21,32 @@ import com.accolite.miniau.accesscontrol.model.User;
 public class UserController {
 
 	@Autowired
-	UserDAOImpl userDAOImpl;
+	UserDAO userDAO;
 
 	@PostMapping(value = "/api/user")
 	public void addUser(User user) {
-		userDAOImpl.addNewUser(user);
+		boolean isDone = userDAO.addNewUser(user);
+		if (!isDone) {
+			throw new CustomBadRequestException("User Already exsist!");
+		}
 	}
 
 	@GetMapping(value = "/api/user/{id}")
 	public User getUserDetails(@PathParam(value = "id") int userId) {
-		return userDAOImpl.getUser(userId);
+		return userDAO.getUser(userId);
 	}
 
 	@DeleteMapping(value = "/api/user/{id}")
 	public void deleteUser(@PathParam(value = "id") int userId) {
-		userDAOImpl.deleteUser(userId);
+		boolean isDone = userDAO.deleteUser(userId);
+		if (!isDone) {
+			throw new CustomNotFoundException("Cannot Delete User! User Does not exsist!");
+		}
 	}
 
 	@GetMapping(value = "/api/userList")
 	public List<User> getAllUsers() {
-		return userDAOImpl.getAllUsers();
+		return userDAO.getAllUsers();
 	}
 
-	@PutMapping(value = "/api/user/{id}")
-	public void updatePermission(int permissionType) {
-		// TODO
-	}
 }

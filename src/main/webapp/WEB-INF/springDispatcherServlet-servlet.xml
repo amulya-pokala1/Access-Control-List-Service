@@ -24,7 +24,7 @@
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
-	
+
 	<bean id="UserDaoImpl" class="com.accolite.miniau.accesscontrol.dao.UserDAOImpl"
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
@@ -33,15 +33,5 @@
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<bean id="AdminDao" class="com.accolite.miniau.accesscontrol.dao.AdminDAOImpl"
-		autowire="byType">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
-	<bean id="PermissionDao" class="com.accolite.miniau.accesscontrol.dao.PermissionDAOImpl"
-		autowire="byType">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
-	<mvc:annotation-driven />
+
 </beans>  

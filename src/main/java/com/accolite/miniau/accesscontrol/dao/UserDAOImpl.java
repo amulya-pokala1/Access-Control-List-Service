@@ -1,12 +1,15 @@
 
 package com.accolite.miniau.accesscontrol.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -30,6 +33,7 @@ public class UserDAOImpl implements UserDAO {
 				user.getPassword(), user.getMailId());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + user.getUserName() + " into the user table");
+
 			return false;
 		}
 		logger.info("inserted " + user.getUserId() + "into user table successfully");
@@ -38,13 +42,12 @@ public class UserDAOImpl implements UserDAO {
 
 	public User getUser(int userId) {
 
-		User user = null;
 		try {
-			user = jdbcTemplate.queryForObject(Query.GETUSER, new Object[] { userId }, new UserMapper());
-		} catch (DataAccessException e) {
-			logger.error("caught: " + e);
+			return jdbcTemplate.queryForObject(Query.GETUSER, new Object[] { userId }, new UserMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
 		}
-		return user;
+
 	}
 
 	public boolean deleteUser(int userId) {
@@ -97,6 +100,12 @@ public class UserDAOImpl implements UserDAO {
 		}
 		logger.info("successfully deleted permission " + permissionId + "from user" + userId);
 		return true;
+	}
+
+	@Override
+	public List<Permission> getPermissionOfUser(int userId) {
+		// TODO Auto-generated method stub
+		return new ArrayList();
 	}
 
 }

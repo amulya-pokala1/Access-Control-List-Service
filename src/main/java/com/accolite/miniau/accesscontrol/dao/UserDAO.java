@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
 public interface UserDAO {
@@ -23,4 +24,6 @@ public interface UserDAO {
 	public List<User> getAllUsers();
 
 	public List<String> getAllUserNames();
+	
+	public List<Permission> getPermissionOfUser(int userId);
 }
