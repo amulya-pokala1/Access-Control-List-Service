@@ -96,23 +96,23 @@ public class GroupDAOImpl implements GroupDAO {
 
 	}
 
-	public boolean addPermission(int groupId, Permission permission) {
-		int rowsAffected = jdbcTemplate.update(Query.ADDPERMISSION, groupId, permission.getPermissionId());
+	public boolean addPermission(int groupId, int permissionId) {
+		int rowsAffected = jdbcTemplate.update(Query.ADDPERMISSION, groupId, permissionId);
 		if (rowsAffected == 0) {
-			logger.info("failed to add permission " + permission.getPermissionId() + " to group" + groupId);
+			logger.info("failed to add permission " + permissionId + " to group" + groupId);
 			return false;
 		}
-		logger.info("successfully added permission" + permission.getPermissionId() + " to group" + groupId);
+		logger.info("successfully added permission" + permissionId + " to group" + groupId);
 		return true;
 	}
 
-	public boolean removePermission(int groupId, Permission permission) {
-		int rowsAffected = jdbcTemplate.update(Query.REMOVEPERMISSION, groupId, permission.getPermissionId());
+	public boolean removePermission(int groupId, int permissionId) {
+		int rowsAffected = jdbcTemplate.update(Query.REMOVEPERMISSION, groupId, permissionId);
 		if (rowsAffected == 0) {
-			logger.info("failed to delete permission" + permission.getPermissionId() + " from group" + groupId);
+			logger.info("failed to delete permission" + permissionId + " from group" + groupId);
 			return false;
 		}
-		logger.info("successfully deleted permission " + permission.getPermissionId() + "from group" + groupId);
+		logger.info("successfully deleted permission " + permissionId + "from group" + groupId);
 		return true;
 	}
 

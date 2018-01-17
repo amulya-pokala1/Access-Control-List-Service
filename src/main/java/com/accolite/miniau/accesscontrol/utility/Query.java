@@ -7,7 +7,7 @@ public class Query {
 	}
 
 	// AdminDAO
-	public static final String CREATEADMIN = "INSERT INTO ADMIN(ADMIN_ID,ADMIN_NAME,PASSWORD, DESCRIPTION) VALUES (?,?,?,?)";
+	public static final String CREATEADMIN = "INSERT INTO ADMIN(ADMIN_ID,ADMIN_NAME,PASSWORD, DESCRIPTION, MAIL_ID) VALUES (?,?,?,?,?)";
 	public static final String DELETEADMIN = "DELETE FROM ADMIN WHERE ADMIN_ID=?";
 	public static final String CHANGEPASSWORD = "UPDATE ADMIN SET PASSWORD=? WHERE ADMIN_ID=?";
 
@@ -27,7 +27,7 @@ public class Query {
 	public static final String GETALLPERMISSIONLIST = "SELECT * FROM PERMISSION";
 
 	// UserDAO
-	public static final String ADDNEWUSER = "INSERT INTO USER(USER_ID, USER_NAME, PASSWORD) VALUES (?,?,?)";
+	public static final String ADDNEWUSER = "INSERT INTO USER(USER_NAME, PASSWORD, MAIL_ID) VALUES (?,?,?)";
 	public static final String GETUSER = "SELECT * FROM USER WHERE USER_ID=?";
 	public static final String GETALLUSERS = "SELECT * FROM USER";
 	public static final String GETALLUSERNAMES = "SELECT USER_NAME FROM USER";

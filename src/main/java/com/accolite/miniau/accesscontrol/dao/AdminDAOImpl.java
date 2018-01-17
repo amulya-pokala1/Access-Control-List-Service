@@ -21,7 +21,7 @@ public class AdminDAOImpl implements AdminDAO {
 	public boolean createAdmin(Admin admin) {
 
 		int rowsAffected = jdbcTemplate.update(Query.CREATEADMIN, admin.getAdminId(), admin.getAdminName(),
-				admin.getPassword(), admin.getDescription());
+				admin.getPassword(), admin.getDescription(), admin.getMailId());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + admin.getAdminId() + " into the admin table");
 		}

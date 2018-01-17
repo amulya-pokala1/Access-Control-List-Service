@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
 public interface UserDAO {
@@ -15,9 +14,9 @@ public interface UserDAO {
 
 	public User getUser(int userId);
 
-	public boolean addPermissionToUser(int userId, Permission permission);
+	public boolean addPermissionToUser(int userId, int permissionId);
 
-	public boolean removePermissionFromUser(int userId, Permission permission);
+	public boolean removePermissionFromUser(int userId, int permissionId);
 
 	public boolean deleteUser(int userId);
 

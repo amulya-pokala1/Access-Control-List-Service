@@ -5,17 +5,27 @@ public class Admin {
 	private String adminName;
 	private String password;
 	private String description;
+	private String mailId;
 
-	public Admin(int adminId, String adminName, String password, String description) {
+	public Admin(int adminId, String adminName, String password, String description, String mailId) {
 		super();
 		this.adminId = adminId;
 		this.adminName = adminName;
 		this.password = password;
 		this.description = description;
+		this.mailId = mailId;
 	}
 
 	public Admin() {
 
+	}
+
+	public String getMailId() {
+		return mailId;
+	}
+
+	public void setMailId(String mailId) {
+		this.mailId = mailId;
 	}
 
 	public int getAdminId() {
