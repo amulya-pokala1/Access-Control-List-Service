@@ -24,4 +24,6 @@ public interface UserDAO {
 	public List<User> getAllUsers();
 
 	public List<String> getAllUserNames();
+	
+	public List<Permission> getPermissionOfUser(int userId);
 }

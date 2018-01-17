@@ -24,6 +24,7 @@ public class AdminDAOImpl implements AdminDAO {
 				admin.getPassword(), admin.getDescription());
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + admin.getAdminId() + " into the admin table");
+			return false;
 		}
 		logger.info("inserted " + admin.getAdminId() + "into  admin successfully");
 		return true;
@@ -34,6 +35,7 @@ public class AdminDAOImpl implements AdminDAO {
 		int rowsAffected = jdbcTemplate.update(Query.DELETEADMIN, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't delete" + adminId + " from delete table");
+			return false;
 		}
 		logger.info("deleted " + adminId + "from admin table");
 		return true;

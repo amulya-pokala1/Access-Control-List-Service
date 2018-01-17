@@ -24,13 +24,6 @@
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
-	<bean id="dataSourceExample"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/EXAMPLE" />
-		<property name="username" value="root" />
-		<property name="password" value="root" />
-	</bean>
 	<bean id="UserDaoImpl" class="com.accolite.miniau.accesscontrol.dao.UserDAOImpl"
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
@@ -39,5 +32,13 @@
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<bean id="AdminDAOImpl" class="com.accolite.miniau.accesscontrol.dao.AdminDAOImpl"
+		autowire="byType">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="PermissionDAOImpl" class="com.accolite.miniau.accesscontrol.dao.PermissionDAOImpl"
+		autowire="byType">
+		<property name="dataSource" ref="dataSource" />
+	</bean> 
 	<mvc:annotation-driven />
 </beans>  
