@@ -109,4 +109,10 @@ public class GroupDAOImpl implements GroupDAO {
 		return true;
 	}
 
+	@Override
+	public boolean addUserToGroup(int groupId, int userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

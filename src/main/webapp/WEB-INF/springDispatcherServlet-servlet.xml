@@ -25,19 +25,19 @@
 		<property name="password" value="root" />
 	</bean>
 
-	<bean id="UserDaoImpl" class="com.accolite.miniau.accesscontrol.dao.UserDAOImpl"
+	<bean id="UserDaoImpl" class="com.accolite.miniau.accesscontrol.daoimpl.UserDAOImpl"
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<bean id="GroupDaoImpl" class="com.accolite.miniau.accesscontrol.dao.GroupDAOImpl"
+	<bean id="GroupDaoImpl" class="com.accolite.miniau.accesscontrol.daoimpl.GroupDAOImpl"
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<bean id="AdminDAOImpl" class="com.accolite.miniau.accesscontrol.dao.AdminDAOImpl"
+	<bean id="AdminDAOImpl" class="com.accolite.miniau.accesscontrol.daoimpl.AdminDAOImpl"
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<bean id="PermissionDAOImpl" class="com.accolite.miniau.accesscontrol.dao.PermissionDAOImpl"
+	<bean id="PermissionDAOImpl" class="com.accolite.miniau.accesscontrol.daoimpl.PermissionDAOImpl"
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
