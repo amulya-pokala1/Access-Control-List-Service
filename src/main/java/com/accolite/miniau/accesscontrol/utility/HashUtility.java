@@ -10,10 +10,10 @@ public class HashUtility {
 
 	private static Logger logger = Logger.getLogger(HashUtility.class);
 
-	/* IMPORTANT* DONT CHANGE THE SALT */
+	/* *IMPORTANT* DONT CHANGE THE SALT */
 	private static final String SALT = "dvnewofq0Q!i2i0320_2u4t34jgow@dsmv";
 	/* IMPORTANT* DONT CHANGE THE SALT */
-	
+
 	private HashUtility() {
 
 	}

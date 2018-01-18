@@ -24,7 +24,7 @@ public class GroupController {
 	GroupDAO groupDAO;
 
 	@PostMapping(value = "/api/group")
-	public void createNewGroup(Group group) {
+	public void createNewGroup(@RequestBody Group group) {
 		boolean isDone = groupDAO.addNewGroup(group);
 		if (!isDone) {
 			throw new CustomBadRequestException("Group already exist with same Group Name");
@@ -41,6 +41,7 @@ public class GroupController {
 		return groupDAO.getAllGroups();
 	}
 
+	// TODO change this .. user id is enough
 	@PutMapping(value = "/api/group/{groupId}")
 	public void addUserToGroup(@PathVariable int groupId, @RequestBody User user) {
 		boolean isDone = groupDAO.addUserToGroup(groupId, user);
@@ -49,6 +50,7 @@ public class GroupController {
 		}
 	}
 
+	// TODO review this as well .. not checked
 	@DeleteMapping(value = "/api/group/{groupId}/{userId}")
 	public void deleteUserFromGroup(@PathVariable int groupId, @PathVariable int userId) {
 		boolean isDone = groupDAO.removeUserFromGroup(groupId, userId);
@@ -57,6 +59,7 @@ public class GroupController {
 		}
 	}
 
+	// TODO review this also .. impl needs some changes
 	@DeleteMapping(value = "/api/group/{groupId}")
 	public void deleteGroup(@PathVariable int groupId) {
 		boolean isDone = groupDAO.deleteGroup(groupId);

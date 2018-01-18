@@ -3,7 +3,7 @@ package com.accolite.miniau.accesscontrol.controllers;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,16 +32,14 @@ public class AdminController {
 		if (!isDone) {
 			throw new CustomBadRequestException("Admin already exist with same Admin Name");
 		}
-
 	}
 
-	@GetMapping(value = "/api/admin/{adminId}")
+	@DeleteMapping(value = "/api/admin/{adminId}")
 	public void deleteAdmin(@PathVariable int adminId) {
 		boolean isDone = adminDAO.deleteAdmin(adminId);
 		if (!isDone) {
 			throw new CustomNotFoundException("Admin " + adminId + " not found!");
 		}
-
 	}
 
 	@PutMapping(value = "/api/admin/changePassword")
