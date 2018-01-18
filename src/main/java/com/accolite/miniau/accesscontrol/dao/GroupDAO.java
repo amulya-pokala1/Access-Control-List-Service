@@ -23,7 +23,7 @@ public interface GroupDAO {
 
 	public List<User> getUsersInGroup(int groupId);
 
-	public boolean addUserToGroup(int groupId, User user);
+	public boolean addUserToGroup(int groupId, int userId);
 
 	public boolean removeUserFromGroup(int groupId, int userId);
 

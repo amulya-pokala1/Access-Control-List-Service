@@ -41,10 +41,9 @@ public class GroupController {
 		return groupDAO.getAllGroups();
 	}
 
-	// TODO change this .. user id is enough
-	@PutMapping(value = "/api/group/{groupId}")
-	public void addUserToGroup(@PathVariable int groupId, @RequestBody User user) {
-		boolean isDone = groupDAO.addUserToGroup(groupId, user);
+	@PutMapping(value = "/api/group/{groupId}/{userId}")
+	public void addUserToGroup(@PathVariable int groupId, @PathVariable int userId) {
+		boolean isDone = groupDAO.addUserToGroup(groupId, userId);
 		if (!isDone) {
 			throw new CustomBadRequestException("User Already exsist in Group");
 		}
@@ -66,6 +65,10 @@ public class GroupController {
 		if (!isDone) {
 			throw new CustomNotFoundException("Cannot Delete! Group doesn't Exsist.");
 		}
+	}
 
+	@GetMapping(value = "/api/group/{groupId}/users")
+	public List<User> getUsersFromGroup(@PathVariable int groupId) {
+		return groupDAO.getUsersInGroup(groupId);
 	}
 }
