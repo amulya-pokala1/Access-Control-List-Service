@@ -2,22 +2,25 @@ package com.accolite.miniau.accesscontrol.model;
 
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Length;
+
+import com.accolite.miniau.accesscontrol.utility.RegexExpression;
+
 public class Admin {
 
 	private int adminId;
-	private String adminName;
-	private String password;
-	private String description;
-	private String mailId;
 
-	public Admin(int adminId, String adminName, String password, String description, String mailId) {
-		super();
-		this.adminId = adminId;
-		this.adminName = adminName;
-		this.password = password;
-		this.description = description;
-		this.mailId = mailId;
-	}
+	@Length(max = 45)
+	private String adminName;
+
+	@Length(min = 8, max = 25)
+	private String password;
+
+	@Length(max = 100)
+	private String description;
+
+	@Pattern(regexp = RegexExpression.EMAIL)
+	private String mailId;
 
 	public Admin() {
 

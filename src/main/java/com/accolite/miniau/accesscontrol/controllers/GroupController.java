@@ -2,7 +2,10 @@ package com.accolite.miniau.accesscontrol.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +27,10 @@ public class GroupController {
 	GroupDAO groupDAO;
 
 	@PostMapping(value = "/api/group")
-	public void createNewGroup(@RequestBody Group group) {
+	public void createNewGroup(@RequestBody @Valid Group group, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new CustomBadRequestException("Invalid Details!");
+		}
 		boolean isDone = groupDAO.addNewGroup(group);
 		if (!isDone) {
 			throw new CustomBadRequestException("Group already exist with same Group Name");

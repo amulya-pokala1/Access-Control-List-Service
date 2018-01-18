@@ -1,9 +1,13 @@
 package com.accolite.miniau.accesscontrol.model;
 
+import org.hibernate.validator.constraints.Length;
+
 public class Permission {
 
 	int permissionId;
+	@Length(max = 30)
 	String permissionName;
+	@Length(max = 100)
 	String permissionDescription;
 	boolean mandatory;
 

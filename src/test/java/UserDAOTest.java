@@ -45,7 +45,5 @@ public class UserDAOTest {
 		User user = userdao.getUser(11);
 		logger.info("" + user.getUserId() + " " + user.getUserName());
 	}
-	
-	@Test
-	
+		
 }

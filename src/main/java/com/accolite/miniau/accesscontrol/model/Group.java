@@ -2,23 +2,23 @@ package com.accolite.miniau.accesscontrol.model;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
+
 public class Group {
 
 	private int groupId;
+
+	@Length(max = 100)
 	private String groupName;
+
+	@Length(max = 250)
+	private String groupDescription;
+
 	private List<Permission> permissions;
 	private List<User> users;
-	private String groupDescription;
 
 	public Group() {
 		super();
-	}
-
-	public Group(int groupId, String groupName, String groupDescription) {
-		super();
-		this.groupId = groupId;
-		this.groupName = groupName;
-		this.groupDescription = groupDescription;
 	}
 
 	public int getGroupId() {

@@ -16,6 +16,8 @@ import com.accolite.miniau.accesscontrol.utility.Query;
 import com.accolite.miniau.accesscontrol.utility.UriUtility;
 
 public class AdminDAOImpl implements AdminDAO {
+	
+	private static final Logger logger = Logger.getLogger(AdminDAOImpl.class);
 
 	@Autowired
 	private MailUtility mailUtil;
@@ -23,7 +25,6 @@ public class AdminDAOImpl implements AdminDAO {
 	private UriUtility uriUtil;
 
 	private JdbcTemplate jdbcTemplate;
-	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.daoimpl.AdminDAOImpl.class);
 
 	@Override
 	public boolean createAdmin(Admin admin) {

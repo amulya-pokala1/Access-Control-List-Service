@@ -2,13 +2,22 @@ package com.accolite.miniau.accesscontrol.model;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
+
 public class User {
 
 	private int userId;
+
+	@Length(max = 45)
 	private String userName;
-	private String password;
-	private List<Permission> permissions;
+
+	@Length(max = 200)
 	private String mailId;
+
+	@Length(min = 8, max = 25)
+	private String password;
+
+	private List<Permission> permissions;
 
 	public User() {
 

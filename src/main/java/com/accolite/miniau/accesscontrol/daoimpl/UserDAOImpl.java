@@ -25,6 +25,8 @@ import com.accolite.miniau.accesscontrol.utility.UriUtility;
 
 public class UserDAOImpl implements UserDAO {
 
+	private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
+
 	@Autowired
 	UriUtility uriUtil;
 
@@ -32,7 +34,6 @@ public class UserDAOImpl implements UserDAO {
 	MailUtility mailUtil;
 
 	private JdbcTemplate jdbcTemplate;
-	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.daoimpl.UserDAOImpl.class);
 
 	@Override
 	public boolean addNewUser(User user) {

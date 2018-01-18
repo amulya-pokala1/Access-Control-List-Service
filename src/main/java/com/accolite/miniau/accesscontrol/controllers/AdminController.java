@@ -2,7 +2,10 @@ package com.accolite.miniau.accesscontrol.controllers;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +29,11 @@ public class AdminController {
 	MailUtility mailUtility;
 
 	@PostMapping(value = "/api/admin")
-	public void addNewAdmin(@RequestBody Admin admin) {
+	public void addNewAdmin(@RequestBody @Valid Admin admin, BindingResult bindingResult) {
 
+		if (bindingResult.hasErrors()) {
+			throw new CustomBadRequestException("Invalid details.\n");
+		}
 		boolean isDone = adminDAO.createAdmin(admin);
 		if (!isDone) {
 			throw new CustomBadRequestException("Admin already exist with same Admin Name");

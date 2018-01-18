@@ -2,7 +2,10 @@ package com.accolite.miniau.accesscontrol.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +25,10 @@ public class UserController {
 	UserDAO userDAO;
 
 	@PostMapping(value = "/api/user")
-	public void addUser(@RequestBody User user) {
+	public void addUser(@RequestBody @Valid User user, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new CustomBadRequestException("Invalid Details!");
+		}
 		boolean isDone = userDAO.addNewUser(user);
 		if (!isDone) {
 			throw new CustomBadRequestException("User Already exsist!");
@@ -50,12 +56,12 @@ public class UserController {
 
 	@PostMapping(value = "/api/user/updatePassword/{uri}/")
 	public void updatePassword(@PathVariable String uri, @RequestBody User user) {
-		
+
 		int adminId = userDAO.getUserIdFromURI(uri);
 		boolean isDone = userDAO.updatePassword(adminId, user.getPassword());
-		if(!isDone) {
-			
+		if (!isDone) {
+
 		}
-		//delete the uri 
+		// delete the uri
 	}
 }

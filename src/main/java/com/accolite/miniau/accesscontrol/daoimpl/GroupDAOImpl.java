@@ -16,10 +16,10 @@ import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.Query;
 
 public class GroupDAOImpl implements GroupDAO {
-	
+
+	private static final Logger logger = Logger.getLogger(GroupDAOImpl.class);
+
 	private JdbcTemplate jdbcTemplate;
-	
-	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.daoimpl.GroupDAOImpl.class);
 
 	@Override
 	public boolean addNewGroup(Group group) {
@@ -85,12 +85,9 @@ public class GroupDAOImpl implements GroupDAO {
 
 	@Override
 	public boolean deleteGroup(int groupId) {
-		// todo on delete cascade
 		String query = "DELETE FROM ACL.GROUP WHERE GROUPID=?";
-		String query1 = "DELETE FROM ACL.USER_GROUP WHERE GROUPID=?";
 		logger.info("deleting the group from the tables group, user_group");
 		int rowsAffected = jdbcTemplate.update(query, groupId);
-		jdbcTemplate.update(query1, groupId);
 		if (rowsAffected == 0) {
 			logger.info("failed to delete group" + groupId);
 			return false;
