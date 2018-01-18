@@ -16,7 +16,7 @@ public class DefinedExceptionHandler {
 
 	@ExceptionHandler(CustomNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public String notFount(Exception e) {
+	public String notFound(Exception e) {
 		logger.warn("Invalid URL PATH", e);
 		return e.toString();
 	}
