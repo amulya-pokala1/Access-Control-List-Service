@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 
 package com.accolite.miniau.accesscontrol.daoimpl;
 
@@ -23,18 +26,29 @@ import com.accolite.miniau.accesscontrol.utility.MailUtility;
 import com.accolite.miniau.accesscontrol.utility.Query;
 import com.accolite.miniau.accesscontrol.utility.UriUtility;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserDAOImpl.
+ */
 public class UserDAOImpl implements UserDAO {
 
+	/** The Constant logger. */
 	private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
+	/** The uri util. */
 	@Autowired
 	UriUtility uriUtil;
 
+	/** The mail util. */
 	@Autowired
 	MailUtility mailUtil;
 
+	/** The jdbc template. */
 	private JdbcTemplate jdbcTemplate;
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#addNewUser(com.accolite.miniau.accesscontrol.model.User)
+	 */
 	@Override
 	public boolean addNewUser(User user) {
 
@@ -54,6 +68,9 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getUser(int)
+	 */
 	@Override
 	public User getUser(int userId) {
 
@@ -65,6 +82,9 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#deleteUser(int)
+	 */
 	@Override
 	public boolean deleteUser(int userId) {
 		int rowsAffected = jdbcTemplate.update(Query.DELETEUSER, userId);
@@ -76,6 +96,9 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getAllUsers()
+	 */
 	@Override
 	public List<User> getAllUsers() {
 
@@ -84,6 +107,9 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#setDataSource(javax.sql.DataSource)
+	 */
 	@Override
 	public void setDataSource(DataSource dataSource) {
 
@@ -91,6 +117,9 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getAllUserNames()
+	 */
 	@Override
 	public List<String> getAllUserNames() {
 		logger.info("performing get all usernames operation");
@@ -98,6 +127,9 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#addPermissionToUser(int, int)
+	 */
 	@Override
 	public boolean addPermissionToUser(int userId, int permissionId) {
 		// TODO--review on update--exception
@@ -110,6 +142,9 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#removePermissionFromUser(int, int)
+	 */
 	@Override
 	public boolean removePermissionFromUser(int userId, int permissionId) {
 		int rowsAffected = jdbcTemplate.update(Query.REMOVEPERMISSIONFROMUSER, userId, permissionId);
@@ -121,12 +156,18 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getPermissionOfUser(int)
+	 */
 	@Override
 	public List<Permission> getPermissionOfUser(int userId) {
 		return jdbcTemplate.query(Query.GETUSERPERMISSIONS, new Object[] { userId }, new PermissionMapper());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#updatePassword(int, java.lang.String)
+	 */
 	@Override
 	public boolean updatePassword(int userId, String password) {
 		int rowsAffected = jdbcTemplate.update(Query.UPDATEPASSWORD, password, userId);
@@ -139,6 +180,9 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#validateUser(com.accolite.miniau.accesscontrol.model.User)
+	 */
 	@Override
 	public int validateUser(User user) {
 		String sql = "";
@@ -146,6 +190,9 @@ public class UserDAOImpl implements UserDAO {
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getUserIdFromURI(java.lang.String)
+	 */
 	@Override
 	public Integer getUserIdFromURI(String uri) {
 		String sql = "SELECT USER_ID FROM USER_PASSWORD_URI WHERE URI=?";
@@ -158,6 +205,9 @@ public class UserDAOImpl implements UserDAO {
 		return userId;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getUserIdUsingEmail(java.lang.String)
+	 */
 	@Override
 	public Integer getUserIdUsingEmail(String email) {
 		String sql = "SELECT USER_ID FROM ADMIN WHERE MAIL_ID = ?";
@@ -170,6 +220,9 @@ public class UserDAOImpl implements UserDAO {
 		return userId;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#sendPasswordLink(java.lang.String)
+	 */
 	@Override
 	@Async
 	public void sendPasswordLink(String email) {

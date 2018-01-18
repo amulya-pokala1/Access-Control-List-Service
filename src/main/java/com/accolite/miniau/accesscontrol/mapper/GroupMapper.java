@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.accolite.miniau.accesscontrol.mapper;
 
 import java.sql.ResultSet;
@@ -8,10 +11,19 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.accolite.miniau.accesscontrol.model.Group;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GroupMapper.
+ */
 public class GroupMapper implements RowMapper<Group> {
 
+	/** The logger. */
 	private static Logger logger = Logger.getLogger(GroupMapper.class);
 
+	/* (non-Javadoc)
+	 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
+	 */
+	@Override
 	public Group mapRow(ResultSet rs, int rowNum) {
 		Group group = new Group();
 		try {
