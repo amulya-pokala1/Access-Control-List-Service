@@ -12,7 +12,6 @@ public class PermissionMapper implements RowMapper<Permission> {
 
 	private static Logger logger = Logger.getLogger(PermissionMapper.class);
 
-	@Override
 	public Permission mapRow(ResultSet rs, int rowNum) {
 		Permission permission = new Permission();
 		try {
