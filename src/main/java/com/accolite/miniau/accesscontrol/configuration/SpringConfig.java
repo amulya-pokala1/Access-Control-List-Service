@@ -12,8 +12,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 public class SpringConfig {
 
 	@Bean(name = "threadPoolTaskExecutor")
-    public Executor threadPoolTaskExecutor() {
-        return new ThreadPoolTaskExecutor();
-    }
-	
+	public Executor threadPoolTaskExecutor() {
+		return new ThreadPoolTaskExecutor();
+	}
+
 }

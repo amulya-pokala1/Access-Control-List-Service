@@ -12,6 +12,7 @@ public class UserMapper implements RowMapper<User> {
 
 	private static Logger logger = Logger.getLogger(UserMapper.class);
 
+	@Override
 	public User mapRow(ResultSet rs, int rowNum) {
 		User user = new User();
 		try {

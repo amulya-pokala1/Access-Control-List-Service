@@ -12,6 +12,7 @@ public class GroupMapper implements RowMapper<Group> {
 
 	private static Logger logger = Logger.getLogger(GroupMapper.class);
 
+	@Override
 	public Group mapRow(ResultSet rs, int rowNum) {
 		Group group = new Group();
 		try {

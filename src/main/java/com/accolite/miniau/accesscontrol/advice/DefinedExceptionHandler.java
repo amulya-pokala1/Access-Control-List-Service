@@ -24,7 +24,7 @@ public class DefinedExceptionHandler {
 	@ExceptionHandler(CustomBadRequestException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public String badRequest(CustomBadRequestException e) {
-		logger.warn("Bad Request ",e);
+		logger.warn("Bad Request ", e);
 		return e.toString();
 	}
 }
