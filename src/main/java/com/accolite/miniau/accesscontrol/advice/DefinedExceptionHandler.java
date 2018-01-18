@@ -27,4 +27,11 @@ public class DefinedExceptionHandler {
 		logger.warn("Bad Request ", e);
 		return e.toString();
 	}
+
+	@ExceptionHandler(CustomBadRequestException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public String unAuthorized(CustomBadRequestException e) {
+		logger.warn("UnAuthorized user ", e);
+		return e.toString();
+	}
 }

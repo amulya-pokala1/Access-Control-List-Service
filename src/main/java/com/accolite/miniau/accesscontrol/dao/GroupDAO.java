@@ -28,4 +28,5 @@ public interface GroupDAO {
 	public boolean removeUserFromGroup(int groupId, int userId);
 
 	public boolean deleteGroup(int groupId);
+
 }

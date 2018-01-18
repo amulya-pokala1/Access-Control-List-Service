@@ -13,4 +13,10 @@ public interface AdminDAO {
 
 	public void setDataSource(DataSource dataSource);
 
+	public Integer getAdminIdFromURI(String uri);
+
+	public Integer getAdminIdUsingEmail(String email);
+
+	public void sendPasswordLink(String email);
+
 }

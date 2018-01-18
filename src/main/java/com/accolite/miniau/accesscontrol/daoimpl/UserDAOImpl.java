@@ -6,18 +6,30 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Async;
 
 import com.accolite.miniau.accesscontrol.dao.UserDAO;
+import com.accolite.miniau.accesscontrol.enums.UserType;
 import com.accolite.miniau.accesscontrol.mapper.PermissionMapper;
 import com.accolite.miniau.accesscontrol.mapper.UserMapper;
 import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
+import com.accolite.miniau.accesscontrol.utility.HashUtility;
+import com.accolite.miniau.accesscontrol.utility.MailUtility;
 import com.accolite.miniau.accesscontrol.utility.Query;
+import com.accolite.miniau.accesscontrol.utility.UriUtility;
 
 public class UserDAOImpl implements UserDAO {
+
+	@Autowired
+	UriUtility uriUtil;
+
+	@Autowired
+	MailUtility mailUtil;
 
 	private JdbcTemplate jdbcTemplate;
 	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.daoimpl.UserDAOImpl.class);
@@ -35,7 +47,6 @@ public class UserDAOImpl implements UserDAO {
 		}
 		if (rowsAffected == 0) {
 			logger.error("couldn't insert" + user.getUserName() + " into the user table");
-
 			return false;
 		}
 		logger.info("inserted " + user.getUserId() + "into user table successfully");
@@ -125,6 +136,50 @@ public class UserDAOImpl implements UserDAO {
 		logger.info("successfully updated password for user" + userId);
 		return true;
 
+	}
+
+	@Override
+	public int validateUser(User user) {
+		String sql = "";
+		// TODO
+		return 0;
+	}
+
+	@Override
+	public Integer getUserIdFromURI(String uri) {
+		String sql = "SELECT USER_ID FROM USER_PASSWORD_URI WHERE URI=?";
+		Integer userId;
+		try {
+			userId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
+		} catch (Exception e) {
+			userId = 0;
+		}
+		return userId;
+	}
+
+	@Override
+	public Integer getUserIdUsingEmail(String email) {
+		String sql = "SELECT USER_ID FROM ADMIN WHERE MAIL_ID = ?";
+		Integer userId;
+		try {
+			userId = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
+		} catch (Exception e) {
+			userId = 0;
+		}
+		return userId;
+	}
+
+	@Override
+	@Async
+	public void sendPasswordLink(String email) {
+		Integer adminId = getUserIdUsingEmail(email);
+		String uri = HashUtility.createUniqueUriPath(adminId, email);
+		boolean isStored = uriUtil.createURI(adminId, uri, UserType.USER);
+		if (isStored) {
+			String link = null; // TODO complete this link
+			mailUtil.sendEmailAsync(email, "Update Password",
+					"Hi,\nPlease update your password using the below link\n" + link);
+		}
 	}
 
 }

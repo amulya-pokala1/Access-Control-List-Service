@@ -28,4 +28,13 @@ public interface UserDAO {
 	public List<String> getAllUserNames();
 
 	public List<Permission> getPermissionOfUser(int userId);
+
+	public int validateUser(User user);
+
+	public Integer getUserIdFromURI(String uri);
+
+	public Integer getUserIdUsingEmail(String email);
+
+	public void sendPasswordLink(String email);
+
 }

@@ -16,7 +16,9 @@ import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.Query;
 
 public class GroupDAOImpl implements GroupDAO {
+	
 	private JdbcTemplate jdbcTemplate;
+	
 	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.daoimpl.GroupDAOImpl.class);
 
 	@Override

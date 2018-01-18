@@ -27,6 +27,7 @@ public class UserController {
 		if (!isDone) {
 			throw new CustomBadRequestException("User Already exsist!");
 		}
+		userDAO.sendPasswordLink(user.getMailId());
 	}
 
 	@GetMapping(value = "/api/user/{userId}")
@@ -47,4 +48,14 @@ public class UserController {
 		return userDAO.getAllUsers();
 	}
 
+	@PostMapping(value = "/api/user/updatePassword/{uri}/")
+	public void updatePassword(@PathVariable String uri, @RequestBody User user) {
+		
+		int adminId = userDAO.getUserIdFromURI(uri);
+		boolean isDone = userDAO.updatePassword(adminId, user.getPassword());
+		if(!isDone) {
+			
+		}
+		//delete the uri 
+	}
 }

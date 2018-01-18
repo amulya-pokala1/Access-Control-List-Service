@@ -6,10 +6,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedException;
 import com.accolite.miniau.accesscontrol.dao.UserDAO;
-import com.accolite.miniau.accesscontrol.model.Permission;
+import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.MailUtility;
 
 @RestController
@@ -23,15 +26,16 @@ public class AclController {
 
 	private static Logger logger = Logger.getLogger(AclController.class);
 
-	@GetMapping(value = "/ACL/{userId}")
-	public List<Permission> isAuthenticated(@PathVariable int userId) {
+	@PostMapping(value = "/ACL/")
+	public User isAuthenticated(@RequestBody User user) {
 
-		logger.info("Request for " + userId);
-		// if user is available
-		// if password match .. send permissions
-		// else throw not CustomNotFoundException
-		// TODO complete this method
-		return null;
+		logger.info("Incoming Request for " + user.getMailId());
+		int id = userDAO.validateUser(user);
+		if (id == 0) {
+			throw new CustomUnAuthorizedException("User not authorized!");
+		}
+		user.setPermissions(userDAO.getPermissionOfUser(id));
+		return user;
 	}
 
 	@GetMapping("test")

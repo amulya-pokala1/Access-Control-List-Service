@@ -32,6 +32,7 @@ public class AdminController {
 		if (!isDone) {
 			throw new CustomBadRequestException("Admin already exist with same Admin Name");
 		}
+		adminDAO.sendPasswordLink(admin.getMailId());
 	}
 
 	@DeleteMapping(value = "/api/admin/{adminId}")

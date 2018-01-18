@@ -1,6 +1,9 @@
 package com.accolite.miniau.accesscontrol.model;
 
+import javax.validation.constraints.Pattern;
+
 public class Admin {
+
 	private int adminId;
 	private String adminName;
 	private String password;
