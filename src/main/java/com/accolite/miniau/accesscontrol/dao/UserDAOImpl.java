@@ -1,17 +1,16 @@
 
 package com.accolite.miniau.accesscontrol.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.accolite.miniau.accesscontrol.mapper.PermissionMapper;
 import com.accolite.miniau.accesscontrol.mapper.UserMapper;
 import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
@@ -21,10 +20,6 @@ public class UserDAOImpl implements UserDAO {
 
 	private JdbcTemplate jdbcTemplate;
 	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.dao.UserDAOImpl.class);
-
-	public UserDAOImpl() {
-		BasicConfigurator.configure();
-	}
 
 	public boolean addNewUser(User user) {
 
@@ -75,7 +70,6 @@ public class UserDAOImpl implements UserDAO {
 	public void setDataSource(DataSource dataSource) {
 
 		jdbcTemplate = new JdbcTemplate(dataSource);
-		logger.info("setup of the datasource is successful");
 
 	}
 
@@ -106,16 +100,20 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
-	@Override
 	public List<Permission> getPermissionOfUser(int userId) {
-		// TODO Auto-generated method stub
-		return new ArrayList<Permission>();
+		return jdbcTemplate.query(Query.GETUSERPERMISSIONS, new Object[] { userId }, new PermissionMapper());
+
 	}
 
-	@Override
 	public boolean updatePassword(int userId, String password) {
-		// TODO Auto-generated method stub
-		return false;
+		int rowsAffected = jdbcTemplate.update(Query.UPDATEPASSWORD, password, userId);
+		if (rowsAffected == 0) {
+			logger.info("failed to update passsword for user" + userId);
+			return false;
+		}
+		logger.info("successfully updated password for user" + userId);
+		return true;
+
 	}
 
 }

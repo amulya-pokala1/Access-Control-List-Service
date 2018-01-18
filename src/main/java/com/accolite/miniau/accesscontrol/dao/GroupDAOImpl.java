@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -18,10 +17,6 @@ import com.accolite.miniau.accesscontrol.utility.Query;
 public class GroupDAOImpl implements GroupDAO {
 	private JdbcTemplate jdbcTemplate;
 	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.dao.GroupDAOImpl.class);
-
-	public GroupDAOImpl() {
-		BasicConfigurator.configure();
-	}
 
 	public boolean addNewGroup(Group group) {
 
@@ -96,7 +91,6 @@ public class GroupDAOImpl implements GroupDAO {
 
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
-		logger.info("setting the data source has been successful");
 
 	}
 
