@@ -97,14 +97,14 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
-		String sql = "SELECT USER_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
-		Integer userId;
+		String sql = "SELECT ADMIN_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
+		Integer adminId;
 		try {
-			userId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
+			adminId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
-			userId = 0;
+			adminId = 0;
 		}
-		return userId;
+		return adminId;
 	}
 
 	/* (non-Javadoc)
