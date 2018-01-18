@@ -2,7 +2,6 @@ package com.accolite.miniau.accesscontrol.dao;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -13,10 +12,6 @@ public class AdminDAOImpl implements AdminDAO {
 
 	private JdbcTemplate jdbcTemplate;
 	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.dao.AdminDAOImpl.class);
-
-	public AdminDAOImpl() {
-		BasicConfigurator.configure();
-	}
 
 	public boolean createAdmin(Admin admin) {
 
@@ -53,7 +48,6 @@ public class AdminDAOImpl implements AdminDAO {
 
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
-		logger.info("setting the data source has been successful");
 
 	}
 }
