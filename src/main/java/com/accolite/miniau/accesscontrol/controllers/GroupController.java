@@ -23,7 +23,6 @@ import com.accolite.miniau.accesscontrol.dao.GroupDAO;
 import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GroupController.
  */
@@ -97,7 +96,6 @@ public class GroupController {
 	 * @param userId
 	 *            the user id
 	 */
-	// TODO review this as well .. not checked
 	@DeleteMapping(value = "/api/group/{groupId}/{userId}")
 	public void deleteUserFromGroup(@PathVariable int groupId, @PathVariable int userId) {
 		boolean isDone = groupDAO.removeUserFromGroup(groupId, userId);
@@ -112,7 +110,6 @@ public class GroupController {
 	 * @param groupId
 	 *            the group id
 	 */
-	// TODO review this also .. impl needs some changes
 	@DeleteMapping(value = "/api/group/{groupId}")
 	public void deleteGroup(@PathVariable int groupId) {
 		boolean isDone = groupDAO.deleteGroup(groupId);
@@ -131,5 +128,20 @@ public class GroupController {
 	@GetMapping(value = "/api/group/{groupId}/users")
 	public List<User> getUsersFromGroup(@PathVariable int groupId) {
 		return groupDAO.getUsersInGroup(groupId);
+	}
+
+	@GetMapping(value = "/api/group/{groupId}/usersExceptInGroup")
+	public List<User> getUsersNotINGroup(@PathVariable int groupId) {
+		return groupDAO.getUsersNotInGroup(groupId);
+	}
+
+	@PutMapping("/api/group/{groupId}/{permissionId}")
+	public void addPermissionToGroup(@PathVariable int groupId, @PathVariable int permissionId) {
+		groupDAO.addPermission(groupId, permissionId);
+	}
+
+	@DeleteMapping("/api/group/{groupId}/{permissionId}")
+	public void removePermissionFromGroup(@PathVariable int groupId, @PathVariable int permissionId) {
+		groupDAO.removePermission(groupId, permissionId);
 	}
 }

@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface GroupDAO.
  */
@@ -108,5 +107,7 @@ public interface GroupDAO {
 	 * @return true, if successful
 	 */
 	public boolean deleteGroup(int groupId);
+
+	public List<User> getUsersNotInGroup(int groupId);
 
 }

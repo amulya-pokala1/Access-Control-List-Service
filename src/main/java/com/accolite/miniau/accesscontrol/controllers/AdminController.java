@@ -3,17 +3,19 @@
  */
 package com.accolite.miniau.accesscontrol.controllers;
 
-import java.util.Map;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,6 @@ import com.accolite.miniau.accesscontrol.dao.AdminDAO;
 import com.accolite.miniau.accesscontrol.model.Admin;
 import com.accolite.miniau.accesscontrol.utility.MailUtility;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AdminController.
  */
@@ -46,9 +47,11 @@ public class AdminController {
 	 *            the admin
 	 * @param bindingResult
 	 *            the binding result
+	 * @throws UnknownHostException
 	 */
 	@PostMapping(value = "/api/admin")
-	public void addNewAdmin(@RequestBody @Valid Admin admin, BindingResult bindingResult, HttpSession session) {
+	public void addNewAdmin(@RequestBody @Valid Admin admin, BindingResult bindingResult, HttpSession session,
+			HttpServletRequest request) throws UnknownHostException {
 
 		if (session.getAttribute("adminId") == null)
 			throw new CustomUnAuthorizedException("Please login to perform this task!");
@@ -59,7 +62,8 @@ public class AdminController {
 		if (!isDone) {
 			throw new CustomBadRequestException("Admin already exist with same Admin Name");
 		}
-		adminDAO.sendPasswordLink(admin.getMailId());
+		adminDAO.sendPasswordLink(admin.getMailId(), InetAddress.getLocalHost().getHostAddress(),
+				request.getLocalPort());
 	}
 
 	/**
@@ -78,14 +82,8 @@ public class AdminController {
 		}
 	}
 
-	/**
-	 * Change password for admin.
-	 *
-	 * @param reqBody
-	 *            the req body
-	 */
-	@PutMapping(value = "/api/admin/changePassword")
-	public void changePasswordForAdmin(@RequestBody Map<String, String> reqBody) {
-		// TODO complete this method after abishek complets the UI part
+	@GetMapping(value = "/api/admins")
+	public void getAllAdmins() {
+		// TODO
 	}
 }

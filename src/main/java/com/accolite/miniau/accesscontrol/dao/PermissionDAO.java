@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import com.accolite.miniau.accesscontrol.model.Permission;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface PermissionDAO.
  */

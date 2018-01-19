@@ -7,9 +7,8 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.accolite.miniau.accesscontrol.utility.RegexExpression;
+import com.accolite.miniau.accesscontrol.utility.StringLiteral;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Admin.
  */
@@ -31,7 +30,7 @@ public class Admin {
 	private String description;
 
 	/** The mail id. */
-	@Pattern(regexp = RegexExpression.EMAIL)
+	@Pattern(regexp = StringLiteral.EMAIL)
 	private String mailId;
 
 	/**

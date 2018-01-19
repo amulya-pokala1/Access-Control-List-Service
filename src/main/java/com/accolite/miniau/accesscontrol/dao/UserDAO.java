@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface UserDAO.
  */
@@ -82,7 +81,7 @@ public interface UserDAO {
 	 *            the password
 	 * @return true, if successful
 	 */
-	public boolean updatePassword(int adminId, String password);
+	public boolean updatePassword(String uri, String password);
 
 	/**
 	 * Gets the all users.
@@ -140,6 +139,6 @@ public interface UserDAO {
 	 * @param email
 	 *            the email
 	 */
-	public void sendPasswordLink(String email);
+	public void sendPasswordLink(String email, String ip, int port);
 
 }

@@ -19,7 +19,6 @@ import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.Query;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GroupDAOImpl.
  */
@@ -141,8 +140,8 @@ public class GroupDAOImpl implements GroupDAO {
 	 */
 	@Override
 	public boolean deleteGroup(int groupId) {
-		String query = "DELETE FROM ACL.GROUP WHERE GROUP_ID=?";
 		logger.info("deleting the group from the tables group, user_group");
+		String query = "DELETE FROM ACL.GROUP WHERE GROUPID=?";
 		int rowsAffected = jdbcTemplate.update(query, groupId);
 		if (rowsAffected == 0) {
 			logger.info("failed to delete group" + groupId);
@@ -200,6 +199,12 @@ public class GroupDAOImpl implements GroupDAO {
 		}
 		logger.info("successfully deleted permission " + permissionId + "from group" + groupId);
 		return true;
+	}
+
+	@Override
+	public List<User> getUsersNotInGroup(int groupId) {
+		String sql = "SELECT * FROM USERS WHERE USER_ID NOT IN (SELECT USER_ID FROM USER_GROUP WHERE GROUP_ID=?";
+		return jdbcTemplate.query(sql, new Object[] { groupId }, new UserMapper());
 	}
 
 }

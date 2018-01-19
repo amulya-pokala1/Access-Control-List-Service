@@ -3,7 +3,6 @@
  */
 package com.accolite.miniau.accesscontrol.customexception;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CustomNotFoundException.
  */

@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class User.
  */

@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 
 import com.accolite.miniau.accesscontrol.model.Admin;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface AdminDAO.
  */
@@ -40,7 +39,7 @@ public interface AdminDAO {
 	 *            the password
 	 * @return true, if successful
 	 */
-	public boolean updatePassword(int adminId, String password);
+	public boolean updatePassword(String uri, String password);
 
 	/**
 	 * Sets the data source.
@@ -74,6 +73,10 @@ public interface AdminDAO {
 	 * @param email
 	 *            the email
 	 */
-	public void sendPasswordLink(String email);
+	public void sendPasswordLink(String email, String ip, int port);
+
+	public String getAdminName(int adminId);
+
+	public Integer authenticate(Admin admin);
 
 }

@@ -5,7 +5,6 @@ package com.accolite.miniau.accesscontrol.model;
 
 import org.hibernate.validator.constraints.Length;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Permission.
  */

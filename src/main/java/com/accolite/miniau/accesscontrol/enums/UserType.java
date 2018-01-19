@@ -3,7 +3,6 @@
  */
 package com.accolite.miniau.accesscontrol.enums;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum UserType.
  */

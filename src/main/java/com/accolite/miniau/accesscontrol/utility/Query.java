@@ -3,7 +3,6 @@
  */
 package com.accolite.miniau.accesscontrol.utility;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Query.
  */
@@ -76,7 +75,9 @@ public class Query {
 
 	/** The Constant DELETEUSER. */
 	public static final String DELETEUSER = "DELETE FROM USER WHERE USER_ID=?";
-	public static final String ADDPERMISSIONTOUSER = "INSERT INTO USER_PERMISSION(USER_ID, PERMISSION_ID) VALUES(?,?)";
+
+	/** The Constant ADDPERMISSIONTOUSER. */
+	public static final String ADDPERMISSIONTOUSER = "INSERT INTO GROUP_PERMISSION(USER_ID, PERMISSION_ID) VALUES(?,?)";
 
 	/** The Constant REMOVEPERMISSIONFROMUSER. */
 	public static final String REMOVEPERMISSIONFROMUSER = "DELETE FROM USER_PERMISSION WHERE USER_ID=? AND PERMISSION_ID=?";

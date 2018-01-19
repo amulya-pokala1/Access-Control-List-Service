@@ -27,7 +27,6 @@ import com.accolite.miniau.accesscontrol.utility.MailUtility;
 import com.accolite.miniau.accesscontrol.utility.Query;
 import com.accolite.miniau.accesscontrol.utility.UriUtility;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserDAOImpl.
  */
@@ -201,12 +200,14 @@ public class UserDAOImpl implements UserDAO {
 	 * java.lang.String)
 	 */
 	@Override
-	public boolean updatePassword(int userId, String password) {
+	public boolean updatePassword(String uri, String password) {
+		int userId = getUserIdFromURI(uri);
 		int rowsAffected = jdbcTemplate.update(Query.UPDATEPASSKEY, password, userId);
 		if (rowsAffected == 0) {
 			logger.info("failed to update passsword for user" + userId);
 			return false;
 		}
+		uriUtil.deleteURI(uri, UserType.USER);
 		logger.info("successfully updated password for user" + userId);
 		return true;
 
@@ -221,7 +222,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public int validateUser(User user) {
 		String sql = "";
-		// TODO
+		// TODO for ACL controller
 		return 0;
 	}
 
@@ -272,15 +273,12 @@ public class UserDAOImpl implements UserDAO {
 	 */
 	@Override
 	@Async
-	public void sendPasswordLink(String email) {
-		Integer adminId = getUserIdUsingEmail(email);
-		String uri = HashUtility.createUniqueUriPath(adminId, email);
-		boolean isStored = uriUtil.createURI(adminId, uri, UserType.USER);
-		if (isStored) {
-			String link = null; // TODO complete this link
-			mailUtil.sendEmailAsync(email, "Update Password",
-					"Hi,\nPlease update your password using the below link\n" + link);
-		}
+	public void sendPasswordLink(String email, String ip, int port) {
+		Integer userId = getUserIdUsingEmail(email);
+		String uri = HashUtility.createUniqueUriPath(userId, email);
+		uriUtil.createURI(userId, uri, UserType.USER);
+		String link = "http://" + ip + ":" + "8080/access-control-list-service/user/updatePassword/" + uri;
+		mailUtil.sendEmailAsync(email, "Update Password",
+				"Hi,\nPlease update your password using the below link\n" + link);
 	}
-
 }

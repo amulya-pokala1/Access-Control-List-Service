@@ -21,8 +21,8 @@ import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestExcepti
 import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedException;
 import com.accolite.miniau.accesscontrol.dao.PermissionDAO;
 import com.accolite.miniau.accesscontrol.model.Permission;
+import com.accolite.miniau.accesscontrol.utility.StringLiteral;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PermissionController.
  */
@@ -44,8 +44,8 @@ public class PermissionController {
 	@PostMapping(value = "/api/permission")
 	public void createPermission(@RequestBody @Valid Permission permission, BindingResult bindingResult,
 			HttpSession session) {
-		if (session.getAttribute("adminId") == null)
-			throw new CustomUnAuthorizedException("Please login to perform this task!");
+		if (session.getAttribute(StringLiteral.ADMIN_ID) == null)
+			throw new CustomUnAuthorizedException(StringLiteral.PLEASE_LOGIN);
 		if (bindingResult.hasErrors()) {
 			throw new CustomBadRequestException("Invalid Details!");
 		}
@@ -54,6 +54,7 @@ public class PermissionController {
 			throw new CustomBadRequestException("Permission already exists!");
 		}
 	}
+
 	/**
 	 * Delete permission.
 	 *

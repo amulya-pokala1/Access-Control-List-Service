@@ -16,7 +16,6 @@ import com.accolite.miniau.accesscontrol.mapper.PermissionMapper;
 import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.utility.Query;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PermissionDAOImpl.
  */
@@ -87,8 +86,8 @@ public class PermissionDAOImpl implements PermissionDAO {
 	 */
 	@Override
 	public List<Permission> getAllPermissionList() {
+		logger.info("Getting all permissions");
 		return jdbcTemplate.query(Query.GETALLPERMISSIONLIST, new PermissionMapper());
-
 	}
 
 }

@@ -13,9 +13,9 @@ import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestExcepti
 import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException;
 import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedException;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class DefinedExceptionHandler.
+ * The Class DefinedExceptionHandler. It handles exception thrown by the
+ * controllers, and sends appropriate status codes to client
  */
 @RestControllerAdvice
 public class DefinedExceptionHandler {
@@ -24,8 +24,8 @@ public class DefinedExceptionHandler {
 	private static final Logger logger = Logger.getLogger(DefinedExceptionHandler.class);
 
 	/**
-	 * Not found.
-	 *
+	 * Not found. It returns Http status code 404 to client with a error message.
+	 * 
 	 * @param e
 	 *            the e
 	 * @return the string
@@ -38,8 +38,8 @@ public class DefinedExceptionHandler {
 	}
 
 	/**
-	 * Bad request.
-	 *
+	 * Bad request. It returns Http status code 400 to client with a error message.
+	 * 
 	 * @param e
 	 *            the e
 	 * @return the string
@@ -52,8 +52,8 @@ public class DefinedExceptionHandler {
 	}
 
 	/**
-	 * Un authorized.
-	 *
+	 * Un authorized. It returns Http status code 401 to client with a error message
+	 * 
 	 * @param e
 	 *            the e
 	 * @return the string

@@ -19,7 +19,6 @@ import com.accolite.miniau.accesscontrol.utility.MailUtility;
 import com.accolite.miniau.accesscontrol.utility.Query;
 import com.accolite.miniau.accesscontrol.utility.UriUtility;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AdminDAOImpl.
  */
@@ -85,12 +84,14 @@ public class AdminDAOImpl implements AdminDAO {
 	 * java.lang.String)
 	 */
 	@Override
-	public boolean updatePassword(int adminId, String password) {
+	public boolean updatePassword(String uri, String password) {
 
+		int adminId = getAdminIdFromURI(uri);
 		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't update password");
 		}
+		uriUtil.deleteURI(uri, UserType.ADMIN);
 		logger.info("changed password");
 		return true;
 	}
@@ -116,14 +117,14 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
-		String sql = "SELECT USER_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
-		Integer userId;
+		String sql = "SELECT ADMIN_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
+		Integer adminId;
 		try {
-			userId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
+			adminId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
-			userId = 0;
+			adminId = 0;
 		}
-		return userId;
+		return adminId;
 	}
 
 	/*
@@ -135,15 +136,13 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	@Async
-	public void sendPasswordLink(String email) {
+	public void sendPasswordLink(String email, String ip, int port) {
 		Integer adminId = getAdminIdUsingEmail(email);
 		String uri = HashUtility.createUniqueUriPath(adminId, email);
-		boolean isStored = uriUtil.createURI(adminId, uri, UserType.ADMIN);
-		if (isStored) {
-			String link = null; // TODO complete this link
-			mailUtil.sendEmailAsync(email, "Update Password",
-					"Hi,\nPlease update your password using the below link\n" + link);
-		}
+		uriUtil.createURI(adminId, uri, UserType.ADMIN);
+		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri;
+		mailUtil.sendEmailAsync(email, "Update Password",
+				"Hi,\nPlease update your password using the below link\n" + link);
 	}
 
 	/*
@@ -161,6 +160,30 @@ public class AdminDAOImpl implements AdminDAO {
 			adminId = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
 		} catch (Exception e) {
 			adminId = 0;
+		}
+		return adminId;
+	}
+
+	@Override
+	public String getAdminName(int adminId) {
+		String sql = "SELECT ADMIN_NAME FROM ADMIN WHERE ADMIN_ID = ?";
+		String name;
+		try {
+			name = jdbcTemplate.queryForObject(sql, String.class);
+		} catch (Exception e) {
+			name = null;
+		}
+		return name;
+	}
+
+	@Override
+	public Integer authenticate(Admin admin) {
+		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID=? AND PASSKEY=?";
+		Integer adminId;
+		try {
+			adminId = jdbcTemplate.queryForObject(sql, Integer.class);
+		} catch (Exception e) {
+			adminId = null;
 		}
 		return adminId;
 	}

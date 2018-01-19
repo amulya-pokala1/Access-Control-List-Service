@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.accolite.miniau.accesscontrol.model.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserMapper.
  */

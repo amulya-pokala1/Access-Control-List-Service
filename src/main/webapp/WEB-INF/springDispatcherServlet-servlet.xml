@@ -61,5 +61,8 @@
 	<bean id="mailUtil" class="com.accolite.miniau.accesscontrol.utility.MailUtility"
 		autowire="byType">
 	</bean>
+	<bean id="uriUtil" class="com.accolite.miniau.accesscontrol.utility.UriUtility"
+		autowire="byType">
+	</bean>
 	<mvc:annotation-driven />
 </beans>  
