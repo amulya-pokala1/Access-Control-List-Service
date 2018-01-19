@@ -23,7 +23,6 @@ import com.accolite.miniau.accesscontrol.dao.GroupDAO;
 import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GroupController.
  */
@@ -37,8 +36,10 @@ public class GroupController {
 	/**
 	 * Creates the new group.
 	 *
-	 * @param group the group
-	 * @param bindingResult the binding result
+	 * @param group
+	 *            the group
+	 * @param bindingResult
+	 *            the binding result
 	 */
 	@PostMapping(value = "/api/group")
 	public void createNewGroup(@RequestBody @Valid Group group, BindingResult bindingResult) {
@@ -74,8 +75,10 @@ public class GroupController {
 	/**
 	 * Adds the user to group.
 	 *
-	 * @param groupId the group id
-	 * @param userId the user id
+	 * @param groupId
+	 *            the group id
+	 * @param userId
+	 *            the user id
 	 */
 	@PutMapping(value = "/api/group/{groupId}/{userId}")
 	public void addUserToGroup(@PathVariable int groupId, @PathVariable int userId) {
@@ -88,10 +91,11 @@ public class GroupController {
 	/**
 	 * Delete user from group.
 	 *
-	 * @param groupId the group id
-	 * @param userId the user id
+	 * @param groupId
+	 *            the group id
+	 * @param userId
+	 *            the user id
 	 */
-	// TODO review this as well .. not checked
 	@DeleteMapping(value = "/api/group/{groupId}/{userId}")
 	public void deleteUserFromGroup(@PathVariable int groupId, @PathVariable int userId) {
 		boolean isDone = groupDAO.removeUserFromGroup(groupId, userId);
@@ -103,9 +107,9 @@ public class GroupController {
 	/**
 	 * Delete group.
 	 *
-	 * @param groupId the group id
+	 * @param groupId
+	 *            the group id
 	 */
-	// TODO review this also .. impl needs some changes
 	@DeleteMapping(value = "/api/group/{groupId}")
 	public void deleteGroup(@PathVariable int groupId) {
 		boolean isDone = groupDAO.deleteGroup(groupId);
@@ -117,11 +121,27 @@ public class GroupController {
 	/**
 	 * Gets the users from group.
 	 *
-	 * @param groupId the group id
+	 * @param groupId
+	 *            the group id
 	 * @return the users from group
 	 */
 	@GetMapping(value = "/api/group/{groupId}/users")
 	public List<User> getUsersFromGroup(@PathVariable int groupId) {
 		return groupDAO.getUsersInGroup(groupId);
+	}
+
+	@GetMapping(value = "/api/group/{groupId}/usersExceptInGroup")
+	public List<User> getUsersNotINGroup(@PathVariable int groupId) {
+		return groupDAO.getUsersNotInGroup(groupId);
+	}
+
+	@PutMapping("/api/group/{groupId}/{permissionId}")
+	public void addPermissionToGroup(@PathVariable int groupId, @PathVariable int permissionId) {
+		groupDAO.addPermission(groupId, permissionId);
+	}
+
+	@DeleteMapping("/api/group/{groupId}/{permissionId}")
+	public void removePermissionFromGroup(@PathVariable int groupId, @PathVariable int permissionId) {
+		groupDAO.removePermission(groupId, permissionId);
 	}
 }

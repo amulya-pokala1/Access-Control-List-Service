@@ -18,19 +18,18 @@ import com.accolite.miniau.accesscontrol.utility.MailUtility;
 import com.accolite.miniau.accesscontrol.utility.Query;
 import com.accolite.miniau.accesscontrol.utility.UriUtility;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AdminDAOImpl.
  */
 public class AdminDAOImpl implements AdminDAO {
-	
+
 	/** The Constant logger. */
 	private static final Logger logger = Logger.getLogger(AdminDAOImpl.class);
 
 	/** The mail util. */
 	@Autowired
 	private MailUtility mailUtil;
-	
+
 	/** The uri util. */
 	@Autowired
 	private UriUtility uriUtil;
@@ -38,8 +37,11 @@ public class AdminDAOImpl implements AdminDAO {
 	/** The jdbc template. */
 	private JdbcTemplate jdbcTemplate;
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#createAdmin(com.accolite.miniau.accesscontrol.model.Admin)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#createAdmin(com.accolite.
+	 * miniau.accesscontrol.model.Admin)
 	 */
 	@Override
 	public boolean createAdmin(Admin admin) {
@@ -55,7 +57,9 @@ public class AdminDAOImpl implements AdminDAO {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#deleteAdmin(int)
 	 */
 	@Override
@@ -69,22 +73,30 @@ public class AdminDAOImpl implements AdminDAO {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#updatePassword(int, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#updatePassword(int,
+	 * java.lang.String)
 	 */
 	@Override
-	public boolean updatePassword(int adminId, String password) {
+	public boolean updatePassword(String uri, String password) {
 
+		int adminId = getAdminIdFromURI(uri);
 		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSWORD, password, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't update password");
 		}
+		uriUtil.deleteURI(uri, UserType.ADMIN);
 		logger.info("changed password");
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#setDataSource(javax.sql.DataSource)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#setDataSource(javax.sql.
+	 * DataSource)
 	 */
 	@Override
 	public void setDataSource(DataSource dataSource) {
@@ -92,8 +104,12 @@ public class AdminDAOImpl implements AdminDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#getAdminIdFromURI(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.AdminDAO#getAdminIdFromURI(java.lang.
+	 * String)
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
@@ -107,24 +123,30 @@ public class AdminDAOImpl implements AdminDAO {
 		return adminId;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#sendPasswordLink(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.AdminDAO#sendPasswordLink(java.lang.
+	 * String)
 	 */
 	@Override
 	@Async
-	public void sendPasswordLink(String email) {
+	public void sendPasswordLink(String email, String ip, int port) {
 		Integer adminId = getAdminIdUsingEmail(email);
 		String uri = HashUtility.createUniqueUriPath(adminId, email);
-		boolean isStored = uriUtil.createURI(adminId, uri, UserType.ADMIN);
-		if (isStored) {
-			String link = null; // TODO complete this link
-			mailUtil.sendEmailAsync(email, "Update Password",
-					"Hi,\nPlease update your password using the below link\n" + link);
-		}
+		uriUtil.createURI(adminId, uri, UserType.ADMIN);
+		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri;
+		mailUtil.sendEmailAsync(email, "Update Password",
+				"Hi,\nPlease update your password using the below link\n" + link);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#getAdminIdUsingEmail(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.AdminDAO#getAdminIdUsingEmail(java.lang
+	 * .String)
 	 */
 	@Override
 	public Integer getAdminIdUsingEmail(String email) {
@@ -134,6 +156,30 @@ public class AdminDAOImpl implements AdminDAO {
 			adminId = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
 		} catch (Exception e) {
 			adminId = 0;
+		}
+		return adminId;
+	}
+
+	@Override
+	public String getAdminName(int adminId) {
+		String sql = "SELECT ADMIN_NAME FROM ADMIN WHERE ADMIN_ID = ?";
+		String name;
+		try {
+			name = jdbcTemplate.queryForObject(sql, String.class);
+		} catch (Exception e) {
+			name = null;
+		}
+		return name;
+	}
+
+	@Override
+	public Integer authenticate(Admin admin) {
+		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID=? AND PASSKEY=?";
+		Integer adminId;
+		try {
+			adminId = jdbcTemplate.queryForObject(sql, Integer.class);
+		} catch (Exception e) {
+			adminId = null;
 		}
 		return adminId;
 	}

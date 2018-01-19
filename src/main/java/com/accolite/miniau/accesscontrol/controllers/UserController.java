@@ -3,8 +3,11 @@
  */
 package com.accolite.miniau.accesscontrol.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +26,8 @@ import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException
 import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedException;
 import com.accolite.miniau.accesscontrol.dao.UserDAO;
 import com.accolite.miniau.accesscontrol.model.User;
+import com.accolite.miniau.accesscontrol.utility.StringLiteral;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserController.
  */
@@ -41,11 +45,13 @@ public class UserController {
 	 *            the user
 	 * @param bindingResult
 	 *            the binding result
+	 * @throws UnknownHostException
 	 */
 	@PostMapping(value = "/api/user")
-	public void addUser(@RequestBody @Valid User user, BindingResult bindingResult, HttpSession session) {
-		if (session.getAttribute("adminId") == null)
-			throw new CustomUnAuthorizedException("Please login to perform this task!");
+	public void addUser(@RequestBody @Valid User user, BindingResult bindingResult, HttpSession session,
+			HttpServletRequest request) throws UnknownHostException {
+		if (session.getAttribute(StringLiteral.ADMIN_ID) == null)
+			throw new CustomUnAuthorizedException(StringLiteral.PLEASE_LOGIN);
 		if (bindingResult.hasErrors()) {
 			throw new CustomBadRequestException("Invalid Details!");
 		}
@@ -53,7 +59,7 @@ public class UserController {
 		if (!isDone) {
 			throw new CustomBadRequestException("User Already exsist!");
 		}
-		userDAO.sendPasswordLink(user.getMailId());
+		userDAO.sendPasswordLink(user.getMailId(), InetAddress.getLocalHost().getHostAddress(), request.getLocalPort());
 	}
 
 	/**
@@ -65,8 +71,8 @@ public class UserController {
 	 */
 	@GetMapping(value = "/api/user/{userId}")
 	public User getUserDetails(@PathVariable int userId, HttpSession session) {
-		if (session.getAttribute("adminId") == null)
-			throw new CustomUnAuthorizedException("Please login to perform this task!");
+		if (session.getAttribute(StringLiteral.ADMIN_ID) == null)
+			throw new CustomUnAuthorizedException(StringLiteral.PLEASE_LOGIN);
 		return userDAO.getUser(userId);
 	}
 
@@ -98,22 +104,13 @@ public class UserController {
 		return userDAO.getAllUsers();
 	}
 
-	/**
-	 * Update password.
-	 *
-	 * @param uri
-	 *            the uri
-	 * @param user
-	 *            the user
-	 */
-	@PostMapping(value = "/api/user/updatePassword/{uri}/")
-	public void updatePassword(@PathVariable String uri, @RequestBody User user) {
+	@PutMapping(value = "/api/user/{userId}/{permissionId}")
+	public void addPermissionToUser(@PathVariable int userId, @PathVariable int permissionId) {
+		userDAO.addPermissionToUser(userId, permissionId);
+	}
 
-		int adminId = userDAO.getUserIdFromURI(uri);
-		boolean isDone = userDAO.updatePassword(adminId, user.getPassword());
-		if (!isDone) {
-
-		}
-		// delete the uri
+	@DeleteMapping(value = "/api/user/{userId}/{permissionId}")
+	public void removePermissionFromUser(@PathVariable int userId, @PathVariable int permissionId) {
+		userDAO.removePermissionFromUser(userId, permissionId);
 	}
 }

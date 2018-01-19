@@ -10,7 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MailUtility.
  */
@@ -27,9 +26,12 @@ public class MailUtility {
 	/**
 	 * Send email async.
 	 *
-	 * @param to the to
-	 * @param subject the subject
-	 * @param text the text
+	 * @param to
+	 *            the to
+	 * @param subject
+	 *            the subject
+	 * @param text
+	 *            the text
 	 */
 	@Async
 	public void sendEmailAsync(String to, String subject, String text) {

@@ -3,7 +3,6 @@
  */
 package com.accolite.miniau.accesscontrol.customexception;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CustomNotFoundException.
  */
@@ -15,7 +14,8 @@ public class CustomNotFoundException extends RuntimeException {
 	/**
 	 * Instantiates a new custom not found exception.
 	 *
-	 * @param msg the msg
+	 * @param msg
+	 *            the msg
 	 */
 	public CustomNotFoundException(String msg) {
 		super(msg);

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.accolite.miniau.accesscontrol.enums.UserType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UriUtility.
  */
@@ -24,7 +23,8 @@ public class UriUtility {
 	/**
 	 * Sets the data source.
 	 *
-	 * @param dataSource the new data source
+	 * @param dataSource
+	 *            the new data source
 	 */
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -33,24 +33,33 @@ public class UriUtility {
 	/**
 	 * Creates the URI.
 	 *
-	 * @param id the id
-	 * @param uri the uri
-	 * @param userType the user type
+	 * @param id
+	 *            the id
+	 * @param uri
+	 *            the uri
+	 * @param userType
+	 *            the user type
 	 * @return true, if successful
 	 */
 	@Async
-	public boolean createURI(Integer id, String uri, UserType userType) {
+	public void createURI(Integer id, String uri, UserType userType) {
 		String sql;
 		if (userType == UserType.ADMIN) {
 			sql = "INSERT INTO ADMIN_PASSWORD_URI(ADMIN_ID,URI) VALUES(?,?)";
 		} else {
 			sql = "INSERT INTO USER_PASSWORD_URI(USER_ID,URI) VALUES(?,?)";
 		}
-		int count = jdbcTemplate.update(sql, id, uri);
-		if (count == 0) {
-			// TODO error
-			return false;
+		jdbcTemplate.update(sql, id, uri);
+	}
+
+	@Async
+	public void deleteURI(String uri, UserType userType) {
+		String sql;
+		if (userType == UserType.ADMIN) {
+			sql = "DELETE FROM ADMIN_PASSWORD_URI WHERE URI=?";
+		} else {
+			sql = "DELETE FROM USER_PASSWORD_URI WHERE URI=?";
 		}
-		return true;
+		jdbcTemplate.update(sql,uri);
 	}
 }

@@ -3,7 +3,6 @@
  */
 package com.accolite.miniau.accesscontrol.customexception;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CustomBadRequestException.
  */
@@ -15,7 +14,8 @@ public class CustomBadRequestException extends RuntimeException {
 	/**
 	 * Instantiates a new custom bad request exception.
 	 *
-	 * @param msg the msg
+	 * @param msg
+	 *            the msg
 	 */
 	public CustomBadRequestException(String msg) {
 		super(msg);

@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.accolite.miniau.accesscontrol.model.Permission;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PermissionMapper.
  */
@@ -20,7 +19,9 @@ public class PermissionMapper implements RowMapper<Permission> {
 	/** The logger. */
 	private static Logger logger = Logger.getLogger(PermissionMapper.class);
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
 	 */
 	@Override

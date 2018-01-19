@@ -37,7 +37,8 @@
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<bean id="PermissionDAOImpl" class="com.accolite.miniau.accesscontrol.daoimpl.PermissionDAOImpl"
+	<bean id="PermissionDAOImpl"
+		class="com.accolite.miniau.accesscontrol.daoimpl.PermissionDAOImpl"
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
@@ -58,6 +59,9 @@
 		</property>
 	</bean>
 	<bean id="mailUtil" class="com.accolite.miniau.accesscontrol.utility.MailUtility"
+		autowire="byType">
+	</bean>
+	<bean id="uriUtil" class="com.accolite.miniau.accesscontrol.utility.UriUtility"
 		autowire="byType">
 	</bean>
 	<mvc:annotation-driven />

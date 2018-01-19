@@ -3,6 +3,7 @@
  */
 package com.accolite.miniau.accesscontrol.controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -13,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestException;
-import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedException;
 import com.accolite.miniau.accesscontrol.dao.UserDAO;
 import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.MailUtility;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AclController.
  */
@@ -29,7 +28,7 @@ public class AclController {
 	@Autowired
 	UserDAO userDAO;
 
-	/** The mail util. */
+	/** The mail utility. */
 	@Autowired
 	MailUtility mailUtil;
 
@@ -59,8 +58,9 @@ public class AclController {
 	 * Test.
 	 */
 	@GetMapping("test")
-	public void test(HttpSession session) {
-		session.setAttribute("name", "tarun");
-		mailUtil.sendEmailAsync("tarun.k@accoliteindia.com", "Hello Tarun", "This is a sample mail");
+	public void test(HttpServletRequest request, HttpSession session) {
+
+		session.setAttribute("adminId", 2);
+
 	}
 }

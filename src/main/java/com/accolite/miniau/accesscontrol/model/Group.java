@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Group.
  */
@@ -26,7 +25,7 @@ public class Group {
 
 	/** The permissions. */
 	private List<Permission> permissions;
-	
+
 	/** The users. */
 	private List<User> users;
 
@@ -49,7 +48,8 @@ public class Group {
 	/**
 	 * Sets the group id.
 	 *
-	 * @param groupId the new group id
+	 * @param groupId
+	 *            the new group id
 	 */
 	public void setGroupId(int groupId) {
 		this.groupId = groupId;
@@ -67,7 +67,8 @@ public class Group {
 	/**
 	 * Sets the group name.
 	 *
-	 * @param groupName the new group name
+	 * @param groupName
+	 *            the new group name
 	 */
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
@@ -85,7 +86,8 @@ public class Group {
 	/**
 	 * Sets the permissions.
 	 *
-	 * @param permissions the new permissions
+	 * @param permissions
+	 *            the new permissions
 	 */
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
@@ -103,7 +105,8 @@ public class Group {
 	/**
 	 * Sets the users.
 	 *
-	 * @param users the new users
+	 * @param users
+	 *            the new users
 	 */
 	public void setUsers(List<User> users) {
 		this.users = users;
@@ -121,7 +124,8 @@ public class Group {
 	/**
 	 * Sets the group description.
 	 *
-	 * @param groupDescription the new group description
+	 * @param groupDescription
+	 *            the new group description
 	 */
 	public void setGroupDescription(String groupDescription) {
 		this.groupDescription = groupDescription;

@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.accolite.miniau.accesscontrol.model.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserMapper.
  */
@@ -20,7 +19,9 @@ public class UserMapper implements RowMapper<User> {
 	/** The logger. */
 	private static Logger logger = Logger.getLogger(UserMapper.class);
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
 	 */
 	@Override

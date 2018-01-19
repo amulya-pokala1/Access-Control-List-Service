@@ -7,9 +7,8 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.accolite.miniau.accesscontrol.utility.RegexExpression;
+import com.accolite.miniau.accesscontrol.utility.StringLiteral;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Admin.
  */
@@ -31,7 +30,7 @@ public class Admin {
 	private String description;
 
 	/** The mail id. */
-	@Pattern(regexp = RegexExpression.EMAIL)
+	@Pattern(regexp = StringLiteral.EMAIL)
 	private String mailId;
 
 	/**
@@ -53,7 +52,8 @@ public class Admin {
 	/**
 	 * Sets the mail id.
 	 *
-	 * @param mailId the new mail id
+	 * @param mailId
+	 *            the new mail id
 	 */
 	public void setMailId(String mailId) {
 		this.mailId = mailId;
@@ -71,7 +71,8 @@ public class Admin {
 	/**
 	 * Sets the admin id.
 	 *
-	 * @param adminId the new admin id
+	 * @param adminId
+	 *            the new admin id
 	 */
 	public void setAdminId(int adminId) {
 		this.adminId = adminId;
@@ -89,7 +90,8 @@ public class Admin {
 	/**
 	 * Sets the admin name.
 	 *
-	 * @param adminName the new admin name
+	 * @param adminName
+	 *            the new admin name
 	 */
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
@@ -107,7 +109,8 @@ public class Admin {
 	/**
 	 * Sets the password.
 	 *
-	 * @param password the new password
+	 * @param password
+	 *            the new password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -125,7 +128,8 @@ public class Admin {
 	/**
 	 * Sets the description.
 	 *
-	 * @param description the new description
+	 * @param description
+	 *            the new description
 	 */
 	public void setDescription(String description) {
 		this.description = description;

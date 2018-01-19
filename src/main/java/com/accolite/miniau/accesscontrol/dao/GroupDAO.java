@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface GroupDAO.
  */
@@ -19,14 +18,16 @@ public interface GroupDAO {
 	/**
 	 * Sets the data source.
 	 *
-	 * @param dataSource the new data source
+	 * @param dataSource
+	 *            the new data source
 	 */
 	public void setDataSource(DataSource dataSource);
 
 	/**
 	 * Adds the new group.
 	 *
-	 * @param group the group
+	 * @param group
+	 *            the group
 	 * @return true, if successful
 	 */
 	public boolean addNewGroup(Group group);
@@ -34,8 +35,10 @@ public interface GroupDAO {
 	/**
 	 * Adds the permission.
 	 *
-	 * @param groupId the group id
-	 * @param permissionId the permission id
+	 * @param groupId
+	 *            the group id
+	 * @param permissionId
+	 *            the permission id
 	 * @return true, if successful
 	 */
 	public boolean addPermission(int groupId, int permissionId);
@@ -43,8 +46,10 @@ public interface GroupDAO {
 	/**
 	 * Removes the permission.
 	 *
-	 * @param groupId the group id
-	 * @param permissionId the permission id
+	 * @param groupId
+	 *            the group id
+	 * @param permissionId
+	 *            the permission id
 	 * @return true, if successful
 	 */
 	public boolean removePermission(int groupId, int permissionId);
@@ -66,7 +71,8 @@ public interface GroupDAO {
 	/**
 	 * Gets the users in group.
 	 *
-	 * @param groupId the group id
+	 * @param groupId
+	 *            the group id
 	 * @return the users in group
 	 */
 	public List<User> getUsersInGroup(int groupId);
@@ -74,8 +80,10 @@ public interface GroupDAO {
 	/**
 	 * Adds the user to group.
 	 *
-	 * @param groupId the group id
-	 * @param userId the user id
+	 * @param groupId
+	 *            the group id
+	 * @param userId
+	 *            the user id
 	 * @return true, if successful
 	 */
 	public boolean addUserToGroup(int groupId, int userId);
@@ -83,8 +91,10 @@ public interface GroupDAO {
 	/**
 	 * Removes the user from group.
 	 *
-	 * @param groupId the group id
-	 * @param userId the user id
+	 * @param groupId
+	 *            the group id
+	 * @param userId
+	 *            the user id
 	 * @return true, if successful
 	 */
 	public boolean removeUserFromGroup(int groupId, int userId);
@@ -92,9 +102,12 @@ public interface GroupDAO {
 	/**
 	 * Delete group.
 	 *
-	 * @param groupId the group id
+	 * @param groupId
+	 *            the group id
 	 * @return true, if successful
 	 */
 	public boolean deleteGroup(int groupId);
+
+	public List<User> getUsersNotInGroup(int groupId);
 
 }
