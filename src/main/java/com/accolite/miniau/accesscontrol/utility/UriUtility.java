@@ -60,6 +60,6 @@ public class UriUtility {
 		} else {
 			sql = "DELETE FROM USER_PASSWORD_URI WHERE URI=?";
 		}
-		jdbcTemplate.update(sql,uri);
+		jdbcTemplate.update(sql, uri);
 	}
 }

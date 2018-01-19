@@ -1,4 +1,5 @@
 package com.accolite.miniau.accesscontrol.test;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,19 +31,15 @@ public class PermissionControllerTest {
 
 	private MockMvc mockMvc;
 
-
 	@Before
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-		//verifyRootWacSupport();
+		// verifyRootWacSupport();
 	}
-	
+
 	@Test
 	public void testGetAllPermissions() throws Exception {
-		 this.mockMvc.perform(get("/api/permissions").accept(MediaType.APPLICATION_JSON))
-		.andDo(print())
-		.andExpect(status().isOk());
+		this.mockMvc.perform(get("/api/permissions").accept(MediaType.APPLICATION_JSON)).andDo(print())
+				.andExpect(status().isOk());
 	}
 }
-
-	

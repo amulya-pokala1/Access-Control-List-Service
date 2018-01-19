@@ -54,6 +54,7 @@ public class PermissionController {
 			throw new CustomBadRequestException("Permission already exists!");
 		}
 	}
+
 	/**
 	 * Delete permission.
 	 *
