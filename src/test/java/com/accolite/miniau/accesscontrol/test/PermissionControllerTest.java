@@ -7,26 +7,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.accolite.miniau.accesscontrol.controllers.PermissionController;
-import com.accolite.miniau.accesscontrol.dao.PermissionDAO;
 
-@WebAppConfiguration("classpath:META-INF/web-resources")
-
+@WebAppConfiguration
+@ContextConfiguration("file:src/main/webapp/WEB-INF/springDispatcherServlet-servlet.xml")
 public class PermissionControllerTest {
 
 	@Autowired
 	private WebApplicationContext wac;
-
-	@Autowired
-	private PermissionDAO permissionDao;
-
-	@Autowired
-	private PermissionController permissionController;
 
 	private MockMvc mockMvc;
 
