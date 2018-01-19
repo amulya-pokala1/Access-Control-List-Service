@@ -8,6 +8,7 @@ public class User {
 	private String userName;
 	private String password;
 	private List<Permission> permissions;
+
 	private String mailId;
 
 	public User() {
@@ -59,4 +60,10 @@ public class User {
 	public void setMailId(String mailId) {
 		this.mailId = mailId;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", mailId=" + mailId + "]";
+	}
+
 }

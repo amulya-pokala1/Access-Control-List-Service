@@ -3,6 +3,7 @@ package com.accolite.miniau.accesscontrol.daoimpl;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.accolite.miniau.accesscontrol.dao.AdminDAO;
@@ -17,10 +18,13 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public boolean createAdmin(Admin admin) {
 
-		int rowsAffected = jdbcTemplate.update(Query.CREATEADMIN, admin.getAdminName(), admin.getDescription(),
-				admin.getMailId());
-		if (rowsAffected == 0) {
-			logger.error("couldn't insert" + admin.getAdminId() + " into the admin table");
+		try {
+			jdbcTemplate.update(Query.CREATEADMIN, admin.getAdminName(), admin.getDescription(), admin.getMailId());
+			int adminId = jdbcTemplate.queryForObject(Query.GETADMINID, new Object[] { admin.getMailId() },
+					Integer.class);
+			admin.setAdminId(adminId);
+		} catch (DataAccessException e) {
+			logger.info("couldn't insert admin" + admin.getAdminName());
 			return false;
 		}
 		logger.info("inserted " + admin.getAdminName() + "into  admin successfully");
@@ -42,7 +46,7 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public boolean updatePassword(int adminId, String password) {
 
-		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSWORD, password, adminId);
+		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't update password");
 		}

@@ -17,6 +17,7 @@ public class UserMapper implements RowMapper<User> {
 		try {
 			user.setUserId(rs.getInt("USER_ID"));
 			user.setUserName(rs.getString("USER_NAME"));
+			user.setMailId(rs.getString("MAIL_ID"));
 		} catch (SQLException e) {
 			logger.error("Error parsing User", e);
 		}

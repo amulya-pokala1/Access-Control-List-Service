@@ -14,9 +14,8 @@ public class Group {
 		super();
 	}
 
-	public Group(int groupId, String groupName, String groupDescription) {
+	public Group(String groupName, String groupDescription) {
 		super();
-		this.groupId = groupId;
 		this.groupName = groupName;
 		this.groupDescription = groupDescription;
 	}
@@ -59,6 +58,11 @@ public class Group {
 
 	public void setGroupDescription(String groupDescription) {
 		this.groupDescription = groupDescription;
+	}
+
+	@Override
+	public String toString() {
+		return "Group [groupName=" + groupName + ", groupDescription=" + groupDescription + "]";
 	}
 
 }

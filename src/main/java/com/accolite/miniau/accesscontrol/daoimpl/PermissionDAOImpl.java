@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.accolite.miniau.accesscontrol.dao.PermissionDAO;
@@ -22,13 +23,16 @@ public class PermissionDAOImpl implements PermissionDAO {
 
 	@Override
 	public boolean createPermission(Permission permission) {
-		System.out.println(permission);
-		int count = jdbcTemplate.update(Query.CREATEPERMISSION, permission.getPermissionName(),
-				permission.getPermissionDescription(), permission.isMandatory());
-		if (count > 0) {
-			return true;
+		try {
+			jdbcTemplate.update(Query.CREATEPERMISSION, permission.getPermissionName(),
+					permission.getPermissionDescription(), permission.isMandatory());
+			int permissionId = jdbcTemplate.queryForObject(Query.GETPERMISSIONID,
+					new Object[] { permission.getPermissionName() }, Integer.class);
+			permission.setPermissionId(permissionId);
+		} catch (DataAccessException e) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -39,8 +43,8 @@ public class PermissionDAOImpl implements PermissionDAO {
 
 	@Override
 	public List<Permission> getAllPermissionList() {
-		List<Permission> permissions = jdbcTemplate.query(Query.GETALLPERMISSIONLIST, new PermissionMapper());
-		return permissions;
+		return jdbcTemplate.query(Query.GETALLPERMISSIONLIST, new PermissionMapper());
+
 	}
 
 }
