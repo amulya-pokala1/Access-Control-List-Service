@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -58,6 +59,8 @@ public class UserDAOImpl implements UserDAO {
 		int rowsAffected;
 		try {
 			rowsAffected = jdbcTemplate.update(Query.ADDNEWUSER, user.getUserName(), user.getMailId());
+			int userId = jdbcTemplate.queryForObject(Query.GETUSERID, new Object[] { user.getMailId() }, Integer.class);
+			user.setUserId(userId);
 
 		} catch (Exception e) {
 			logger.error("Error creating User", e);
@@ -149,11 +152,14 @@ public class UserDAOImpl implements UserDAO {
 	 */
 	@Override
 	public boolean addPermissionToUser(int userId, int permissionId) {
-		int rowsAffected = jdbcTemplate.update(Query.ADDPERMISSIONTOUSER, userId, permissionId);
-		if (rowsAffected == 0) {
-			logger.info("failed to add permission " + permissionId + " to user");
+
+		try {
+			jdbcTemplate.update(Query.ADDPERMISSIONTOUSER, userId, permissionId);
+		} catch (DataAccessException e) {
+			logger.error("" + e);
 			return false;
 		}
+
 		logger.info("successfully added permission" + permissionId + " to user");
 		return true;
 	}
@@ -196,7 +202,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public boolean updatePassword(String uri, String password) {
 		int userId = getUserIdFromURI(uri);
-		int rowsAffected = jdbcTemplate.update(Query.UPDATEPASSWORD, password, userId);
+		int rowsAffected = jdbcTemplate.update(Query.UPDATEPASSKEY, password, userId);
 		if (rowsAffected == 0) {
 			logger.info("failed to update passsword for user" + userId);
 			return false;

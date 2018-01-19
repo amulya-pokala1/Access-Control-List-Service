@@ -145,4 +145,10 @@ public class User {
 	public void setMailId(String mailId) {
 		this.mailId = mailId;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", mailId=" + mailId + "]";
+	}
+
 }

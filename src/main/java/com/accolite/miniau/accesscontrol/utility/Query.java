@@ -21,9 +21,8 @@ public class Query {
 
 	/** The Constant DELETEADMIN. */
 	public static final String DELETEADMIN = "DELETE FROM ADMIN WHERE ADMIN_ID=?";
-
-	/** The Constant CHANGEPASSWORD. */
-	public static final String CHANGEPASSWORD = "UPDATE ADMIN SET PASSWORD=? WHERE ADMIN_ID=?";
+	public static final String CHANGEPASSKEY = "UPDATE ADMIN SET PASSKEY=? WHERE ADMIN_ID=?";
+	public static final String GETADMINID = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID=?";
 
 	/** The Constant ADDNEWGROUP. */
 	// GroupDAO
@@ -49,6 +48,7 @@ public class Query {
 
 	/** The Constant REMOVEPERMISSION. */
 	public static final String REMOVEPERMISSION = "DELETE FROM GROUP_PERMISSION WHERE GROUP_ID=? AND PERMISSION_ID=?";
+	public static final String GETGROUPID = "SELECT GROUP_ID FROM ACL.GROUP WHERE GROUP_NAME=?";
 
 	/** The Constant CREATEPERMISSION. */
 	// PermissionDAO
@@ -59,7 +59,7 @@ public class Query {
 
 	/** The Constant GETALLPERMISSIONLIST. */
 	public static final String GETALLPERMISSIONLIST = "SELECT * FROM PERMISSION";
-
+	public static final String GETPERMISSIONID = "SELECT PERMISSION_ID FROM PERMISSION WHERE PERMISSION_NAME=?";
 	/** The Constant ADDNEWUSER. */
 	// UserDAO
 	public static final String ADDNEWUSER = "INSERT INTO USER(USER_NAME, MAIL_ID) VALUES (?,?)";
@@ -81,10 +81,7 @@ public class Query {
 
 	/** The Constant REMOVEPERMISSIONFROMUSER. */
 	public static final String REMOVEPERMISSIONFROMUSER = "DELETE FROM USER_PERMISSION WHERE USER_ID=? AND PERMISSION_ID=?";
-
-	/** The Constant UPDATEPASSWORD. */
-	public static final String UPDATEPASSWORD = "UPDATE USER SET PASSOWORD=? WHERE USER_ID=?";
-
-	/** The Constant GETUSERPERMISSIONS. */
-	public static final String GETUSERPERMISSIONS = "SELECT * FROM USER_PERMISSION JOIN USER ON USER_PERMISSION.USER_ID=USER.USER_ID WHERE USER_ID=?";
+	public static final String UPDATEPASSKEY = "UPDATE USER SET PASSKEY=? WHERE USER_ID=?";
+	public static final String GETUSERPERMISSIONS = "SELECT * FROM USER_PERMISSION JOIN USER ON USER_PERMISSION.USER_ID=USER.USER_ID WHERE USER_PERMISSION.USER_ID=?";
+	public static final String GETUSERID = "SELECT USER_ID FROM USER WHERE MAIL_ID=?";
 }

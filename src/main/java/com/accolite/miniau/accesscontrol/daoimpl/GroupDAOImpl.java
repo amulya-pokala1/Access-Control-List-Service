@@ -9,6 +9,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.accolite.miniau.accesscontrol.dao.GroupDAO;
@@ -41,6 +42,10 @@ public class GroupDAOImpl implements GroupDAO {
 		int rowsAffected;
 		try {
 			rowsAffected = jdbcTemplate.update(Query.ADDNEWGROUP, group.getGroupName(), group.getGroupDescription());
+			int groupId = jdbcTemplate.queryForObject(Query.GETGROUPID, new Object[] { group.getGroupName() },
+					Integer.class);
+			group.setGroupId(groupId);
+
 		} catch (Exception e) {
 			rowsAffected = 0;
 		}
@@ -96,7 +101,13 @@ public class GroupDAOImpl implements GroupDAO {
 	 */
 	@Override
 	public boolean addUserToGroup(int groupId, int userId) {
-		int rowsAffected = jdbcTemplate.update(Query.ADDUSERTOGROUP, groupId, userId);
+		int rowsAffected = -1;
+		try {
+			rowsAffected = jdbcTemplate.update(Query.ADDUSERTOGROUP, groupId, userId);
+
+		} catch (DataAccessException e) {
+			rowsAffected = 0;
+		}
 		if (rowsAffected == 0) {
 			logger.info("failed to add " + userId + "user in group");
 			return false;
@@ -159,7 +170,12 @@ public class GroupDAOImpl implements GroupDAO {
 	 */
 	@Override
 	public boolean addPermission(int groupId, int permissionId) {
-		int rowsAffected = jdbcTemplate.update(Query.ADDPERMISSION, groupId, permissionId);
+		int rowsAffected;
+		try {
+			rowsAffected = jdbcTemplate.update(Query.ADDPERMISSION, groupId, permissionId);
+		} catch (DataAccessException e) {
+			rowsAffected = 0;
+		}
 		if (rowsAffected == 0) {
 			logger.info("failed to add permission " + permissionId + " to group" + groupId);
 			return false;

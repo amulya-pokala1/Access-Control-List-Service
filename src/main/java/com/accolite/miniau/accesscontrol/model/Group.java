@@ -36,6 +36,12 @@ public class Group {
 		super();
 	}
 
+	public Group(@Length(max = 100) String groupName, @Length(max = 250) String groupDescription) {
+		super();
+		this.groupName = groupName;
+		this.groupDescription = groupDescription;
+	}
+
 	/**
 	 * Gets the group id.
 	 *
@@ -129,6 +135,11 @@ public class Group {
 	 */
 	public void setGroupDescription(String groupDescription) {
 		this.groupDescription = groupDescription;
+	}
+
+	@Override
+	public String toString() {
+		return "Group [groupName=" + groupName + ", groupDescription=" + groupDescription + "]";
 	}
 
 }
