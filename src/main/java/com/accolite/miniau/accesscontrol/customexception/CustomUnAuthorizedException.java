@@ -5,19 +5,19 @@ package com.accolite.miniau.accesscontrol.customexception;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class CustomNotFoundException.
+ * The Class CustomUnAuthorizedException.
  */
-public class CustomNotFoundException extends RuntimeException {
+public class CustomUnAuthorizedException extends RuntimeException {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Instantiates a new custom not found exception.
+	 * Instantiates a new custom un authorized exception.
 	 *
 	 * @param msg the msg
 	 */
-	public CustomNotFoundException(String msg) {
+	public CustomUnAuthorizedException(String msg) {
 		super(msg);
 	}
 }

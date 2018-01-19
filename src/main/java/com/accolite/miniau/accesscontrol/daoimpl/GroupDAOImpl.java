@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 
 package com.accolite.miniau.accesscontrol.daoimpl;
 
@@ -16,10 +19,21 @@ import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.Query;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GroupDAOImpl.
+ */
 public class GroupDAOImpl implements GroupDAO {
-	private JdbcTemplate jdbcTemplate;
-	private static final Logger logger = Logger.getLogger(com.accolite.miniau.accesscontrol.daoimpl.GroupDAOImpl.class);
 
+	/** The Constant logger. */
+	private static final Logger logger = Logger.getLogger(GroupDAOImpl.class);
+
+	/** The jdbc template. */
+	private JdbcTemplate jdbcTemplate;
+
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#addNewGroup(com.accolite.miniau.accesscontrol.model.Group)
+	 */
 	@Override
 	public boolean addNewGroup(Group group) {
 
@@ -42,6 +56,9 @@ public class GroupDAOImpl implements GroupDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#getAllGroupNames()
+	 */
 	@Override
 	public List<String> getAllGroupNames() {
 		logger.info("performing get all group names operation");
@@ -49,6 +66,9 @@ public class GroupDAOImpl implements GroupDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#getAllGroups()
+	 */
 	@Override
 	public List<Group> getAllGroups() {
 		logger.info("performing get all groups operation");
@@ -56,6 +76,9 @@ public class GroupDAOImpl implements GroupDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#getUsersInGroup(int)
+	 */
 	@Override
 	public List<User> getUsersInGroup(int groupId) {
 		logger.info("operation get users in group successfull");
@@ -63,6 +86,9 @@ public class GroupDAOImpl implements GroupDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#addUserToGroup(int, int)
+	 */
 	@Override
 	public boolean addUserToGroup(int groupId, int userId) {
 		int rowsAffected = -1;
@@ -80,6 +106,9 @@ public class GroupDAOImpl implements GroupDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#removeUserFromGroup(int, int)
+	 */
 	@Override
 	public boolean removeUserFromGroup(int groupId, int userId) {
 		int rowsAffected = jdbcTemplate.update(Query.REMOVEUSERFROMGROUP, userId, groupId);
@@ -91,9 +120,12 @@ public class GroupDAOImpl implements GroupDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#deleteGroup(int)
+	 */
 	@Override
 	public boolean deleteGroup(int groupId) {
-		String query = "DELETE FROM ACL.GROUP WHERE GROUP_ID=?";
+		String query = "DELETE FROM ACL.GROUP WHERE GROUPID=?";
 		logger.info("deleting the group from the tables group, user_group");
 		int rowsAffected = jdbcTemplate.update(query, groupId);
 		if (rowsAffected == 0) {
@@ -104,12 +136,18 @@ public class GroupDAOImpl implements GroupDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#setDataSource(javax.sql.DataSource)
+	 */
 	@Override
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#addPermission(int, int)
+	 */
 	@Override
 	public boolean addPermission(int groupId, int permissionId) {
 		int rowsAffected;
@@ -126,6 +164,9 @@ public class GroupDAOImpl implements GroupDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.accolite.miniau.accesscontrol.dao.GroupDAO#removePermission(int, int)
+	 */
 	@Override
 	public boolean removePermission(int groupId, int permissionId) {
 		int rowsAffected = jdbcTemplate.update(Query.REMOVEPERMISSION, groupId, permissionId);
