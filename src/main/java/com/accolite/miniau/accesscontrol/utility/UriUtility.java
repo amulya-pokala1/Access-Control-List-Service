@@ -24,7 +24,8 @@ public class UriUtility {
 	/**
 	 * Sets the data source.
 	 *
-	 * @param dataSource the new data source
+	 * @param dataSource
+	 *            the new data source
 	 */
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -33,9 +34,12 @@ public class UriUtility {
 	/**
 	 * Creates the URI.
 	 *
-	 * @param id the id
-	 * @param uri the uri
-	 * @param userType the user type
+	 * @param id
+	 *            the id
+	 * @param uri
+	 *            the uri
+	 * @param userType
+	 *            the user type
 	 * @return true, if successful
 	 */
 	@Async

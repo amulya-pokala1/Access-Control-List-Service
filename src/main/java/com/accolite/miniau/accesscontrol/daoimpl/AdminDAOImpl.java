@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 
@@ -23,14 +24,14 @@ import com.accolite.miniau.accesscontrol.utility.UriUtility;
  * The Class AdminDAOImpl.
  */
 public class AdminDAOImpl implements AdminDAO {
-	
+
 	/** The Constant logger. */
 	private static final Logger logger = Logger.getLogger(AdminDAOImpl.class);
 
 	/** The mail util. */
 	@Autowired
 	private MailUtility mailUtil;
-	
+
 	/** The uri util. */
 	@Autowired
 	private UriUtility uriUtil;
@@ -38,8 +39,11 @@ public class AdminDAOImpl implements AdminDAO {
 	/** The jdbc template. */
 	private JdbcTemplate jdbcTemplate;
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#createAdmin(com.accolite.miniau.accesscontrol.model.Admin)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#createAdmin(com.accolite.
+	 * miniau.accesscontrol.model.Admin)
 	 */
 	@Override
 	public boolean createAdmin(Admin admin) {
@@ -58,7 +62,9 @@ public class AdminDAOImpl implements AdminDAO {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#deleteAdmin(int)
 	 */
 	@Override
@@ -72,8 +78,11 @@ public class AdminDAOImpl implements AdminDAO {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#updatePassword(int, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#updatePassword(int,
+	 * java.lang.String)
 	 */
 	@Override
 	public boolean updatePassword(int adminId, String password) {
@@ -86,8 +95,11 @@ public class AdminDAOImpl implements AdminDAO {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#setDataSource(javax.sql.DataSource)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#setDataSource(javax.sql.
+	 * DataSource)
 	 */
 	@Override
 	public void setDataSource(DataSource dataSource) {
@@ -95,8 +107,12 @@ public class AdminDAOImpl implements AdminDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#getAdminIdFromURI(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.AdminDAO#getAdminIdFromURI(java.lang.
+	 * String)
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
@@ -110,8 +126,12 @@ public class AdminDAOImpl implements AdminDAO {
 		return userId;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#sendPasswordLink(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.AdminDAO#sendPasswordLink(java.lang.
+	 * String)
 	 */
 	@Override
 	@Async
@@ -126,8 +146,12 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.AdminDAO#getAdminIdUsingEmail(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.AdminDAO#getAdminIdUsingEmail(java.lang
+	 * .String)
 	 */
 	@Override
 	public Integer getAdminIdUsingEmail(String email) {

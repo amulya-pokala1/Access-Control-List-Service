@@ -20,7 +20,9 @@ public class UserMapper implements RowMapper<User> {
 	/** The logger. */
 	private static Logger logger = Logger.getLogger(UserMapper.class);
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
 	 */
 	@Override

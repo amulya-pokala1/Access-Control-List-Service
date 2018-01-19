@@ -51,10 +51,9 @@ public class PermissionController {
 		}
 		boolean isDone = permissionDAO.createPermission(permission);
 		if (!isDone) {
-			throw new CustomBadRequestException("Permission already exsist!");
+			throw new CustomBadRequestException("Permission already exists!");
 		}
 	}
-
 	/**
 	 * Delete permission.
 	 *

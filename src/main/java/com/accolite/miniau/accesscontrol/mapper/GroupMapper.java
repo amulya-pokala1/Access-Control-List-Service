@@ -20,7 +20,9 @@ public class GroupMapper implements RowMapper<Group> {
 	/** The logger. */
 	private static Logger logger = Logger.getLogger(GroupMapper.class);
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
 	 */
 	@Override

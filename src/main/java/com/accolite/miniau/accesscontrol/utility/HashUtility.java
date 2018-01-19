@@ -33,7 +33,8 @@ public class HashUtility {
 	/**
 	 * Hash password.
 	 *
-	 * @param passwordToHash the password to hash
+	 * @param passwordToHash
+	 *            the password to hash
 	 * @return the string
 	 */
 	public static String hashPassword(String passwordToHash) {
@@ -44,8 +45,10 @@ public class HashUtility {
 	/**
 	 * Creates the unique uri path.
 	 *
-	 * @param userId the user id
-	 * @param userName the user name
+	 * @param userId
+	 *            the user id
+	 * @param userName
+	 *            the user name
 	 * @return the string
 	 */
 	public static String createUniqueUriPath(Integer userId, String userName) {
@@ -57,8 +60,10 @@ public class HashUtility {
 	/**
 	 * Generate hash.
 	 *
-	 * @param stringToHash the string to hash
-	 * @param salt the salt
+	 * @param stringToHash
+	 *            the string to hash
+	 * @param salt
+	 *            the salt
 	 * @return the string
 	 */
 	public static String generateHash(String stringToHash, String salt) {

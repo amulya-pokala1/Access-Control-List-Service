@@ -19,14 +19,16 @@ public interface UserDAO {
 	/**
 	 * Sets the data source.
 	 *
-	 * @param dataSource the new data source
+	 * @param dataSource
+	 *            the new data source
 	 */
 	public void setDataSource(DataSource dataSource);
 
 	/**
 	 * Adds the new user.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 * @return true, if successful
 	 */
 	public boolean addNewUser(User user);
@@ -34,7 +36,8 @@ public interface UserDAO {
 	/**
 	 * Gets the user.
 	 *
-	 * @param userId the user id
+	 * @param userId
+	 *            the user id
 	 * @return the user
 	 */
 	public User getUser(int userId);
@@ -42,8 +45,10 @@ public interface UserDAO {
 	/**
 	 * Adds the permission to user.
 	 *
-	 * @param userId the user id
-	 * @param permissionId the permission id
+	 * @param userId
+	 *            the user id
+	 * @param permissionId
+	 *            the permission id
 	 * @return true, if successful
 	 */
 	public boolean addPermissionToUser(int userId, int permissionId);
@@ -51,8 +56,10 @@ public interface UserDAO {
 	/**
 	 * Removes the permission from user.
 	 *
-	 * @param userId the user id
-	 * @param permissionId the permission id
+	 * @param userId
+	 *            the user id
+	 * @param permissionId
+	 *            the permission id
 	 * @return true, if successful
 	 */
 	public boolean removePermissionFromUser(int userId, int permissionId);
@@ -60,7 +67,8 @@ public interface UserDAO {
 	/**
 	 * Delete user.
 	 *
-	 * @param userId the user id
+	 * @param userId
+	 *            the user id
 	 * @return true, if successful
 	 */
 	public boolean deleteUser(int userId);
@@ -68,8 +76,10 @@ public interface UserDAO {
 	/**
 	 * Update password.
 	 *
-	 * @param adminId the admin id
-	 * @param password the password
+	 * @param adminId
+	 *            the admin id
+	 * @param password
+	 *            the password
 	 * @return true, if successful
 	 */
 	public boolean updatePassword(int adminId, String password);
@@ -91,7 +101,8 @@ public interface UserDAO {
 	/**
 	 * Gets the permission of user.
 	 *
-	 * @param userId the user id
+	 * @param userId
+	 *            the user id
 	 * @return the permission of user
 	 */
 	public List<Permission> getPermissionOfUser(int userId);
@@ -99,7 +110,8 @@ public interface UserDAO {
 	/**
 	 * Validate user.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 * @return the int
 	 */
 	public int validateUser(User user);
@@ -107,7 +119,8 @@ public interface UserDAO {
 	/**
 	 * Gets the user id from URI.
 	 *
-	 * @param uri the uri
+	 * @param uri
+	 *            the uri
 	 * @return the user id from URI
 	 */
 	public Integer getUserIdFromURI(String uri);
@@ -115,7 +128,8 @@ public interface UserDAO {
 	/**
 	 * Gets the user id using email.
 	 *
-	 * @param email the email
+	 * @param email
+	 *            the email
 	 * @return the user id using email
 	 */
 	public Integer getUserIdUsingEmail(String email);
@@ -123,7 +137,8 @@ public interface UserDAO {
 	/**
 	 * Send password link.
 	 *
-	 * @param email the email
+	 * @param email
+	 *            the email
 	 */
 	public void sendPasswordLink(String email);
 

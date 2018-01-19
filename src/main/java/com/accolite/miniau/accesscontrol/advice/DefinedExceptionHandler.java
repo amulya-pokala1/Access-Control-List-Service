@@ -26,7 +26,8 @@ public class DefinedExceptionHandler {
 	/**
 	 * Not found.
 	 *
-	 * @param e the e
+	 * @param e
+	 *            the e
 	 * @return the string
 	 */
 	@ExceptionHandler(CustomNotFoundException.class)
@@ -39,7 +40,8 @@ public class DefinedExceptionHandler {
 	/**
 	 * Bad request.
 	 *
-	 * @param e the e
+	 * @param e
+	 *            the e
 	 * @return the string
 	 */
 	@ExceptionHandler(CustomBadRequestException.class)
@@ -52,7 +54,8 @@ public class DefinedExceptionHandler {
 	/**
 	 * Un authorized.
 	 *
-	 * @param e the e
+	 * @param e
+	 *            the e
 	 * @return the string
 	 */
 	@ExceptionHandler(CustomUnAuthorizedException.class)

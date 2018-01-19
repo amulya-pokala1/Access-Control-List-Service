@@ -12,11 +12,12 @@ import com.accolite.miniau.accesscontrol.model.Admin;
  * The Interface AdminDAO.
  */
 public interface AdminDAO {
-	
+
 	/**
 	 * Creates the admin.
 	 *
-	 * @param admin the admin
+	 * @param admin
+	 *            the admin
 	 * @return true, if successful
 	 */
 	public boolean createAdmin(Admin admin);
@@ -24,7 +25,8 @@ public interface AdminDAO {
 	/**
 	 * Delete admin.
 	 *
-	 * @param adminId the admin id
+	 * @param adminId
+	 *            the admin id
 	 * @return true, if successful
 	 */
 	public boolean deleteAdmin(int adminId);
@@ -32,8 +34,10 @@ public interface AdminDAO {
 	/**
 	 * Update password.
 	 *
-	 * @param adminId the admin id
-	 * @param password the password
+	 * @param adminId
+	 *            the admin id
+	 * @param password
+	 *            the password
 	 * @return true, if successful
 	 */
 	public boolean updatePassword(int adminId, String password);
@@ -41,14 +45,16 @@ public interface AdminDAO {
 	/**
 	 * Sets the data source.
 	 *
-	 * @param dataSource the new data source
+	 * @param dataSource
+	 *            the new data source
 	 */
 	public void setDataSource(DataSource dataSource);
 
 	/**
 	 * Gets the admin id from URI.
 	 *
-	 * @param uri the uri
+	 * @param uri
+	 *            the uri
 	 * @return the admin id from URI
 	 */
 	public Integer getAdminIdFromURI(String uri);
@@ -56,7 +62,8 @@ public interface AdminDAO {
 	/**
 	 * Gets the admin id using email.
 	 *
-	 * @param email the email
+	 * @param email
+	 *            the email
 	 * @return the admin id using email
 	 */
 	public Integer getAdminIdUsingEmail(String email);
@@ -64,7 +71,8 @@ public interface AdminDAO {
 	/**
 	 * Send password link.
 	 *
-	 * @param email the email
+	 * @param email
+	 *            the email
 	 */
 	public void sendPasswordLink(String email);
 

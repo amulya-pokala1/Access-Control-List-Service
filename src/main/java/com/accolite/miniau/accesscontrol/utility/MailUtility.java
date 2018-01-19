@@ -27,9 +27,12 @@ public class MailUtility {
 	/**
 	 * Send email async.
 	 *
-	 * @param to the to
-	 * @param subject the subject
-	 * @param text the text
+	 * @param to
+	 *            the to
+	 * @param subject
+	 *            the subject
+	 * @param text
+	 *            the text
 	 */
 	@Async
 	public void sendEmailAsync(String to, String subject, String text) {

@@ -41,6 +41,14 @@ public class Admin {
 
 	}
 
+	public Admin(@Length(max = 45) String adminName, @Length(max = 100) String description,
+			@Pattern(regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])") String mailId) {
+		super();
+		this.adminName = adminName;
+		this.description = description;
+		this.mailId = mailId;
+	}
+
 	/**
 	 * Gets the mail id.
 	 *
@@ -53,7 +61,8 @@ public class Admin {
 	/**
 	 * Sets the mail id.
 	 *
-	 * @param mailId the new mail id
+	 * @param mailId
+	 *            the new mail id
 	 */
 	public void setMailId(String mailId) {
 		this.mailId = mailId;
@@ -71,7 +80,8 @@ public class Admin {
 	/**
 	 * Sets the admin id.
 	 *
-	 * @param adminId the new admin id
+	 * @param adminId
+	 *            the new admin id
 	 */
 	public void setAdminId(int adminId) {
 		this.adminId = adminId;
@@ -89,7 +99,8 @@ public class Admin {
 	/**
 	 * Sets the admin name.
 	 *
-	 * @param adminName the new admin name
+	 * @param adminName
+	 *            the new admin name
 	 */
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
@@ -107,7 +118,8 @@ public class Admin {
 	/**
 	 * Sets the password.
 	 *
-	 * @param password the new password
+	 * @param password
+	 *            the new password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -125,7 +137,8 @@ public class Admin {
 	/**
 	 * Sets the description.
 	 *
-	 * @param description the new description
+	 * @param description
+	 *            the new description
 	 */
 	public void setDescription(String description) {
 		this.description = description;

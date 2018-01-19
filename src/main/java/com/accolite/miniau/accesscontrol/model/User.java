@@ -41,8 +41,10 @@ public class User {
 	/**
 	 * Instantiates a new user.
 	 *
-	 * @param userName the user name
-	 * @param mailId the mail id
+	 * @param userName
+	 *            the user name
+	 * @param mailId
+	 *            the mail id
 	 */
 	public User(String userName, String mailId) {
 		super();
@@ -62,7 +64,8 @@ public class User {
 	/**
 	 * Sets the user id.
 	 *
-	 * @param userId the new user id
+	 * @param userId
+	 *            the new user id
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
@@ -80,7 +83,8 @@ public class User {
 	/**
 	 * Sets the user name.
 	 *
-	 * @param userName the new user name
+	 * @param userName
+	 *            the new user name
 	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
@@ -98,7 +102,8 @@ public class User {
 	/**
 	 * Sets the password.
 	 *
-	 * @param password the new password
+	 * @param password
+	 *            the new password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -116,7 +121,8 @@ public class User {
 	/**
 	 * Sets the permissions.
 	 *
-	 * @param permissions the new permissions
+	 * @param permissions
+	 *            the new permissions
 	 */
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
@@ -134,7 +140,8 @@ public class User {
 	/**
 	 * Sets the mail id.
 	 *
-	 * @param mailId the new mail id
+	 * @param mailId
+	 *            the new mail id
 	 */
 	public void setMailId(String mailId) {
 		this.mailId = mailId;

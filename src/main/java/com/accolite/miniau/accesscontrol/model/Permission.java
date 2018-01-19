@@ -13,15 +13,15 @@ public class Permission {
 
 	/** The permission id. */
 	int permissionId;
-	
+
 	/** The permission name. */
 	@Length(max = 30)
 	String permissionName;
-	
+
 	/** The permission description. */
 	@Length(max = 100)
 	String permissionDescription;
-	
+
 	/** The mandatory. */
 	boolean mandatory;
 
@@ -35,9 +35,12 @@ public class Permission {
 	/**
 	 * Instantiates a new permission.
 	 *
-	 * @param permission the permission
-	 * @param permissionDescription the permission description
-	 * @param isMandatory the is mandatory
+	 * @param permission
+	 *            the permission
+	 * @param permissionDescription
+	 *            the permission description
+	 * @param isMandatory
+	 *            the is mandatory
 	 */
 	public Permission(String permission, String permissionDescription, boolean isMandatory) {
 		super();
@@ -58,7 +61,8 @@ public class Permission {
 	/**
 	 * Sets the permission id.
 	 *
-	 * @param permissionId the new permission id
+	 * @param permissionId
+	 *            the new permission id
 	 */
 	public void setPermissionId(int permissionId) {
 		this.permissionId = permissionId;
@@ -76,7 +80,8 @@ public class Permission {
 	/**
 	 * Sets the permission name.
 	 *
-	 * @param permissionName the new permission name
+	 * @param permissionName
+	 *            the new permission name
 	 */
 	public void setPermissionName(String permissionName) {
 		this.permissionName = permissionName;
@@ -94,7 +99,8 @@ public class Permission {
 	/**
 	 * Sets the permission description.
 	 *
-	 * @param permissionDescription the new permission description
+	 * @param permissionDescription
+	 *            the new permission description
 	 */
 	public void setPermissionDescription(String permissionDescription) {
 		this.permissionDescription = permissionDescription;
@@ -112,13 +118,16 @@ public class Permission {
 	/**
 	 * Sets the mandatory.
 	 *
-	 * @param isMandatory the new mandatory
+	 * @param isMandatory
+	 *            the new mandatory
 	 */
 	public void setMandatory(boolean isMandatory) {
 		this.mandatory = isMandatory;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

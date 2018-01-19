@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -46,8 +47,12 @@ public class UserDAOImpl implements UserDAO {
 	/** The jdbc template. */
 	private JdbcTemplate jdbcTemplate;
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#addNewUser(com.accolite.miniau.accesscontrol.model.User)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.UserDAO#addNewUser(com.accolite.miniau.
+	 * accesscontrol.model.User)
 	 */
 	@Override
 	public boolean addNewUser(User user) {
@@ -70,7 +75,9 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getUser(int)
 	 */
 	@Override
@@ -84,7 +91,9 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#deleteUser(int)
 	 */
 	@Override
@@ -98,7 +107,9 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getAllUsers()
 	 */
 	@Override
@@ -109,8 +120,11 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#setDataSource(javax.sql.DataSource)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#setDataSource(javax.sql.
+	 * DataSource)
 	 */
 	@Override
 	public void setDataSource(DataSource dataSource) {
@@ -119,7 +133,9 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getAllUserNames()
 	 */
 	@Override
@@ -129,8 +145,11 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#addPermissionToUser(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#addPermissionToUser(int,
+	 * int)
 	 */
 	@Override
 	public boolean addPermissionToUser(int userId, int permissionId) {
@@ -146,8 +165,12 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#removePermissionFromUser(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.UserDAO#removePermissionFromUser(int,
+	 * int)
 	 */
 	@Override
 	public boolean removePermissionFromUser(int userId, int permissionId) {
@@ -160,7 +183,9 @@ public class UserDAOImpl implements UserDAO {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getPermissionOfUser(int)
 	 */
 	@Override
@@ -169,8 +194,11 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#updatePassword(int, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#updatePassword(int,
+	 * java.lang.String)
 	 */
 	@Override
 	public boolean updatePassword(int userId, String password) {
@@ -184,8 +212,11 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#validateUser(com.accolite.miniau.accesscontrol.model.User)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#validateUser(com.accolite.
+	 * miniau.accesscontrol.model.User)
 	 */
 	@Override
 	public int validateUser(User user) {
@@ -194,8 +225,12 @@ public class UserDAOImpl implements UserDAO {
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getUserIdFromURI(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.UserDAO#getUserIdFromURI(java.lang.
+	 * String)
 	 */
 	@Override
 	public Integer getUserIdFromURI(String uri) {
@@ -209,8 +244,12 @@ public class UserDAOImpl implements UserDAO {
 		return userId;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#getUserIdUsingEmail(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.UserDAO#getUserIdUsingEmail(java.lang.
+	 * String)
 	 */
 	@Override
 	public Integer getUserIdUsingEmail(String email) {
@@ -224,8 +263,12 @@ public class UserDAOImpl implements UserDAO {
 		return userId;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.accolite.miniau.accesscontrol.dao.UserDAO#sendPasswordLink(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.accolite.miniau.accesscontrol.dao.UserDAO#sendPasswordLink(java.lang.
+	 * String)
 	 */
 	@Override
 	@Async
