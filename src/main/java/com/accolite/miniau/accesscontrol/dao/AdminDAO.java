@@ -3,6 +3,8 @@
  */
 package com.accolite.miniau.accesscontrol.dao;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -74,16 +76,18 @@ public interface AdminDAO {
 	 * @param email
 	 *            the email
 	 */
-	public boolean sendPasswordLink(String email, String ip, int port);
+	public void sendPasswordLink(String email, String ip, int port);
 
 	public String getAdminName(int adminId);
 
-	public Integer authenticate(Admin admin);
+	public Integer authenticate(String email, String pswd);
 
-	public boolean insertIntoAdminpassword(int adminId, String password);
-
-	public boolean deleteFromAdminPassword(int adminId, String uri);
+	public List<Admin> getAllAdmins();
 
 	boolean updatePassword(String uri, String password);
+
+	void setDataSourceForURIUtil(DataSource dataSource);
+
+	String getURI();
 
 }

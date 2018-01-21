@@ -8,6 +8,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.accolite.miniau.accesscontrol.model.Group;
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
 /**
@@ -109,5 +110,9 @@ public interface GroupDAO {
 	public boolean deleteGroup(int groupId);
 
 	public List<User> getUsersNotInGroup(int groupId);
+
+	public List<Permission> getGroupPermissions(int groupId);
+
+	public List<Permission> getPermissionNotInGroup(int groupId);
 
 }

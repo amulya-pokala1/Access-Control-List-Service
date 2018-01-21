@@ -5,6 +5,7 @@ package com.accolite.miniau.accesscontrol.controllers;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -83,7 +84,9 @@ public class AdminController {
 	}
 
 	@GetMapping(value = "/api/admins")
-	public void getAllAdmins() {
-		// TODO
+	public List<Admin> getAllAdmins(HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
+		return adminDAO.getAllAdmins();
 	}
 }

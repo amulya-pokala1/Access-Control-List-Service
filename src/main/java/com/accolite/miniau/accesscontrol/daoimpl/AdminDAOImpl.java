@@ -3,6 +3,8 @@
  */
 package com.accolite.miniau.accesscontrol.daoimpl;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.scheduling.annotation.Async;
 
 import com.accolite.miniau.accesscontrol.dao.AdminDAO;
 import com.accolite.miniau.accesscontrol.enums.UserType;
+import com.accolite.miniau.accesscontrol.mapper.AdminMapper;
 import com.accolite.miniau.accesscontrol.model.Admin;
 import com.accolite.miniau.accesscontrol.utility.HashUtility;
 import com.accolite.miniau.accesscontrol.utility.MailUtility;
@@ -26,7 +29,7 @@ public class AdminDAOImpl implements AdminDAO {
 
 	/** The Constant logger. */
 	private static final Logger logger = Logger.getLogger(AdminDAOImpl.class);
-
+	String URI;
 	/** The mail util. */
 	@Autowired
 	private MailUtility mailUtil;
@@ -89,9 +92,8 @@ public class AdminDAOImpl implements AdminDAO {
 		int adminId = getAdminIdFromURI(uri);
 		System.out.println(adminId);
 		try {
-		jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
-		}
-		catch(DataAccessException e) {
+			jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
+		} catch (DataAccessException e) {
 			logger.error("couldn't update password");
 			return false;
 		}
@@ -121,11 +123,13 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
+		System.out.println(uri);
 		String sql = "SELECT ADMIN_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
 		Integer adminId;
 		try {
 			adminId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
+			e.printStackTrace();
 			adminId = 0;
 		}
 		return adminId;
@@ -140,14 +144,15 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	@Async
-	public boolean sendPasswordLink(String email, String ip, int port) {
+	public void sendPasswordLink(String email, String ip, int port) {
 		Integer adminId = getAdminIdUsingEmail(email);
 		String uri = HashUtility.createUniqueUriPath(adminId, email);
 		uriUtil.createURI(adminId, uri, UserType.ADMIN);
+		mailUtil = new MailUtility();
 		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri;
-		boolean result=mailUtil.sendEmailAsync(email, "Update Password",
+		boolean result = mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
-		return result;
+		URI = uri;
 	}
 
 	/*
@@ -174,7 +179,7 @@ public class AdminDAOImpl implements AdminDAO {
 		String sql = "SELECT ADMIN_NAME FROM ADMIN WHERE ADMIN_ID = ?";
 		String name;
 		try {
-			name = jdbcTemplate.queryForObject(sql,new Object[] {adminId}, String.class);
+			name = jdbcTemplate.queryForObject(sql, new Object[] { adminId }, String.class);
 		} catch (Exception e) {
 			name = null;
 		}
@@ -182,40 +187,32 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public Integer authenticate(Admin admin) {
+	public Integer authenticate(String email, String pswd) {
 		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID=? AND PASSKEY=?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql,new Object[] {admin.getMailId(),admin.getPassword()}, Integer.class);
+			adminId = jdbcTemplate.queryForObject(sql, new Object[] { email, pswd }, Integer.class);
 		} catch (Exception e) {
 			adminId = 0;
 		}
 		return adminId;
 	}
-	
+
 	@Override
-	public boolean insertIntoAdminpassword(int adminId, String uri)
-	{
-		String sql="INSERT INTO ADMIN_PASSWORD_URI VALUES(?,?)";
-		try {
-			jdbcTemplate.update(sql,adminId,uri);
-		}
-		catch(DataAccessException e) {
-			return false;
-		}
-		return true;
+	public String getURI() {
+		return URI;
 	}
-	
+
 	@Override
-	public boolean deleteFromAdminPassword(int adminId, String uri) {
-		String sql="DELETE FROM ADMIN_PASSWORD_URI WHERE URI=?";
-		try {
-			jdbcTemplate.update(sql,uri);
-			
-		}
-		catch(DataAccessException e) {
-			return false;
-		}
-		return true;
+	public List<Admin> getAllAdmins() {
+		String sql = "SELECT * FROM ADMIN";
+		return jdbcTemplate.query(sql, new AdminMapper());
 	}
+
+	@Override
+	public void setDataSourceForURIUtil(DataSource dataSource) {
+		uriUtil = new UriUtility();
+		uriUtil.setDataSource(dataSource);
+	}
+
 }

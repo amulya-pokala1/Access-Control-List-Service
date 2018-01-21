@@ -49,7 +49,11 @@ public class UriUtility {
 		} else {
 			sql = "INSERT INTO USER_PASSWORD_URI(USER_ID,URI) VALUES(?,?)";
 		}
-		jdbcTemplate.update(sql, id, uri);
+		try {
+			jdbcTemplate.update(sql, id, uri);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Async

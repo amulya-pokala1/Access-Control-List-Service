@@ -123,7 +123,6 @@ public class UserDAOTest {
 		userdao.deleteUser(user.getUserId());
 	}
 
-	
 	@Test
 	public void testAddPermissionToUserNoUser() {
 		User user = new User("test", "test");
@@ -140,7 +139,7 @@ public class UserDAOTest {
 		boolean result = userdao.addPermissionToUser(user.getUserId(), 1);
 		userdao.deleteUser(user.getUserId());
 		assertTrue(result);
-		
+
 	}
 
 	@Test
@@ -166,7 +165,7 @@ public class UserDAOTest {
 		permissiondao.deletePermission(permission.getPermissionId());
 
 		assertTrue(result);
-			}
+	}
 
 	@Test
 	public void testRemovePermissionOfUserError() {
@@ -184,39 +183,72 @@ public class UserDAOTest {
 	public void testGetUserIDFromMail() {
 		User user = new User("test", "test");
 		userdao.addNewUser(user);
-		int userId=userdao.getUserIdUsingEmail(user.getMailId());
+		int userId = userdao.getUserIdUsingEmail(user.getMailId());
 		assertEquals(user.getUserId(), userId);
 		userdao.deleteUser(user.getUserId());
 	}
-	
+
 	@Test
 	public void testGetUserIDFromMailError() {
 		User user = new User("test", "test");
 		userdao.addNewUser(user);
-		int userId=userdao.getUserIdUsingEmail(user.getMailId()+user.getMailId());
+		int userId = userdao.getUserIdUsingEmail(user.getMailId() + user.getMailId());
 		userdao.deleteUser(user.getUserId());
 		assertNotEquals(user.getUserId(), userId);
-		
+
 	}
-	
+
+	// @Test
+	// public void testGetUserIdFromURI() {
+	// User user = new User("test", "test");
+	// userdao.addNewUser(user);
+	// userdao.setUserPasswordUri(user.getUserId(), "test");
+	// int result=userdao.getUserIdFromURI("test");
+	// assertEquals(user.getUserId(),result);
+	// userdao.deleteUser(user.getUserId());
+	//
+	// }
+	//
+	// @Test
+	// public void testSetUserPasswordURIError() {
+	// User user = new User("test", "test");
+	// userdao.addNewUser(user);
+	// boolean result=userdao.setUserPasswordUri(user.getUserId(), null);
+	// assertFalse(result);
+	// userdao.deleteUser(user.getUserId());
+	// }
+
 	@Test
-	public void testGetUserIdFromURI() {
+	public void testGetAllPermissionsExceptUser() {
 		User user = new User("test", "test");
 		userdao.addNewUser(user);
-		userdao.setUserPasswordUri(user.getUserId(), "test");
-		int result=userdao.getUserIdFromURI("test");
-		assertEquals(user.getUserId(),result);
+		Permission permission = new Permission("test", "test", false);
+		permissiondao.createPermission(permission);
+		int count = 1;
+		userdao.addPermissionToUser(user.getUserId(), permission.getPermissionId());
+		List<Permission> permissions = userdao.getAllPermissionsExceptUser(user.getUserId());
+		for (Permission permissionInd : permissions) {
+			if (permission.getPermissionName().equals(permissionInd.getPermissionName())) {
+				count--;
+			}
+		}
 		userdao.deleteUser(user.getUserId());
-		
+		permissiondao.deletePermission(permission.getPermissionId());
+		assertEquals(1, count);
 	}
-	
+
 	@Test
-	public void testSetUserPasswordURIError() {
-		User user = new User("test", "test");
+	public void testSendPasswordLink() {
+		User user = new User("test", "test@gmail.com");
 		userdao.addNewUser(user);
-		boolean result=userdao.setUserPasswordUri(user.getUserId(), null);
-		assertFalse(result);
+		userdao.setDataSourceForURIUtil(dataSource);
+		userdao.sendPasswordLink("test@gmail.com", "127.0.0.1", 8080);
+		int userId = userdao.getUserIdFromURI(userdao.getURI());
+		assertEquals(userId, user.getUserId());
+		boolean result = userdao.updatePassword(userdao.getURI(), "test");
+		assertTrue(result);
 		userdao.deleteUser(user.getUserId());
+
 	}
-	
+
 }

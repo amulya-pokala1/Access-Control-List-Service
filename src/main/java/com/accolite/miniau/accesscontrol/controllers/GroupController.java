@@ -21,6 +21,7 @@ import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestExcepti
 import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException;
 import com.accolite.miniau.accesscontrol.dao.GroupDAO;
 import com.accolite.miniau.accesscontrol.model.Group;
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 
 /**
@@ -80,7 +81,7 @@ public class GroupController {
 	 * @param userId
 	 *            the user id
 	 */
-	@PutMapping(value = "/api/group/{groupId}/{userId}")
+	@PutMapping(value = "/api/group/{groupId}/user/{userId}")
 	public void addUserToGroup(@PathVariable int groupId, @PathVariable int userId) {
 		boolean isDone = groupDAO.addUserToGroup(groupId, userId);
 		if (!isDone) {
@@ -96,7 +97,7 @@ public class GroupController {
 	 * @param userId
 	 *            the user id
 	 */
-	@DeleteMapping(value = "/api/group/{groupId}/{userId}")
+	@DeleteMapping(value = "/api/group/{groupId}/user/{userId}")
 	public void deleteUserFromGroup(@PathVariable int groupId, @PathVariable int userId) {
 		boolean isDone = groupDAO.removeUserFromGroup(groupId, userId);
 		if (!isDone) {
@@ -135,13 +136,23 @@ public class GroupController {
 		return groupDAO.getUsersNotInGroup(groupId);
 	}
 
-	@PutMapping("/api/group/{groupId}/{permissionId}")
+	@PutMapping("/api/group/{groupId}/permission/{permissionId}")
 	public void addPermissionToGroup(@PathVariable int groupId, @PathVariable int permissionId) {
 		groupDAO.addPermission(groupId, permissionId);
 	}
 
-	@DeleteMapping("/api/group/{groupId}/{permissionId}")
+	@DeleteMapping("/api/group/{groupId}/permission/{permissionId}")
 	public void removePermissionFromGroup(@PathVariable int groupId, @PathVariable int permissionId) {
 		groupDAO.removePermission(groupId, permissionId);
+	}
+
+	@GetMapping("/api/group/{groupId}/permission")
+	public List<Permission> getPermissionInGroup(@PathVariable int groupId) {
+		return groupDAO.getGroupPermissions(groupId);
+	}
+
+	@GetMapping("/api/group/{groupId}/exceptPermission")
+	public List<Permission> getPermissionExceptInGroup(@PathVariable int groupId) {
+		return groupDAO.getPermissionNotInGroup(groupId);
 	}
 }

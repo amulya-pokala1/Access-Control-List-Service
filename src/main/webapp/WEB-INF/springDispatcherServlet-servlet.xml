@@ -19,7 +19,7 @@
 	</bean>
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/ACL" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
@@ -64,5 +64,8 @@
 	<bean id="uriUtil" class="com.accolite.miniau.accesscontrol.utility.UriUtility"
 		autowire="byType">
 	</bean>
+	  <mvc:resources mapping="/resources/**" location="/resources/"
+		cache-period="31556926" />
+
 	<mvc:annotation-driven />
-</beans>  
+	</beans>  

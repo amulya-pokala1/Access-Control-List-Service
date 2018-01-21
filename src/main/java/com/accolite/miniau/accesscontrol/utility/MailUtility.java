@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -42,9 +43,9 @@ public class MailUtility {
 		email.setSubject(subject);
 		email.setText(text);
 		try {
-		mailSender.send(email);
-		}
-		catch(MailException e) {
+			mailSender = new JavaMailSenderImpl();
+			mailSender.send(email);
+		} catch (MailException e) {
 			return false;
 		}
 		return true;

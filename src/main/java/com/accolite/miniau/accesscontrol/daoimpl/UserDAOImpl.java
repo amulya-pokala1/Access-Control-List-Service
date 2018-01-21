@@ -45,6 +45,7 @@ public class UserDAOImpl implements UserDAO {
 
 	/** The jdbc template. */
 	private JdbcTemplate jdbcTemplate;
+	String URI;
 
 	/*
 	 * (non-Javadoc)
@@ -240,6 +241,7 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			userId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
+			logger.error("error getting user id from uri", e);
 			userId = 0;
 		}
 		return userId;
@@ -275,22 +277,31 @@ public class UserDAOImpl implements UserDAO {
 	@Async
 	public void sendPasswordLink(String email, String ip, int port) {
 		Integer userId = getUserIdUsingEmail(email);
+		System.out.println(userId);
 		String uri = HashUtility.createUniqueUriPath(userId, email);
+		System.out.println(uri);
 		uriUtil.createURI(userId, uri, UserType.USER);
 		String link = "http://" + ip + ":" + "8080/access-control-list-service/user/updatePassword/" + uri;
+		mailUtil = new MailUtility();
 		mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
+		URI = uri;
 	}
-	
+
 	@Override
-	public boolean setUserPasswordUri(int userId, String uri) {
-		String sql="INSERT INTO USER_PASSWORD_URI VALUES(?,?)";
-		try {
-			jdbcTemplate.update(sql,userId,uri);
-		}
-		catch(DataAccessException e) {
-			return false;
-		}
-		return true;
+	public List<Permission> getAllPermissionsExceptUser(int userId) {
+		String sql = "SELECT * FROM PERMISSION WHERE PERMISSION_ID NOT IN (SELECT PERMISSION_ID FROM USER_PERMISSION WHERE USER_ID = ?)";
+		return jdbcTemplate.query(sql, new Object[] { userId }, new PermissionMapper());
+	}
+
+	@Override
+	public void setDataSourceForURIUtil(DataSource dataSource) {
+		uriUtil = new UriUtility();
+		uriUtil.setDataSource(dataSource);
+	}
+
+	@Override
+	public String getURI() {
+		return URI;
 	}
 }

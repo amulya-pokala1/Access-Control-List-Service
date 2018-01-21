@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,49 +33,67 @@ public class PageController {
 	public String getIndexPage(Model model, HttpSession session) {
 
 		if (session.getAttribute(StringLiteral.ADMIN_ID) == null) {
-			return "index";
+			return "homepage";
 		}
 		int adminId = (int) session.getAttribute("adminId");
 		model.addAttribute("name", adminDAO.getAdminName(adminId));
-		return "adminPage";
+		return "adminpage";
 	}
 
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "index";
+		return "redirect: /access-control-list-service/";
 	}
 
-	@PostMapping("/login")
-	public String login(@RequestBody Admin admin, HttpSession session) {
-		Integer id = adminDAO.authenticate(admin);
+	@PostMapping("login1")
+	public String login(@RequestParam String email, @RequestParam String pswd, HttpSession session) {
+
+		pswd = HashUtility.hashPassword(pswd);
+		Integer id = adminDAO.authenticate(email, pswd);
 		if (id == null) {
 			session.invalidate();
 			throw new CustomUnAuthorizedException("Invalid credentials!");
 		}
 		session.setAttribute("adminId", id);
-		return "adminPage";
+		return "redirect: /access-control-list-service/";
 	}
 
 	@GetMapping("/{userType}/updatePassword/{uri}")
-	public String updatePasswordPage(HttpSession session, @PathVariable String uri, @PathVariable String userType) {
+	public String updatePasswordPage(@PathVariable String uri, @PathVariable String userType, HttpSession session) {
+		System.out.println("page req" + uri);
 		session.setAttribute("uri", uri);
+		System.out.println(session.getAttribute("uri"));
 		session.setAttribute("userType", userType);
-		return "updatePassword"; // this is a html file
+		return "redirect:/forgotpassword";
+	}
+
+	@GetMapping("/forgotpassword")
+	public String providePasswordResetPage() {
+		return "forgotpassword";
 	}
 
 	@PostMapping("/resetPassword")
-	public void updatePasswordRequest(HttpSession session, @RequestParam String password) {
+	public String updatePasswordRequest(HttpSession session, @RequestParam String pswd) {
+		System.out.println(pswd);
 		String uri = (String) session.getAttribute("uri");
 		if (uri == null)
 			throw new CustomBadRequestException("Invalid Request");
 		String userType = (String) session.getAttribute("userType");
-		password = HashUtility.hashPassword(password);
-		if (userType == "admin") {
-			adminDAO.updatePassword(uri, password);
+		pswd = HashUtility.hashPassword(pswd);
+		System.out.println(userType);
+		if (userType.equals("admin")) {
+			System.out.println(1);
+			adminDAO.updatePassword(uri, pswd);
 		} else {
-			userDAO.updatePassword(uri, password);
+			System.out.println(2);
+			userDAO.updatePassword(uri, pswd);
 		}
-		
+		return "redirect: /access-control-list-service/";
+	}
+
+	@GetMapping("/superAdmin")
+	public String getSuperAdminPage() {
+		return "superadminpage";
 	}
 }
