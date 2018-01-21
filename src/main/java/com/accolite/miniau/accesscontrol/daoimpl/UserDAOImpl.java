@@ -240,6 +240,7 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			userId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
+			logger.error("error getting user id from uri", e);
 			userId = 0;
 		}
 		return userId;
@@ -275,10 +276,17 @@ public class UserDAOImpl implements UserDAO {
 	@Async
 	public void sendPasswordLink(String email, String ip, int port) {
 		Integer userId = getUserIdUsingEmail(email);
+		System.out.println(userId);
 		String uri = HashUtility.createUniqueUriPath(userId, email);
 		uriUtil.createURI(userId, uri, UserType.USER);
 		String link = "http://" + ip + ":" + "8080/access-control-list-service/user/updatePassword/" + uri;
 		mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
+	}
+
+	@Override
+	public List<Permission> getAllPermissionsExceptUser(int userId) {
+		String sql = "SELECT * FROM PERMISSION WHERE PERMISSION_ID NOT IN (SELECT PERMISSION_ID FROM USER_PERMISSION WHERE USER_ID = ?)";
+		return jdbcTemplate.query(sql, new Object[] { userId }, new PermissionMapper());
 	}
 }

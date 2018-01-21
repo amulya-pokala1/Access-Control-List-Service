@@ -5,7 +5,11 @@ package com.accolite.miniau.accesscontrol.model;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.Length;
+
+import com.accolite.miniau.accesscontrol.utility.StringLiteral;
 
 /**
  * The Class User.
@@ -21,6 +25,7 @@ public class User {
 
 	/** The mail id. */
 	@Length(max = 200)
+	@Pattern(regexp=StringLiteral.EMAIL)
 	private String mailId;
 
 	/** The password. */

@@ -25,6 +25,7 @@ import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestExcepti
 import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException;
 import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedException;
 import com.accolite.miniau.accesscontrol.dao.UserDAO;
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.StringLiteral;
 
@@ -104,13 +105,27 @@ public class UserController {
 		return userDAO.getAllUsers();
 	}
 
-	@PutMapping(value = "/api/user/{userId}/{permissionId}")
+	@PutMapping(value = "/api/user/{userId}/permission/{permissionId}")
 	public void addPermissionToUser(@PathVariable int userId, @PathVariable int permissionId) {
-		userDAO.addPermissionToUser(userId, permissionId);
+		System.out.println("in controller "+userId);
+		boolean isDone = userDAO.addPermissionToUser(userId, permissionId);
+		if(!isDone) {
+			throw new CustomBadRequestException("Error occured in adding permission to user");
+		}
 	}
 
-	@DeleteMapping(value = "/api/user/{userId}/{permissionId}")
+	@DeleteMapping(value = "/api/user/{userId}/permission/{permissionId}")
 	public void removePermissionFromUser(@PathVariable int userId, @PathVariable int permissionId) {
 		userDAO.removePermissionFromUser(userId, permissionId);
+	}
+	
+	@GetMapping(value="/api/user/{userId}/permissions")
+	public List<Permission> getUserPermissions(@PathVariable int userId) {
+		return userDAO.getPermissionOfUser(userId);
+	}
+	
+	@GetMapping(value="/api/user/{userId}/exceptPermissions")
+	public List<Permission> getPermissionsExceptUser(@PathVariable int userId){
+		return userDAO.getAllPermissionsExceptUser(userId);
 	}
 }

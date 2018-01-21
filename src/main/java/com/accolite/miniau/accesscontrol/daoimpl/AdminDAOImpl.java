@@ -3,6 +3,8 @@
  */
 package com.accolite.miniau.accesscontrol.daoimpl;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.scheduling.annotation.Async;
 
 import com.accolite.miniau.accesscontrol.dao.AdminDAO;
 import com.accolite.miniau.accesscontrol.enums.UserType;
+import com.accolite.miniau.accesscontrol.mapper.AdminMapper;
 import com.accolite.miniau.accesscontrol.model.Admin;
 import com.accolite.miniau.accesscontrol.utility.HashUtility;
 import com.accolite.miniau.accesscontrol.utility.MailUtility;
@@ -87,6 +90,7 @@ public class AdminDAOImpl implements AdminDAO {
 	public boolean updatePassword(String uri, String password) {
 
 		int adminId = getAdminIdFromURI(uri);
+		System.out.println(adminId);
 		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't update password");
@@ -117,11 +121,13 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
+		System.out.println(uri);
 		String sql = "SELECT ADMIN_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
 		Integer adminId;
 		try {
 			adminId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
+			e.printStackTrace();
 			adminId = 0;
 		}
 		return adminId;
@@ -177,14 +183,20 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public Integer authenticate(Admin admin) {
+	public Integer authenticate(String email, String pswd) {
 		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID=? AND PASSKEY=?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql, Integer.class);
+			adminId = jdbcTemplate.queryForObject(sql, new Object[] { email, pswd }, Integer.class);
 		} catch (Exception e) {
 			adminId = null;
 		}
 		return adminId;
+	}
+
+	@Override
+	public List<Admin> getAllAdmins() {
+		String sql = "SELECT * FROM ADMIN";
+		return jdbcTemplate.query(sql, new AdminMapper());
 	}
 }

@@ -3,6 +3,8 @@
  */
 package com.accolite.miniau.accesscontrol.dao;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import com.accolite.miniau.accesscontrol.model.Admin;
@@ -77,6 +79,8 @@ public interface AdminDAO {
 
 	public String getAdminName(int adminId);
 
-	public Integer authenticate(Admin admin);
+	public Integer authenticate(String email, String pswd);
+
+	public List<Admin> getAllAdmins();
 
 }

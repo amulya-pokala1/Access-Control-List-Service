@@ -14,8 +14,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.accolite.miniau.accesscontrol.dao.GroupDAO;
 import com.accolite.miniau.accesscontrol.mapper.GroupMapper;
+import com.accolite.miniau.accesscontrol.mapper.PermissionMapper;
 import com.accolite.miniau.accesscontrol.mapper.UserMapper;
 import com.accolite.miniau.accesscontrol.model.Group;
+import com.accolite.miniau.accesscontrol.model.Permission;
 import com.accolite.miniau.accesscontrol.model.User;
 import com.accolite.miniau.accesscontrol.utility.Query;
 
@@ -141,7 +143,7 @@ public class GroupDAOImpl implements GroupDAO {
 	@Override
 	public boolean deleteGroup(int groupId) {
 		logger.info("deleting the group from the tables group, user_group");
-		String query = "DELETE FROM ACL.GROUP WHERE GROUPID=?";
+		String query = "DELETE FROM ACL.GROUP WHERE GROUP_ID=?";
 		int rowsAffected = jdbcTemplate.update(query, groupId);
 		if (rowsAffected == 0) {
 			logger.info("failed to delete group" + groupId);
@@ -203,8 +205,20 @@ public class GroupDAOImpl implements GroupDAO {
 
 	@Override
 	public List<User> getUsersNotInGroup(int groupId) {
-		String sql = "SELECT * FROM USERS WHERE USER_ID NOT IN (SELECT USER_ID FROM USER_GROUP WHERE GROUP_ID=?";
+		String sql = "SELECT * FROM USER WHERE USER_ID NOT IN (SELECT DISTINCT USER_ID FROM USER_GROUP WHERE GROUP_ID=?)";
 		return jdbcTemplate.query(sql, new Object[] { groupId }, new UserMapper());
+	}
+
+	@Override
+	public List<Permission> getGroupPermissions(int groupId) {
+		String sql = "SELECT * FROM PERMISSION WHERE PERMISSION_ID IN (SELECT PERMISSION_ID FROM GROUP_PERMISSION WHERE GROUP_ID = ?);";
+		return jdbcTemplate.query(sql, new Object[] { groupId }, new PermissionMapper());
+	}
+
+	@Override
+	public List<Permission> getPermissionNotInGroup(int groupId) {
+		String sql = "SELECT * FROM PERMISSION WHERE PERMISSION_ID NOT IN (SELECT PERMISSION_ID FROM GROUP_PERMISSION WHERE GROUP_ID = ?)";
+		return jdbcTemplate.query(sql, new Object[] { groupId }, new PermissionMapper());
 	}
 
 }

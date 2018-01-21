@@ -141,4 +141,6 @@ public interface UserDAO {
 	 */
 	public void sendPasswordLink(String email, String ip, int port);
 
+	public List<Permission> getAllPermissionsExceptUser(int userId);
+
 }
