@@ -26,6 +26,7 @@ import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedExcep
 import com.accolite.miniau.accesscontrol.dao.AdminDAO;
 import com.accolite.miniau.accesscontrol.model.Admin;
 import com.accolite.miniau.accesscontrol.utility.MailUtility;
+import com.accolite.miniau.accesscontrol.utility.StringLiteral;
 
 /**
  * The Class AdminController.
@@ -54,8 +55,8 @@ public class AdminController {
 	public void addNewAdmin(@RequestBody @Valid Admin admin, BindingResult bindingResult, HttpSession session,
 			HttpServletRequest request) throws UnknownHostException {
 
-		if (session.getAttribute("adminId") == null)
-			throw new CustomUnAuthorizedException("Please login to perform this task!");
+		if (session.getAttribute("sadminId") == null)
+			throw new CustomUnAuthorizedException(StringLiteral.PLEASE_LOGIN);
 		if (bindingResult.hasErrors()) {
 			throw new CustomBadRequestException("Invalid details.\n");
 		}
@@ -75,7 +76,7 @@ public class AdminController {
 	 */
 	@DeleteMapping(value = "/api/admin/{adminId}")
 	public void deleteAdmin(@PathVariable int adminId, HttpSession session) {
-		if (session.getAttribute("adminId") == null)
+		if (session.getAttribute("sadminId") == null)
 			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		boolean isDone = adminDAO.deleteAdmin(adminId);
 		if (!isDone) {
@@ -85,7 +86,7 @@ public class AdminController {
 
 	@GetMapping(value = "/api/admins")
 	public List<Admin> getAllAdmins(HttpSession session) {
-		if (session.getAttribute("adminId") == null)
+		if (session.getAttribute("sadminId") == null)
 			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return adminDAO.getAllAdmins();
 	}

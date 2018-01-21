@@ -106,26 +106,34 @@ public class UserController {
 	}
 
 	@PutMapping(value = "/api/user/{userId}/permission/{permissionId}")
-	public void addPermissionToUser(@PathVariable int userId, @PathVariable int permissionId) {
-		System.out.println("in controller "+userId);
+	public void addPermissionToUser(@PathVariable int userId, @PathVariable int permissionId, HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		boolean isDone = userDAO.addPermissionToUser(userId, permissionId);
-		if(!isDone) {
+		if (!isDone) {
 			throw new CustomBadRequestException("Error occured in adding permission to user");
 		}
 	}
 
 	@DeleteMapping(value = "/api/user/{userId}/permission/{permissionId}")
-	public void removePermissionFromUser(@PathVariable int userId, @PathVariable int permissionId) {
+	public void removePermissionFromUser(@PathVariable int userId, @PathVariable int permissionId,
+			HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		userDAO.removePermissionFromUser(userId, permissionId);
 	}
-	
-	@GetMapping(value="/api/user/{userId}/permissions")
-	public List<Permission> getUserPermissions(@PathVariable int userId) {
+
+	@GetMapping(value = "/api/user/{userId}/permissions")
+	public List<Permission> getUserPermissions(@PathVariable int userId,HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return userDAO.getPermissionOfUser(userId);
 	}
-	
-	@GetMapping(value="/api/user/{userId}/exceptPermissions")
-	public List<Permission> getPermissionsExceptUser(@PathVariable int userId){
+
+	@GetMapping(value = "/api/user/{userId}/exceptPermissions")
+	public List<Permission> getPermissionsExceptUser(@PathVariable int userId, HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return userDAO.getAllPermissionsExceptUser(userId);
 	}
 }

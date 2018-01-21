@@ -90,7 +90,6 @@ public class AdminDAOImpl implements AdminDAO {
 	public boolean updatePassword(String uri, String password) {
 
 		int adminId = getAdminIdFromURI(uri);
-		System.out.println(adminId);
 		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
 		if (rowsAffected == 0) {
 			logger.error("couldn't update password");
@@ -121,7 +120,6 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
-		System.out.println(uri);
 		String sql = "SELECT ADMIN_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
 		Integer adminId;
 		try {

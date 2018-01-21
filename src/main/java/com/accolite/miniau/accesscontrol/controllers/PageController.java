@@ -8,15 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestException;
 import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedException;
 import com.accolite.miniau.accesscontrol.dao.AdminDAO;
 import com.accolite.miniau.accesscontrol.dao.UserDAO;
-import com.accolite.miniau.accesscontrol.model.Admin;
 import com.accolite.miniau.accesscontrol.utility.HashUtility;
 import com.accolite.miniau.accesscontrol.utility.StringLiteral;
 
@@ -61,32 +58,33 @@ public class PageController {
 
 	@GetMapping("/{userType}/updatePassword/{uri}")
 	public String updatePasswordPage(@PathVariable String uri, @PathVariable String userType, HttpSession session) {
-		System.out.println("page req" + uri);
 		session.setAttribute("uri", uri);
-		System.out.println(session.getAttribute("uri"));
 		session.setAttribute("userType", userType);
 		return "redirect:/forgotpassword";
 	}
 
 	@GetMapping("/forgotpassword")
 	public String providePasswordResetPage() {
-		return "forgotpassword";
+		return "mailId";
+	}
+	
+	@PostMapping("/mailForpass")
+	public String getMailIdForPasswordReset() {
+		//todo check if the mail id exsist 
+		//send mail for password
+		return "redirect: /access-control-list-service/";
 	}
 
 	@PostMapping("/resetPassword")
 	public String updatePasswordRequest(HttpSession session, @RequestParam String pswd) {
-		System.out.println(pswd);
 		String uri = (String) session.getAttribute("uri");
 		if (uri == null)
 			throw new CustomBadRequestException("Invalid Request");
 		String userType = (String) session.getAttribute("userType");
 		pswd = HashUtility.hashPassword(pswd);
-		System.out.println(userType);
 		if (userType.equals("admin")) {
-			System.out.println(1);
 			adminDAO.updatePassword(uri, pswd);
 		} else {
-			System.out.println(2);
 			userDAO.updatePassword(uri, pswd);
 		}
 		return "redirect: /access-control-list-service/";

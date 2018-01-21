@@ -5,6 +5,7 @@ package com.accolite.miniau.accesscontrol.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.accolite.miniau.accesscontrol.customexception.CustomBadRequestException;
 import com.accolite.miniau.accesscontrol.customexception.CustomNotFoundException;
+import com.accolite.miniau.accesscontrol.customexception.CustomUnAuthorizedException;
 import com.accolite.miniau.accesscontrol.dao.GroupDAO;
 import com.accolite.miniau.accesscontrol.model.Group;
 import com.accolite.miniau.accesscontrol.model.Permission;
@@ -43,7 +45,9 @@ public class GroupController {
 	 *            the binding result
 	 */
 	@PostMapping(value = "/api/group")
-	public void createNewGroup(@RequestBody @Valid Group group, BindingResult bindingResult) {
+	public void createNewGroup(@RequestBody @Valid Group group, BindingResult bindingResult,HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		if (bindingResult.hasErrors()) {
 			throw new CustomBadRequestException("Invalid Details!");
 		}
@@ -59,7 +63,9 @@ public class GroupController {
 	 * @return the all group names
 	 */
 	@GetMapping(value = "/api/groupNames")
-	public List<String> getAllGroupNames() {
+	public List<String> getAllGroupNames(HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return groupDAO.getAllGroupNames();
 	}
 
@@ -69,7 +75,9 @@ public class GroupController {
 	 * @return the all groups
 	 */
 	@GetMapping(value = "/api/groups")
-	public List<Group> getAllGroups() {
+	public List<Group> getAllGroups(HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return groupDAO.getAllGroups();
 	}
 
@@ -82,7 +90,9 @@ public class GroupController {
 	 *            the user id
 	 */
 	@PutMapping(value = "/api/group/{groupId}/user/{userId}")
-	public void addUserToGroup(@PathVariable int groupId, @PathVariable int userId) {
+	public void addUserToGroup(@PathVariable int groupId, @PathVariable int userId,HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		boolean isDone = groupDAO.addUserToGroup(groupId, userId);
 		if (!isDone) {
 			throw new CustomBadRequestException("User Already exsist in Group");
@@ -98,7 +108,9 @@ public class GroupController {
 	 *            the user id
 	 */
 	@DeleteMapping(value = "/api/group/{groupId}/user/{userId}")
-	public void deleteUserFromGroup(@PathVariable int groupId, @PathVariable int userId) {
+	public void deleteUserFromGroup(@PathVariable int groupId, @PathVariable int userId,HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		boolean isDone = groupDAO.removeUserFromGroup(groupId, userId);
 		if (!isDone) {
 			throw new CustomNotFoundException("User already not in group!");
@@ -112,7 +124,9 @@ public class GroupController {
 	 *            the group id
 	 */
 	@DeleteMapping(value = "/api/group/{groupId}")
-	public void deleteGroup(@PathVariable int groupId) {
+	public void deleteGroup(@PathVariable int groupId,HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		boolean isDone = groupDAO.deleteGroup(groupId);
 		if (!isDone) {
 			throw new CustomNotFoundException("Cannot Delete! Group doesn't Exsist.");
@@ -127,32 +141,44 @@ public class GroupController {
 	 * @return the users from group
 	 */
 	@GetMapping(value = "/api/group/{groupId}/users")
-	public List<User> getUsersFromGroup(@PathVariable int groupId) {
+	public List<User> getUsersFromGroup(@PathVariable int groupId, HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return groupDAO.getUsersInGroup(groupId);
 	}
 
 	@GetMapping(value = "/api/group/{groupId}/usersExceptInGroup")
-	public List<User> getUsersNotINGroup(@PathVariable int groupId) {
+	public List<User> getUsersNotINGroup(@PathVariable int groupId, HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return groupDAO.getUsersNotInGroup(groupId);
 	}
 
 	@PutMapping("/api/group/{groupId}/permission/{permissionId}")
-	public void addPermissionToGroup(@PathVariable int groupId, @PathVariable int permissionId) {
+	public void addPermissionToGroup(@PathVariable int groupId, @PathVariable int permissionId,HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		groupDAO.addPermission(groupId, permissionId);
 	}
 
 	@DeleteMapping("/api/group/{groupId}/permission/{permissionId}")
-	public void removePermissionFromGroup(@PathVariable int groupId, @PathVariable int permissionId) {
+	public void removePermissionFromGroup(@PathVariable int groupId, @PathVariable int permissionId,HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		groupDAO.removePermission(groupId, permissionId);
 	}
 
 	@GetMapping("/api/group/{groupId}/permission")
-	public List<Permission> getPermissionInGroup(@PathVariable int groupId) {
+	public List<Permission> getPermissionInGroup(@PathVariable int groupId, HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return groupDAO.getGroupPermissions(groupId);
 	}
 	
 	@GetMapping("/api/group/{groupId}/exceptPermission")
-	public List<Permission> getPermissionExceptInGroup(@PathVariable int groupId) {
+	public List<Permission> getPermissionExceptInGroup(@PathVariable int groupId,HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return groupDAO.getPermissionNotInGroup(groupId);
 	}
 }
