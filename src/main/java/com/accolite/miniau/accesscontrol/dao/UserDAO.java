@@ -138,9 +138,14 @@ public interface UserDAO {
 	 *
 	 * @param email
 	 *            the email
+	 * @return
 	 */
 	public void sendPasswordLink(String email, String ip, int port);
 
 	public List<Permission> getAllPermissionsExceptUser(int userId);
+
+	public void setDataSourceForURIUtil(DataSource dataSource);
+
+	public String getURI();
 
 }

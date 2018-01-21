@@ -143,8 +143,8 @@ public class GroupDAOImpl implements GroupDAO {
 	@Override
 	public boolean deleteGroup(int groupId) {
 		logger.info("deleting the group from the tables group, user_group");
-		String query = "DELETE FROM ACL.GROUP WHERE GROUP_ID=?";
-		int rowsAffected = jdbcTemplate.update(query, groupId);
+
+		int rowsAffected = jdbcTemplate.update(Query.DELETEGROUP, groupId);
 		if (rowsAffected == 0) {
 			logger.info("failed to delete group" + groupId);
 			return false;
@@ -205,6 +205,7 @@ public class GroupDAOImpl implements GroupDAO {
 
 	@Override
 	public List<User> getUsersNotInGroup(int groupId) {
+
 		String sql = "SELECT * FROM USER WHERE USER_ID NOT IN (SELECT DISTINCT USER_ID FROM USER_GROUP WHERE GROUP_ID=?)";
 		return jdbcTemplate.query(sql, new Object[] { groupId }, new UserMapper());
 	}

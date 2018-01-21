@@ -64,8 +64,8 @@
 	<bean id="uriUtil" class="com.accolite.miniau.accesscontrol.utility.UriUtility"
 		autowire="byType">
 	</bean>
-	<mvc:resources mapping="/resources/**" location="/resources/"
+	  <mvc:resources mapping="/resources/**" location="/resources/"
 		cache-period="31556926" />
 
 	<mvc:annotation-driven />
-</beans>  
+	</beans>  

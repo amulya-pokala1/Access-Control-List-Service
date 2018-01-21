@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.accolite.miniau.accesscontrol.model.Admin;
 
 /**
@@ -41,7 +43,6 @@ public interface AdminDAO {
 	 *            the password
 	 * @return true, if successful
 	 */
-	public boolean updatePassword(String uri, String password);
 
 	/**
 	 * Sets the data source.
@@ -84,5 +85,11 @@ public interface AdminDAO {
 	public List<Admin> getAllAdmins();
 
 	public boolean isAdmin(String email);
+
+	boolean updatePassword(String uri, String password);
+
+	void setDataSourceForURIUtil(DataSource dataSource);
+
+	String getURI();
 
 }

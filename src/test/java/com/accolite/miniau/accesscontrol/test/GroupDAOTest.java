@@ -37,7 +37,7 @@ public class GroupDAOTest {
 	@BeforeClass
 	public static void setUp() {
 		context = new FileSystemXmlApplicationContext(
-				"C:\\Users\\Hyderabad-Intern\\eclipse-workspace\\Access-Control-List-service\\src\\main\\webapp\\WEB-INF\\springDispatcherServlet-servlet.xml");
+				"C:\\Users\\Hyderabad-Intern\\eclipse-workspace\\Access-Control-List-Service\\src\\main\\webapp\\WEB-INF\\springDispatcherServlet-servlet.xml");
 		dataSource = (DataSource) context.getBean("dataSource");
 		groupdao = new GroupDAOImpl();
 		userdao = new UserDAOImpl();
@@ -52,16 +52,17 @@ public class GroupDAOTest {
 	public void testAddNewGroup() {
 		group = new Group(GROUPNAME, "test");
 		boolean result = groupdao.addNewGroup(group);
-		assertTrue(result);
 		groupdao.deleteGroup(group.getGroupId());
+		assertTrue(result);
 	}
 
 	@Test
 	public void testAddNewGroupError() {
 		group = new Group(null, "test");
 		boolean result = groupdao.addNewGroup(group);
-		assertFalse(result);
 		groupdao.deleteGroup(group.getGroupId());
+		assertFalse(result);
+
 	}
 
 	@Test
@@ -69,8 +70,8 @@ public class GroupDAOTest {
 		group = new Group(GROUPNAME, "test");
 		groupdao.addNewGroup(group);
 		List<String> groupNames = groupdao.getAllGroupNames();
-		assertTrue(groupNames.contains(GROUPNAME));
 		groupdao.deleteGroup(group.getGroupId());
+		assertTrue(groupNames.contains(GROUPNAME));
 
 	}
 
@@ -85,8 +86,9 @@ public class GroupDAOTest {
 				count--;
 			}
 		}
-		assertEquals(0, count);
 		groupdao.deleteGroup(group.getGroupId());
+		assertEquals(0, count);
+
 	}
 
 	@Test
@@ -216,8 +218,9 @@ public class GroupDAOTest {
 		group = new Group(GROUPNAME, "test");
 		groupdao.addNewGroup(group);
 		boolean result = groupdao.deleteGroup(group.getGroupId());
-		assertTrue(result);
 		groupdao.deleteGroup(group.getGroupId());
+		assertTrue(result);
+
 	}
 
 	@Test
@@ -226,8 +229,69 @@ public class GroupDAOTest {
 		group = new Group(GROUPNAME, "test");
 		groupdao.addNewGroup(group);
 		boolean result = groupdao.deleteGroup(group.getGroupId() + 1);
-		assertFalse(result);
 		groupdao.deleteGroup(group.getGroupId());
+		assertFalse(result);
+
 	}
 
+	@Test
+	public void testusersNotInGroup() {
+		group = new Group(GROUPNAME, "test");
+		groupdao.addNewGroup(group);
+		user = new User("test", "test");
+		userdao.addNewUser(user);
+		String userMail = user.getMailId();
+		int count = 0;
+		groupdao.addUserToGroup(group.getGroupId(), user.getUserId());
+		List<User> users = groupdao.getUsersNotInGroup(group.getGroupId());
+
+		for (User user : users) {
+			if (user.getMailId().equals(userMail)) {
+				count++;
+			}
+		}
+		groupdao.deleteGroup(group.getGroupId());
+		userdao.deleteUser(user.getUserId());
+		assertEquals(0, count);
+
+	}
+
+	@Test
+	public void testGetGroupPermissions() {
+		group = new Group(GROUPNAME, "test");
+		permission = new Permission("test", "test", false);
+		groupdao.addNewGroup(group);
+		permissiondao.createPermission(permission);
+		int count = 1;
+		groupdao.addPermission(group.getGroupId(), permission.getPermissionId());
+		List<Permission> permissions = groupdao.getGroupPermissions(group.getGroupId());
+		for (Permission permissionInd : permissions) {
+			if (permission.getPermissionName().equals(permissionInd.getPermissionName())) {
+				count--;
+			}
+		}
+		permissiondao.deletePermission(permission.getPermissionId());
+		groupdao.deleteGroup(group.getGroupId());
+		assertEquals(0, count);
+	}
+
+	@Test
+	public void testGetPermissionNotInGroup() {
+		group = new Group(GROUPNAME, "test");
+		permission = new Permission("test", "test", false);
+		groupdao.addNewGroup(group);
+		permissiondao.createPermission(permission);
+		int count = 1;
+		groupdao.addPermission(group.getGroupId(), permission.getPermissionId());
+		List<Permission> permissions = groupdao.getPermissionNotInGroup(group.getGroupId());
+		for (Permission permissionInd : permissions) {
+			if (permission.getPermissionName().equals(permissionInd.getPermissionName())) {
+				count--;
+			}
+		}
+		permissiondao.deletePermission(permission.getPermissionId());
+		groupdao.deleteGroup(group.getGroupId());
+		assertEquals(1, count);
+
+	}
 }
