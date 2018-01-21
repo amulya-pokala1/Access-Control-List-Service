@@ -36,7 +36,7 @@ public class PermissionDAOTest {
 
 	@Test
 	public void testCreatePermission() {
-		Permission permission = new Permission("test", "test", false);
+		Permission permission = new Permission("test", "test");
 		boolean result = permissiondao.createPermission(permission);
 		assertTrue(result);
 		permissiondao.deletePermission(permission.getPermissionId());
@@ -45,7 +45,7 @@ public class PermissionDAOTest {
 
 	@Test
 	public void testCreatePermissionExists() {
-		Permission permission = new Permission(null, "test", false);
+		Permission permission = new Permission(null, "test");
 		boolean result = permissiondao.createPermission(permission);
 		permissiondao.deletePermission(permission.getPermissionId());
 		assertFalse(result);
@@ -55,7 +55,7 @@ public class PermissionDAOTest {
 	@Test
 	public void testDeletePermission() {
 
-		Permission permission = new Permission("test", "test", false);
+		Permission permission = new Permission("test", "test");
 		permissiondao.createPermission(permission);
 		boolean result = permissiondao.deletePermission(permission.getPermissionId());
 		assertTrue(result);
@@ -64,7 +64,7 @@ public class PermissionDAOTest {
 
 	@Test
 	public void testGetAllPermissions() {
-		Permission permission = new Permission("test", "test", false);
+		Permission permission = new Permission("test", "test");
 		permissiondao.createPermission(permission);
 		List<Permission> permissions = permissiondao.getAllPermissionList();
 		int count = 1;
@@ -76,5 +76,4 @@ public class PermissionDAOTest {
 		assertEquals(0, count);
 		permissiondao.deletePermission(permission.getPermissionId());
 	}
-
 }

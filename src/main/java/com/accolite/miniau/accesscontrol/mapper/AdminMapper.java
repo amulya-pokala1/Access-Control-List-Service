@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.accolite.miniau.accesscontrol.model.Admin;
 
-public class AdminMapper implements RowMapper<Admin>{
+public class AdminMapper implements RowMapper<Admin> {
 
 	@Override
 	public Admin mapRow(ResultSet rs, int rowNum) throws SQLException {

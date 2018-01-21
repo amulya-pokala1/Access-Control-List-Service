@@ -221,9 +221,16 @@ public class UserDAOImpl implements UserDAO {
 	 */
 	@Override
 	public int validateUser(User user) {
-		String sql = "";
-		// TODO for ACL controller
-		return 0;
+		String sql = "SELECT USER_ID FROM USER WHERE MAIL_ID = ? AND PASSKEY=?";
+		int userId;
+		try {
+			userId = jdbcTemplate.queryForObject(sql, new Object[] { user.getMailId(), user.getPassword() },
+					Integer.class);
+		} catch (Exception e) {
+			logger.error("Exception", e);
+			userId = 0;
+		}
+		return userId;
 	}
 
 	/*
@@ -241,6 +248,7 @@ public class UserDAOImpl implements UserDAO {
 			userId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
 			logger.error("error getting user id from uri", e);
+			logger.error("Exception", e);
 			userId = 0;
 		}
 		return userId;
@@ -255,7 +263,7 @@ public class UserDAOImpl implements UserDAO {
 	 */
 	@Override
 	public Integer getUserIdUsingEmail(String email) {
-		String sql = "SELECT USER_ID FROM ADMIN WHERE MAIL_ID = ?";
+		String sql = "SELECT USER_ID FROM USER WHERE MAIL_ID = ?";
 		Integer userId;
 		try {
 			userId = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);

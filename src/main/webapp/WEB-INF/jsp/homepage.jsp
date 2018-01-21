@@ -105,7 +105,7 @@
 								<label for="pwd">Password:</label> <input type="password"
 									class="form-control" id="admin_pwd"
 									placeholder="Enter password" name="pswd"> <br> <a
-									href="forgotpassword.html">Forgot Password</a>
+									href="/access-control-list-service/mailForpass">Forgot Password</a>
 							</div>
 
 							<button class="btn btn-primary">SUBMIT</button>

@@ -171,7 +171,7 @@ public class UserDAOTest {
 	public void testRemovePermissionOfUser() {
 		User user = new User("test", "test");
 		userdao.addNewUser(user);
-		Permission permission = new Permission("test", "test", false);
+		Permission permission = new Permission("test", "test");
 
 		boolean result = permissiondao.createPermission(permission);
 		assertTrue(result);
@@ -186,7 +186,7 @@ public class UserDAOTest {
 	public void testRemovePermissionOfUserError() {
 		User user = new User("test", "test");
 		userdao.addNewUser(user);
-		Permission permission = new Permission("test", "test", false);
+		Permission permission = new Permission("test", "test");
 		permissiondao.createPermission(permission);
 		boolean result = userdao.removePermissionFromUser(user.getUserId(), permission.getPermissionId() + 1);
 		assertFalse(result);

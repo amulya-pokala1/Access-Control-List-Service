@@ -21,9 +21,6 @@ public class Permission {
 	@Length(max = 100)
 	String permissionDescription;
 
-	/** The mandatory. */
-	boolean mandatory;
-
 	/**
 	 * Instantiates a new permission.
 	 */
@@ -41,11 +38,10 @@ public class Permission {
 	 * @param isMandatory
 	 *            the is mandatory
 	 */
-	public Permission(String permission, String permissionDescription, boolean isMandatory) {
+	public Permission(String permission, String permissionDescription) {
 		super();
 		this.permissionName = permission;
 		this.permissionDescription = permissionDescription;
-		this.mandatory = isMandatory;
 	}
 
 	/**
@@ -105,25 +101,6 @@ public class Permission {
 		this.permissionDescription = permissionDescription;
 	}
 
-	/**
-	 * Checks if is mandatory.
-	 *
-	 * @return true, if is mandatory
-	 */
-	public boolean isMandatory() {
-		return mandatory;
-	}
-
-	/**
-	 * Sets the mandatory.
-	 *
-	 * @param isMandatory
-	 *            the new mandatory
-	 */
-	public void setMandatory(boolean isMandatory) {
-		this.mandatory = isMandatory;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -132,7 +109,7 @@ public class Permission {
 	@Override
 	public String toString() {
 		return "Permission [permissionName=" + permissionName + ", permissionDescription=" + permissionDescription
-				+ ", isMandatory=" + mandatory + "]";
+				+ "]";
 	}
 
 }

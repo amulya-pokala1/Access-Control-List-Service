@@ -31,11 +31,11 @@
     <div>
         <div class="container">
                 <h2 style="text-align:center; margin-top: 25px;" >ACCESS CONTROL LIST SERVICE</h2>
-            <form>
+            <form action="/access-control-list-service/mailForpass" method="POST">
 
                 <div class="form-group">
                     <h3>Email </h3>
-                    <input type="text" class="form-control" id="mail" placeholder="Enter Email" name="mail">
+                    <input type="text" class="form-control" id="mail" placeholder="Enter Email" name="email">
                 </div>
                 
 

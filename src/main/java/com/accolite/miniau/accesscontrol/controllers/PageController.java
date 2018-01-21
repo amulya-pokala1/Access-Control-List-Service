@@ -1,5 +1,9 @@
 package com.accolite.miniau.accesscontrol.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,38 +44,47 @@ public class PageController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect: /access-control-list-service/";
+		return StringLiteral.HOME;
 	}
 
 	@PostMapping("login1")
-	public String login(@RequestParam String email,@RequestParam String pswd, HttpSession session) {
-		
+	public String login(@RequestParam String email, @RequestParam String pswd, HttpSession session) {
+
 		pswd = HashUtility.hashPassword(pswd);
-		Integer id = adminDAO.authenticate(email,pswd);
+		Integer id = adminDAO.authenticate(email, pswd);
 		if (id == null) {
 			session.invalidate();
 			throw new CustomUnAuthorizedException("Invalid credentials!");
 		}
 		session.setAttribute("adminId", id);
-		return "redirect: /access-control-list-service/";
+		return StringLiteral.HOME;
 	}
 
 	@GetMapping("/{userType}/updatePassword/{uri}")
 	public String updatePasswordPage(@PathVariable String uri, @PathVariable String userType, HttpSession session) {
 		session.setAttribute("uri", uri);
 		session.setAttribute("userType", userType);
-		return "redirect:/forgotpassword";
+		return "redirect: /access-control-list-service/forgotpassword";
 	}
 
 	@GetMapping("/forgotpassword")
 	public String providePasswordResetPage() {
+		return "forgotpassword";
+	}
+
+	@GetMapping("/mailForpass")
+	public String getMailIdForPasswordResetPage() {
 		return "mailId";
 	}
-	
+
 	@PostMapping("/mailForpass")
-	public String getMailIdForPasswordReset() {
-		//todo check if the mail id exsist 
-		//send mail for password
+	public String getMailIdForPasswordReset(@RequestParam String email, HttpServletRequest request)
+			throws UnknownHostException {
+		boolean flag = adminDAO.isAdmin(email);
+		if (!flag) {
+			throw new CustomBadRequestException("Invalid Email");
+		}
+		adminDAO.sendPasswordLink(email, InetAddress.getLocalHost().getHostAddress(), request.getLocalPort());
 		return "redirect: /access-control-list-service/";
 	}
 

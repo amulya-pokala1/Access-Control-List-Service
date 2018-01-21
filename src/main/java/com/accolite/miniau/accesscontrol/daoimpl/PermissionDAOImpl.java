@@ -50,11 +50,12 @@ public class PermissionDAOImpl implements PermissionDAO {
 	public boolean createPermission(Permission permission) {
 		try {
 			jdbcTemplate.update(Query.CREATEPERMISSION, permission.getPermissionName(),
-					permission.getPermissionDescription(), permission.isMandatory());
+					permission.getPermissionDescription());
 			int permissionId = jdbcTemplate.queryForObject(Query.GETPERMISSIONID,
 					new Object[] { permission.getPermissionName() }, Integer.class);
 			permission.setPermissionId(permissionId);
 		} catch (DataAccessException e) {
+			logger.error("Exception", e);
 			return false;
 		}
 		return true;

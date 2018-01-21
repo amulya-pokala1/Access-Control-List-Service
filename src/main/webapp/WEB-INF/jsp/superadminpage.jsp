@@ -91,10 +91,12 @@
 	<h1>Admin List</h1>
 	<table class="table">
 		<thead>
-			<td>S.No</td>
-			<td>Name</td>
-			<td>E-Mail</td>
-			<td>Description</td>
+		<tr>
+			<th>S.No</th>
+			<th>Name</th>
+			<th>E-Mail</th>
+			<th>Description</th>
+		</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="admin in adminList">

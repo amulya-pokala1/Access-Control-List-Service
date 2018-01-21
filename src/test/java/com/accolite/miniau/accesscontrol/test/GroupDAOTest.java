@@ -162,7 +162,7 @@ public class GroupDAOTest {
 	@Test
 	public void testAddPermission() {
 		group = new Group(GROUPNAME, "test");
-		permission = new Permission("test", "test", false);
+		permission = new Permission("test", "test");
 		groupdao.addNewGroup(group);
 		permissiondao.createPermission(permission);
 		boolean result = groupdao.addPermission(group.getGroupId(), permission.getPermissionId());
@@ -174,7 +174,7 @@ public class GroupDAOTest {
 	@Test
 	public void testAddPermissionerror() {
 		group = new Group(GROUPNAME, "test");
-		permission = new Permission("test", "test", false);
+		permission = new Permission("test", "test");
 		groupdao.addNewGroup(group);
 		permissiondao.createPermission(permission);
 		boolean result = groupdao.addPermission(group.getGroupId(), permission.getPermissionId() + 1);
@@ -187,7 +187,7 @@ public class GroupDAOTest {
 	@Test
 	public void testRemovePermission() {
 		group = new Group(GROUPNAME, "test");
-		permission = new Permission("test", "test", false);
+		permission = new Permission("test", "test");
 		groupdao.addNewGroup(group);
 		permissiondao.createPermission(permission);
 		groupdao.addPermission(group.getGroupId(), permission.getPermissionId());
@@ -200,7 +200,7 @@ public class GroupDAOTest {
 	@Test
 	public void testRemovePermissionError() {
 		group = new Group(GROUPNAME, "test");
-		permission = new Permission("test", "test", false);
+		permission = new Permission("test", "test");
 		groupdao.addNewGroup(group);
 		permissiondao.createPermission(permission);
 		groupdao.addPermission(group.getGroupId(), permission.getPermissionId());

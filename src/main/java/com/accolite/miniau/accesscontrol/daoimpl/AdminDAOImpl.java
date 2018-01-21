@@ -120,12 +120,11 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
-		String sql = "SELECT ADMIN_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
+			adminId = jdbcTemplate.queryForObject(Query.GETADMINIDFROMURI, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception ", e);
 			adminId = 0;
 		}
 		return adminId;
@@ -158,10 +157,9 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdUsingEmail(String email) {
-		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID = ?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
+			adminId = jdbcTemplate.queryForObject(Query.GETADMINIDUSINGEMAIL, new Object[] { email }, Integer.class);
 		} catch (Exception e) {
 			adminId = 0;
 		}
@@ -170,11 +168,11 @@ public class AdminDAOImpl implements AdminDAO {
 
 	@Override
 	public String getAdminName(int adminId) {
-		String sql = "SELECT ADMIN_NAME FROM ADMIN WHERE ADMIN_ID = ?";
 		String name;
 		try {
-			name = jdbcTemplate.queryForObject(sql, String.class);
+			name = jdbcTemplate.queryForObject(Query.GETADMINNAME, new Object[] { adminId }, String.class);
 		} catch (Exception e) {
+			logger.error("Exception ", e);
 			name = null;
 		}
 		return name;
@@ -182,10 +180,9 @@ public class AdminDAOImpl implements AdminDAO {
 
 	@Override
 	public Integer authenticate(String email, String pswd) {
-		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID=? AND PASSKEY=?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql, new Object[] { email, pswd }, Integer.class);
+			adminId = jdbcTemplate.queryForObject(Query.AUTHENTICATIE, new Object[] { email, pswd }, Integer.class);
 		} catch (Exception e) {
 			adminId = null;
 		}
@@ -194,7 +191,17 @@ public class AdminDAOImpl implements AdminDAO {
 
 	@Override
 	public List<Admin> getAllAdmins() {
-		String sql = "SELECT * FROM ADMIN";
-		return jdbcTemplate.query(sql, new AdminMapper());
+		return jdbcTemplate.query(Query.GETALLADMINS, new AdminMapper());
+	}
+
+	@Override
+	public boolean isAdmin(String email) {
+		int count;
+		try {
+			count = jdbcTemplate.queryForObject(Query.ISADMIN, new Object[] { email }, Integer.class);
+		} catch (Exception e) {
+			count = 0;
+		}
+		return (count > 0);
 	}
 }

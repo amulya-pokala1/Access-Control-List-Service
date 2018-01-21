@@ -110,9 +110,11 @@ public interface GroupDAO {
 	public boolean deleteGroup(int groupId);
 
 	public List<User> getUsersNotInGroup(int groupId);
-	
+
 	public List<Permission> getGroupPermissions(int groupId);
-	
+
 	public List<Permission> getPermissionNotInGroup(int groupId);
+
+	public Group getGroupDetailsByGroupName(String groupName);
 
 }

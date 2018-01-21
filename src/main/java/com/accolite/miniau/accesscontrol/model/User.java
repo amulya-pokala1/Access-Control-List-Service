@@ -25,7 +25,7 @@ public class User {
 
 	/** The mail id. */
 	@Length(max = 200)
-	@Pattern(regexp=StringLiteral.EMAIL)
+	@Pattern(regexp = StringLiteral.EMAIL)
 	private String mailId;
 
 	/** The password. */

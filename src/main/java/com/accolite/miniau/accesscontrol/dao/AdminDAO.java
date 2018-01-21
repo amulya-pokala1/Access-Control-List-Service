@@ -83,4 +83,6 @@ public interface AdminDAO {
 
 	public List<Admin> getAllAdmins();
 
+	public boolean isAdmin(String email);
+
 }
