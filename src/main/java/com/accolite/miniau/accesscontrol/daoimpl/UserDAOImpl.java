@@ -235,7 +235,7 @@ public class UserDAOImpl implements UserDAO {
 	 */
 	@Override
 	public Integer getUserIdFromURI(String uri) {
-		String sql = "SELECT USER_ID FROM USER_PASSWORD_URI WHERE URI=?";
+		String sql = "SELECT USER_ID FROM ACL.USER_PASSWORD_URI WHERE URI=?";
 		Integer userId;
 		try {
 			userId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
@@ -254,7 +254,7 @@ public class UserDAOImpl implements UserDAO {
 	 */
 	@Override
 	public Integer getUserIdUsingEmail(String email) {
-		String sql = "SELECT USER_ID FROM ADMIN WHERE MAIL_ID = ?";
+		String sql = "SELECT USER_ID FROM USER WHERE MAIL_ID = ?";
 		Integer userId;
 		try {
 			userId = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
@@ -280,5 +280,17 @@ public class UserDAOImpl implements UserDAO {
 		String link = "http://" + ip + ":" + "8080/access-control-list-service/user/updatePassword/" + uri;
 		mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
+	}
+	
+	@Override
+	public boolean setUserPasswordUri(int userId, String uri) {
+		String sql="INSERT INTO USER_PASSWORD_URI VALUES(?,?)";
+		try {
+			jdbcTemplate.update(sql,userId,uri);
+		}
+		catch(DataAccessException e) {
+			return false;
+		}
+		return true;
 	}
 }

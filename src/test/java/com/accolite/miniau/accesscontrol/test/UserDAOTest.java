@@ -3,6 +3,7 @@ package com.accolite.miniau.accesscontrol.test;
 import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -122,24 +123,7 @@ public class UserDAOTest {
 		userdao.deleteUser(user.getUserId());
 	}
 
-	@Test
-	public void testUpdatePassword() {
-		User user = new User("test", "test");
-		userdao.addNewUser(user);
-		boolean result = userdao.updatePassword(user.getUserId(), "test");
-		assertTrue(result);
-		userdao.deleteUser(user.getUserId());
-	}
-
-	@Test
-	public void testUpdatePasswordNoUser() {
-		User user = new User("test", "test");
-		userdao.addNewUser(user);
-		boolean result = userdao.updatePassword(user.getUserId() + 1, "dont_know");
-		assertFalse(result);
-		userdao.deleteUser(user.getUserId());
-	}
-
+	
 	@Test
 	public void testAddPermissionToUserNoUser() {
 		User user = new User("test", "test");
@@ -154,8 +138,9 @@ public class UserDAOTest {
 		User user = new User("test", "test");
 		userdao.addNewUser(user);
 		boolean result = userdao.addPermissionToUser(user.getUserId(), 1);
-		assertTrue(result);
 		userdao.deleteUser(user.getUserId());
+		assertTrue(result);
+		
 	}
 
 	@Test
@@ -177,10 +162,11 @@ public class UserDAOTest {
 		assertTrue(result);
 		userdao.addPermissionToUser(user.getUserId(), permission.getPermissionId());
 		result = userdao.removePermissionFromUser(user.getUserId(), permission.getPermissionId());
-		assertTrue(result);
 		userdao.deleteUser(user.getUserId());
 		permissiondao.deletePermission(permission.getPermissionId());
-	}
+
+		assertTrue(result);
+			}
 
 	@Test
 	public void testRemovePermissionOfUserError() {
@@ -194,4 +180,43 @@ public class UserDAOTest {
 		permissiondao.deletePermission(permission.getPermissionId());
 	}
 
+	@Test
+	public void testGetUserIDFromMail() {
+		User user = new User("test", "test");
+		userdao.addNewUser(user);
+		int userId=userdao.getUserIdUsingEmail(user.getMailId());
+		assertEquals(user.getUserId(), userId);
+		userdao.deleteUser(user.getUserId());
+	}
+	
+	@Test
+	public void testGetUserIDFromMailError() {
+		User user = new User("test", "test");
+		userdao.addNewUser(user);
+		int userId=userdao.getUserIdUsingEmail(user.getMailId()+user.getMailId());
+		userdao.deleteUser(user.getUserId());
+		assertNotEquals(user.getUserId(), userId);
+		
+	}
+	
+	@Test
+	public void testGetUserIdFromURI() {
+		User user = new User("test", "test");
+		userdao.addNewUser(user);
+		userdao.setUserPasswordUri(user.getUserId(), "test");
+		int result=userdao.getUserIdFromURI("test");
+		assertEquals(user.getUserId(),result);
+		userdao.deleteUser(user.getUserId());
+		
+	}
+	
+	@Test
+	public void testSetUserPasswordURIError() {
+		User user = new User("test", "test");
+		userdao.addNewUser(user);
+		boolean result=userdao.setUserPasswordUri(user.getUserId(), null);
+		assertFalse(result);
+		userdao.deleteUser(user.getUserId());
+	}
+	
 }

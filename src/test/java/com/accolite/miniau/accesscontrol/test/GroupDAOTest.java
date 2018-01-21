@@ -52,16 +52,17 @@ public class GroupDAOTest {
 	public void testAddNewGroup() {
 		group = new Group(GROUPNAME, "test");
 		boolean result = groupdao.addNewGroup(group);
-		assertTrue(result);
 		groupdao.deleteGroup(group.getGroupId());
+		assertTrue(result);
 	}
 
 	@Test
 	public void testAddNewGroupError() {
 		group = new Group(null, "test");
 		boolean result = groupdao.addNewGroup(group);
-		assertFalse(result);
 		groupdao.deleteGroup(group.getGroupId());
+		assertFalse(result);
+		
 	}
 
 	@Test
@@ -69,8 +70,9 @@ public class GroupDAOTest {
 		group = new Group(GROUPNAME, "test");
 		groupdao.addNewGroup(group);
 		List<String> groupNames = groupdao.getAllGroupNames();
-		assertTrue(groupNames.contains(GROUPNAME));
 		groupdao.deleteGroup(group.getGroupId());
+		assertTrue(groupNames.contains(GROUPNAME));
+		
 
 	}
 
@@ -85,8 +87,9 @@ public class GroupDAOTest {
 				count--;
 			}
 		}
-		assertEquals(0, count);
 		groupdao.deleteGroup(group.getGroupId());
+		assertEquals(0, count);
+		
 	}
 
 	@Test
@@ -216,8 +219,9 @@ public class GroupDAOTest {
 		group = new Group(GROUPNAME, "test");
 		groupdao.addNewGroup(group);
 		boolean result = groupdao.deleteGroup(group.getGroupId());
-		assertTrue(result);
 		groupdao.deleteGroup(group.getGroupId());
+		assertTrue(result);
+		
 	}
 
 	@Test
@@ -226,8 +230,34 @@ public class GroupDAOTest {
 		group = new Group(GROUPNAME, "test");
 		groupdao.addNewGroup(group);
 		boolean result = groupdao.deleteGroup(group.getGroupId() + 1);
-		assertFalse(result);
 		groupdao.deleteGroup(group.getGroupId());
+		assertFalse(result);
+		
+	}
+	
+	@Test
+	public void testusersNotInGroup() {
+		group = new Group(GROUPNAME, "test");
+		groupdao.addNewGroup(group);
+		user = new User("test", "test");
+		userdao.addNewUser(user);
+		String userMail=user.getMailId();
+		int count=0;
+		groupdao.addUserToGroup(group.getGroupId(), user.getUserId());
+		List<User> users=groupdao.getUsersNotInGroup(group.getGroupId());
+		
+		for(User user: users) {
+			if(user.getMailId().equals(userMail)) {
+				count++;
+			}
+		}
+		groupdao.deleteGroup(group.getGroupId());
+		userdao.deleteUser(user.getUserId());
+		assertEquals(0,count);
+		
+	}
+		
+		
 	}
 
-}
+

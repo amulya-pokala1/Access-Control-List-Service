@@ -87,9 +87,13 @@ public class AdminDAOImpl implements AdminDAO {
 	public boolean updatePassword(String uri, String password) {
 
 		int adminId = getAdminIdFromURI(uri);
-		int rowsAffected = jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
-		if (rowsAffected == 0) {
+		System.out.println(adminId);
+		try {
+		jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
+		}
+		catch(DataAccessException e) {
 			logger.error("couldn't update password");
+			return false;
 		}
 		uriUtil.deleteURI(uri, UserType.ADMIN);
 		logger.info("changed password");
@@ -136,13 +140,14 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	@Async
-	public void sendPasswordLink(String email, String ip, int port) {
+	public boolean sendPasswordLink(String email, String ip, int port) {
 		Integer adminId = getAdminIdUsingEmail(email);
 		String uri = HashUtility.createUniqueUriPath(adminId, email);
 		uriUtil.createURI(adminId, uri, UserType.ADMIN);
 		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri;
-		mailUtil.sendEmailAsync(email, "Update Password",
+		boolean result=mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
+		return result;
 	}
 
 	/*
@@ -169,7 +174,7 @@ public class AdminDAOImpl implements AdminDAO {
 		String sql = "SELECT ADMIN_NAME FROM ADMIN WHERE ADMIN_ID = ?";
 		String name;
 		try {
-			name = jdbcTemplate.queryForObject(sql, String.class);
+			name = jdbcTemplate.queryForObject(sql,new Object[] {adminId}, String.class);
 		} catch (Exception e) {
 			name = null;
 		}
@@ -181,10 +186,36 @@ public class AdminDAOImpl implements AdminDAO {
 		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID=? AND PASSKEY=?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql, Integer.class);
+			adminId = jdbcTemplate.queryForObject(sql,new Object[] {admin.getMailId(),admin.getPassword()}, Integer.class);
 		} catch (Exception e) {
-			adminId = null;
+			adminId = 0;
 		}
 		return adminId;
+	}
+	
+	@Override
+	public boolean insertIntoAdminpassword(int adminId, String uri)
+	{
+		String sql="INSERT INTO ADMIN_PASSWORD_URI VALUES(?,?)";
+		try {
+			jdbcTemplate.update(sql,adminId,uri);
+		}
+		catch(DataAccessException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean deleteFromAdminPassword(int adminId, String uri) {
+		String sql="DELETE FROM ADMIN_PASSWORD_URI WHERE URI=?";
+		try {
+			jdbcTemplate.update(sql,uri);
+			
+		}
+		catch(DataAccessException e) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -75,6 +75,6 @@ public class PageController {
 		} else {
 			userDAO.updatePassword(uri, password);
 		}
-
+		
 	}
 }

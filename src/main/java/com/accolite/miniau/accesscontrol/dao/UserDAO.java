@@ -141,4 +141,6 @@ public interface UserDAO {
 	 */
 	public void sendPasswordLink(String email, String ip, int port);
 
+	boolean setUserPasswordUri(int userId, String uri);
+
 }

@@ -1,6 +1,8 @@
 package com.accolite.miniau.accesscontrol.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import javax.sql.DataSource;
@@ -64,22 +66,101 @@ public class AdminDAOTest {
 
 	}
 
+	
 	@Test
-	public void testSetPassword() {
+	public void testGetAdminName() {
 		Admin admin = new Admin("test", "test", "test");
 		admindao.createAdmin(admin);
-		boolean result = admindao.updatePassword(admin.getAdminId(), "test");
-		assertTrue(result);
+		String name=admindao.getAdminName(admin.getAdminId());
+		assertEquals(admin.getAdminName(),name);
 		admindao.deleteAdmin(admin.getAdminId());
+		
 	}
-
+	
 	@Test
-	public void testSetPasswordNoUser() {
+	public void testGetAdminNameError() {
 		Admin admin = new Admin("test", "test", "test");
 		admindao.createAdmin(admin);
-		boolean result = admindao.updatePassword(admin.getAdminId() + 1, "test");
-		logger.info(result);
+		String name=admindao.getAdminName(admin.getAdminId()+1);
+		assertNotEquals(admin.getAdminName(),name);
 		admindao.deleteAdmin(admin.getAdminId());
 	}
+	
+	@Test
+	public void testGetAdminIdUsingEmail() {
+		Admin admin = new Admin("test", "test", "test");
+		admindao.createAdmin(admin);
+		int id=admindao.getAdminIdUsingEmail(admin.getMailId());
+		assertEquals(admin.getAdminId(),id);
+		admindao.deleteAdmin(admin.getAdminId());
+	}
+	
+	@Test
+	public void testGetAdminIdUsingEmailError() {
+		Admin admin = new Admin("test", "test", "test");
+		admindao.createAdmin(admin);
+		int id=admindao.getAdminIdUsingEmail(admin.getMailId()+"c");
+		assertNotEquals(admin.getAdminId(),id);
+		admindao.deleteAdmin(admin.getAdminId());
+	}
+	
+	@Test
+	public void testGetAdminIdFromURI() {
+		Admin admin = new Admin("test", "test", "test");
+		admindao.createAdmin(admin);
+		admindao.insertIntoAdminpassword(admin.getAdminId(), "test");
+		int adminId=admindao.getAdminIdFromURI("test");
+		assertEquals(admin.getAdminId(),adminId);
+		admindao.deleteFromAdminPassword(admin.getAdminId(), "test");
+		admindao.deleteAdmin(admin.getAdminId());
+	}
+	
+	
+	@Test
+	public void testGetAdminIdFromURIErrorCase() {
+		Admin admin = new Admin("test", "test", "test");
+		admindao.createAdmin(admin);
+		admindao.insertIntoAdminpassword(admin.getAdminId(), "test");
+		int adminId=admindao.getAdminIdFromURI("test1");
+		
+		admindao.deleteFromAdminPassword(admin.getAdminId(), "test");
+		admindao.deleteAdmin(admin.getAdminId());
+		assertEquals(0,adminId);
+	}
+	
+	
+	
+	@Test
+	public void testInsertIntoAdminPassword() {
+		Admin admin = new Admin("test", "test", "test");
+		admindao.createAdmin(admin);
+		boolean result=admindao.insertIntoAdminpassword(admin.getAdminId(), null);
+		admindao.deleteAdmin(admin.getAdminId());
+		assertFalse(result);
+		
+	}
+	
+	@Test
+	public void testAuthenticate() {
+		Admin admin = new Admin("test", "test", "test@gmail.com");
+		admindao.createAdmin(admin);
+		admin.setPassword("test");
+		
+		int adminId=admindao.authenticate(admin);
+		assertNotEquals(adminId,admin.getAdminId());
+		admindao.deleteAdmin(admin.getAdminId());
+		
+		
+	}
 
+//	@Test
+//	public void testUpdatePassword() {
+//		Admin admin = new Admin("test", "test", "test");
+//		admindao.createAdmin(admin);
+//		admindao.insertIntoAdminpassword(admin.getAdminId(), "test");
+//		boolean result=admindao.updatePassword("test", "test");
+//		admindao.deleteAdmin(admin.getAdminId());
+//		assertTrue(result);
+//		
+//	}
 }
