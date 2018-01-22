@@ -43,7 +43,7 @@ public class MailUtility {
 		email.setSubject(subject);
 		email.setText(text);
 		try {
-			//mailSender = new JavaMailSenderImpl();
+			
 			mailSender.send(email);
 		} catch (MailException e) {
 			logger.error("Error sending email",e);
