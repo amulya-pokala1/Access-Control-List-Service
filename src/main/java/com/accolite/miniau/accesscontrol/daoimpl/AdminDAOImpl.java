@@ -29,7 +29,7 @@ public class AdminDAOImpl implements AdminDAO {
 
 	/** The Constant logger. */
 	private static final Logger logger = Logger.getLogger(AdminDAOImpl.class);
-	String URI;
+	String uri;
 	/** The mail util. */
 	@Autowired
 	private MailUtility mailUtil;
@@ -143,13 +143,15 @@ public class AdminDAOImpl implements AdminDAO {
 	@Async
 	public void sendPasswordLink(String email, String ip, int port) {
 		Integer adminId = getAdminIdUsingEmail(email);
-		String uri = HashUtility.createUniqueUriPath(adminId, email);
-		uriUtil.createURI(adminId, uri, UserType.ADMIN);
-		mailUtil = new MailUtility();
-		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri;
-		boolean result = mailUtil.sendEmailAsync(email, "Update Password",
+		System.out.println(1+" "+adminId);
+		String uri1 = HashUtility.createUniqueUriPath(adminId, email);
+		System.out.println(2+" "+uri1);
+		uriUtil.createURI(adminId, uri1, UserType.ADMIN);
+		//mailUtil = new MailUtility();
+		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri1;
+		mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
-		URI = uri;
+		this.uri = uri1;
 	}
 
 	/*
@@ -188,14 +190,14 @@ public class AdminDAOImpl implements AdminDAO {
 		try {
 			adminId = jdbcTemplate.queryForObject(Query.AUTHENTICATIE, new Object[] { email, pswd }, Integer.class);
 		} catch (Exception e) {
-			adminId = 0;
+			adminId = null;
 		}
 		return adminId;
 	}
 
 	@Override
 	public String getURI() {
-		return URI;
+		return uri;
 	}
 
 	@Override

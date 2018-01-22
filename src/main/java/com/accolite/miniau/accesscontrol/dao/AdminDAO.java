@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.accolite.miniau.accesscontrol.model.Admin;
 
 /**

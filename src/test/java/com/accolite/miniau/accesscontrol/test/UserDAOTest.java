@@ -222,7 +222,7 @@ public class UserDAOTest {
 	public void testGetAllPermissionsExceptUser() {
 		User user = new User("test", "test");
 		userdao.addNewUser(user);
-		Permission permission = new Permission("test", "test", false);
+		Permission permission = new Permission("test", "test");
 		permissiondao.createPermission(permission);
 		int count = 1;
 		userdao.addPermissionToUser(user.getUserId(), permission.getPermissionId());

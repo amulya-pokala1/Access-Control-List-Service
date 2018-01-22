@@ -55,9 +55,10 @@ public class UriUtility {
 			sql = "INSERT INTO USER_PASSWORD_URI(USER_ID,URI) VALUES(?,?)";
 		}
 		try {
-			jdbcTemplate.update(sql, id, uri);
+			jdbcTemplate.update(deleteOld, id);
 			jdbcTemplate.update(sql, id, uri);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Exception", e);
 		}
 	}

@@ -259,7 +259,7 @@ public class GroupDAOTest {
 	@Test
 	public void testGetGroupPermissions() {
 		group = new Group(GROUPNAME, "test");
-		permission = new Permission("test", "test", false);
+		permission = new Permission("test", "test");
 		groupdao.addNewGroup(group);
 		permissiondao.createPermission(permission);
 		int count = 1;
@@ -278,7 +278,7 @@ public class GroupDAOTest {
 	@Test
 	public void testGetPermissionNotInGroup() {
 		group = new Group(GROUPNAME, "test");
-		permission = new Permission("test", "test", false);
+		permission = new Permission("test", "test");
 		groupdao.addNewGroup(group);
 		permissiondao.createPermission(permission);
 		int count = 1;
