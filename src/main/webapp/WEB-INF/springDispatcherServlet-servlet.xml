@@ -42,6 +42,13 @@
 		autowire="byType">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<bean id="SuperAdminDAOImpl"
+		class="com.accolite.miniau.accesscontrol.daoimpl.SuperAdminDAOImpl"
+		autowire="byType">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
 		autowire="byType">
 		<!-- SMTP settings -->
