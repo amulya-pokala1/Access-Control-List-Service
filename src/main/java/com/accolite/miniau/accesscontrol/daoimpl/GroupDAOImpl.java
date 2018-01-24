@@ -222,4 +222,16 @@ public class GroupDAOImpl implements GroupDAO {
 		return jdbcTemplate.query(sql, new Object[] { groupId }, new PermissionMapper());
 	}
 
+	@Override
+	public Group getGroupDetailsByGroupName(String groupName) {
+		String sql = "SELECT * FROM ACL.GROUP WHERE GROUP_NAME = ?";
+		Group group;
+		try {
+			group = jdbcTemplate.queryForObject(sql, new Object[] { groupName }, new GroupMapper());
+		} catch (Exception e) {
+			logger.error("Cannot get group object", e);
+			group = null;
+		}
+		return group;
+	}
 }

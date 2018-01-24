@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,8 +45,10 @@
 						<div class="modal-body row">
 							<table class="table">
 								<thead>
-									<td>S.No</td>
-									<td>Permission Name</td>
+									<tr>
+										<th>S.No</th>
+										<th>Permission Name</th>
+									</tr>
 								</thead>
 								<tbody>
 									<tr ng-repeat="permission in allPermissionList"
@@ -79,8 +83,10 @@
 									User Permissions
 									<table class="table">
 										<thead>
-											<td>S.No</td>
-											<td>Permission</td>
+											<tr>
+												<th>S.No</th>
+												<th>Permission</th>
+											</tr>
 										</thead>
 										<tbody>
 											<tr ng-repeat="permission in userPermissions"
@@ -100,8 +106,10 @@
 									All Permissions
 									<table class="table">
 										<thead>
-											<td>S.No</td>
-											<td>Permission</td>
+											<tr>
+												<th>S.No</th>
+												<th>Permission</th>
+											</tr>
 										</thead>
 										<tbody>
 											<tr ng-repeat="permission in permissionsExceptUser"
@@ -144,8 +152,10 @@
 								Group Permissions
 								<table class="table">
 									<thead>
-										<td>S.No</td>
-										<td>Permission</td>
+										<tr>
+											<th>S.No</th>
+											<th>Permission</th>
+										</tr>
 									</thead>
 									<tbody>
 										<tr ng-repeat="permission in groupPermissions"
@@ -165,8 +175,10 @@
 								All Permissions
 								<table class="table">
 									<thead>
-										<td>S.No</td>
-										<td>Permission</td>
+										<tr>
+											<th>S.No</th>
+											<th>Permission</th>
+										</tr>
 									</thead>
 									<tbody>
 										<tr ng-repeat="permission in permissionsExceptGroup"
@@ -284,7 +296,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<div class="modal fade" id="addUserToGroup">
 		<div class="vertical-alignment-helper">
@@ -425,7 +436,7 @@
 	</div>
 
 	<div class="container-fluid">
-		<h1>Hello Admin</h1>
+		<h1>Hello ${name}</h1>
 	</div>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">

@@ -45,7 +45,7 @@ public class UserDAOImpl implements UserDAO {
 
 	/** The jdbc template. */
 	private JdbcTemplate jdbcTemplate;
-	String URI;
+	String uri;
 
 	/*
 	 * (non-Javadoc)
@@ -222,9 +222,16 @@ public class UserDAOImpl implements UserDAO {
 	 */
 	@Override
 	public int validateUser(User user) {
-		String sql = "";
-		// TODO for ACL controller
-		return 0;
+		String sql = "SELECT USER_ID FROM USER WHERE MAIL_ID = ? AND PASSKEY=?";
+		int userId;
+		try {
+			userId = jdbcTemplate.queryForObject(sql, new Object[] { user.getMailId(), user.getPassword() },
+					Integer.class);
+		} catch (Exception e) {
+			logger.error("Exception", e);
+			userId = 0;
+		}
+		return userId;
 	}
 
 	/*
@@ -242,6 +249,7 @@ public class UserDAOImpl implements UserDAO {
 			userId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
 			logger.error("error getting user id from uri", e);
+			logger.error("Exception", e);
 			userId = 0;
 		}
 		return userId;
@@ -277,15 +285,13 @@ public class UserDAOImpl implements UserDAO {
 	@Async
 	public void sendPasswordLink(String email, String ip, int port) {
 		Integer userId = getUserIdUsingEmail(email);
-		System.out.println(userId);
-		String uri = HashUtility.createUniqueUriPath(userId, email);
-		System.out.println(uri);
-		uriUtil.createURI(userId, uri, UserType.USER);
-		String link = "http://" + ip + ":" + "8080/access-control-list-service/user/updatePassword/" + uri;
-		mailUtil = new MailUtility();
+		String uri1 = HashUtility.createUniqueUriPath(userId, email);
+		uriUtil.createURI(userId, uri1, UserType.USER);
+		String link = "http://" + ip + ":" + "8080/access-control-list-service/user/updatePassword/" + uri1;
+
 		mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
-		URI = uri;
+		uri = uri1;
 	}
 
 	@Override
@@ -302,6 +308,6 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public String getURI() {
-		return URI;
+		return uri;
 	}
 }

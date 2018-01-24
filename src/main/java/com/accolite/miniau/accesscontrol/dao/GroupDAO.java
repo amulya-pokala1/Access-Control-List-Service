@@ -115,4 +115,6 @@ public interface GroupDAO {
 
 	public List<Permission> getPermissionNotInGroup(int groupId);
 
+	public Group getGroupDetailsByGroupName(String groupName);
+
 }

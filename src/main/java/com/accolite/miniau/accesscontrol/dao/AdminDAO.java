@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.accolite.miniau.accesscontrol.model.Admin;
 
 /**
@@ -83,6 +81,8 @@ public interface AdminDAO {
 	public Integer authenticate(String email, String pswd);
 
 	public List<Admin> getAllAdmins();
+
+	public boolean isAdmin(String email);
 
 	boolean updatePassword(String uri, String password);
 

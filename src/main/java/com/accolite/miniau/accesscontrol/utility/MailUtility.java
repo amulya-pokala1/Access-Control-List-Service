@@ -36,18 +36,17 @@ public class MailUtility {
 	 *            the text
 	 */
 	@Async
-	public boolean sendEmailAsync(String to, String subject, String text) {
+	public void sendEmailAsync(String to, String subject, String text) {
 		logger.info("Sending mail to " + to + " SUBJECT: " + subject);
 		SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(to);
 		email.setSubject(subject);
 		email.setText(text);
 		try {
-			mailSender = new JavaMailSenderImpl();
+			
 			mailSender.send(email);
 		} catch (MailException e) {
-			return false;
+			logger.error("Error sending email",e);
 		}
-		return true;
 	}
 }

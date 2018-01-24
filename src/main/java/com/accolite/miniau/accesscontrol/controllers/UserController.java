@@ -85,8 +85,8 @@ public class UserController {
 	 */
 	@DeleteMapping(value = "/api/user/{userId}")
 	public void deleteUser(@PathVariable int userId, HttpSession session) {
-		if (session.getAttribute("adminId") == null)
-			throw new CustomUnAuthorizedException("Please login to perform this task!");
+		if (session.getAttribute(StringLiteral.ADMIN_ID) == null)
+			throw new CustomUnAuthorizedException(StringLiteral.PLEASE_LOGIN);
 		boolean isDone = userDAO.deleteUser(userId);
 		if (!isDone) {
 			throw new CustomNotFoundException("Cannot Delete User! User Does not exsist!");
@@ -100,14 +100,15 @@ public class UserController {
 	 */
 	@GetMapping(value = "/api/userList")
 	public List<User> getAllUsers(HttpSession session) {
-		if (session.getAttribute("adminId") == null)
-			throw new CustomUnAuthorizedException("Please login to perform this task!");
+		if (session.getAttribute(StringLiteral.ADMIN_ID) == null)
+			throw new CustomUnAuthorizedException(StringLiteral.PLEASE_LOGIN);
 		return userDAO.getAllUsers();
 	}
 
 	@PutMapping(value = "/api/user/{userId}/permission/{permissionId}")
-	public void addPermissionToUser(@PathVariable int userId, @PathVariable int permissionId) {
-		System.out.println("in controller " + userId);
+	public void addPermissionToUser(@PathVariable int userId, @PathVariable int permissionId, HttpSession session) {
+		if (session.getAttribute(StringLiteral.ADMIN_ID) == null)
+			throw new CustomUnAuthorizedException(StringLiteral.PLEASE_LOGIN);
 		boolean isDone = userDAO.addPermissionToUser(userId, permissionId);
 		if (!isDone) {
 			throw new CustomBadRequestException("Error occured in adding permission to user");
@@ -115,17 +116,24 @@ public class UserController {
 	}
 
 	@DeleteMapping(value = "/api/user/{userId}/permission/{permissionId}")
-	public void removePermissionFromUser(@PathVariable int userId, @PathVariable int permissionId) {
+	public void removePermissionFromUser(@PathVariable int userId, @PathVariable int permissionId,
+			HttpSession session) {
+		if (session.getAttribute(StringLiteral.ADMIN_ID) == null)
+			throw new CustomUnAuthorizedException(StringLiteral.PLEASE_LOGIN);
 		userDAO.removePermissionFromUser(userId, permissionId);
 	}
 
 	@GetMapping(value = "/api/user/{userId}/permissions")
-	public List<Permission> getUserPermissions(@PathVariable int userId) {
+	public List<Permission> getUserPermissions(@PathVariable int userId, HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return userDAO.getPermissionOfUser(userId);
 	}
 
 	@GetMapping(value = "/api/user/{userId}/exceptPermissions")
-	public List<Permission> getPermissionsExceptUser(@PathVariable int userId) {
+	public List<Permission> getPermissionsExceptUser(@PathVariable int userId, HttpSession session) {
+		if (session.getAttribute("adminId") == null)
+			throw new CustomUnAuthorizedException("Please login to perform this task!");
 		return userDAO.getAllPermissionsExceptUser(userId);
 	}
 }

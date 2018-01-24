@@ -22,4 +22,6 @@ public class StringLiteral {
 	// EXCEPTION STRINGS
 	public static final String PLEASE_LOGIN = "Please login to perform this task!";
 	public static final String ADMIN_ID = "adminId";
+	public static final String SADMIN = "sadminId";
+	public static final String HOME = "redirect: /access-control-list-service/";
 }

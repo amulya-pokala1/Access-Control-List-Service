@@ -29,7 +29,7 @@ public class AdminDAOImpl implements AdminDAO {
 
 	/** The Constant logger. */
 	private static final Logger logger = Logger.getLogger(AdminDAOImpl.class);
-	String URI;
+	String uri;
 	/** The mail util. */
 	@Autowired
 	private MailUtility mailUtil;
@@ -90,7 +90,6 @@ public class AdminDAOImpl implements AdminDAO {
 	public boolean updatePassword(String uri, String password) {
 
 		int adminId = getAdminIdFromURI(uri);
-		System.out.println(adminId);
 		try {
 			jdbcTemplate.update(Query.CHANGEPASSKEY, password, adminId);
 		} catch (DataAccessException e) {
@@ -123,13 +122,11 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdFromURI(String uri) {
-		System.out.println(uri);
-		String sql = "SELECT ADMIN_ID FROM ADMIN_PASSWORD_URI WHERE URI=?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql, new Object[] { uri }, Integer.class);
+			adminId = jdbcTemplate.queryForObject(Query.GETADMINIDFROMURI, new Object[] { uri }, Integer.class);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception ", e);
 			adminId = 0;
 		}
 		return adminId;
@@ -146,13 +143,15 @@ public class AdminDAOImpl implements AdminDAO {
 	@Async
 	public void sendPasswordLink(String email, String ip, int port) {
 		Integer adminId = getAdminIdUsingEmail(email);
-		String uri = HashUtility.createUniqueUriPath(adminId, email);
-		uriUtil.createURI(adminId, uri, UserType.ADMIN);
-		mailUtil = new MailUtility();
-		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri;
-		boolean result = mailUtil.sendEmailAsync(email, "Update Password",
+		
+		String uri1 = HashUtility.createUniqueUriPath(adminId, email);
+		
+		uriUtil.createURI(adminId, uri1, UserType.ADMIN);
+		
+		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri1;
+		mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
-		URI = uri;
+		this.uri = uri1;
 	}
 
 	/*
@@ -164,10 +163,9 @@ public class AdminDAOImpl implements AdminDAO {
 	 */
 	@Override
 	public Integer getAdminIdUsingEmail(String email) {
-		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID = ?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
+			adminId = jdbcTemplate.queryForObject(Query.GETADMINIDUSINGEMAIL, new Object[] { email }, Integer.class);
 		} catch (Exception e) {
 			adminId = 0;
 		}
@@ -176,11 +174,11 @@ public class AdminDAOImpl implements AdminDAO {
 
 	@Override
 	public String getAdminName(int adminId) {
-		String sql = "SELECT ADMIN_NAME FROM ADMIN WHERE ADMIN_ID = ?";
 		String name;
 		try {
-			name = jdbcTemplate.queryForObject(sql, new Object[] { adminId }, String.class);
+			name = jdbcTemplate.queryForObject(Query.GETADMINNAME, new Object[] { adminId }, String.class);
 		} catch (Exception e) {
+			logger.error("Exception ", e);
 			name = null;
 		}
 		return name;
@@ -188,25 +186,34 @@ public class AdminDAOImpl implements AdminDAO {
 
 	@Override
 	public Integer authenticate(String email, String pswd) {
-		String sql = "SELECT ADMIN_ID FROM ADMIN WHERE MAIL_ID=? AND PASSKEY=?";
 		Integer adminId;
 		try {
-			adminId = jdbcTemplate.queryForObject(sql, new Object[] { email, pswd }, Integer.class);
+			adminId = jdbcTemplate.queryForObject(Query.AUTHENTICATIE, new Object[] { email, pswd }, Integer.class);
 		} catch (Exception e) {
-			adminId = 0;
+			adminId = null;
 		}
 		return adminId;
 	}
 
 	@Override
 	public String getURI() {
-		return URI;
+		return uri;
 	}
 
 	@Override
 	public List<Admin> getAllAdmins() {
-		String sql = "SELECT * FROM ADMIN";
-		return jdbcTemplate.query(sql, new AdminMapper());
+		return jdbcTemplate.query(Query.GETALLADMINS, new AdminMapper());
+	}
+
+	@Override
+	public boolean isAdmin(String email) {
+		int count;
+		try {
+			count = jdbcTemplate.queryForObject(Query.ISADMIN, new Object[] { email }, Integer.class);
+		} catch (Exception e) {
+			count = 0;
+		}
+		return (count > 0);
 	}
 
 	@Override
