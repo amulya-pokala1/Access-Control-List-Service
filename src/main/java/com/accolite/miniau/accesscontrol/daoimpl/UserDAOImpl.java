@@ -287,7 +287,7 @@ public class UserDAOImpl implements UserDAO {
 		Integer userId = getUserIdUsingEmail(email);
 		String uri1 = HashUtility.createUniqueUriPath(userId, email);
 		uriUtil.createURI(userId, uri1, UserType.USER);
-		String link = "http://" + ip + ":" + "8080/access-control-list-service/user/updatePassword/" + uri1;
+		String link = "http://" + ip + ":" + port+"/access-control-list-service/user/updatePassword/" + uri1;
 
 		mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);

@@ -148,7 +148,7 @@ public class AdminDAOImpl implements AdminDAO {
 		
 		uriUtil.createURI(adminId, uri1, UserType.ADMIN);
 		
-		String link = "http://" + ip + ":" + "8080/access-control-list-service/admin/updatePassword/" + uri1;
+		String link = "http://" + ip + ":" + port+"/access-control-list-service/admin/updatePassword/" + uri1;
 		mailUtil.sendEmailAsync(email, "Update Password",
 				"Hi,\nPlease update your password using the below link\n" + link);
 		this.uri = uri1;
